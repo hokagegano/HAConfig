@@ -1,0 +1,15 @@
+- platform: nmap_tracker
+  hosts: 192.168.10.51-53
+  track_new_devices: no
+# consider_home will be the number of seconds to wait till marking someone as not home after not being seen on scans.
+# 900 seconds = 15 minutes
+#  interval_seconds: 30
+  consider_home: 60
+#- platform: ping
+#  hosts:
+#    oneplus3ping: 192.168.10.51
+#- platform: owntracks
+#- platform: locative
+#- platform: bluetooth_tracker
+#- platform: bluetooth_le_tracker
+#- platform: gpslogger

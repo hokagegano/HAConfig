@@ -1,0 +1,5 @@
+- platform: wemo
+  scan_interval: 10
+#- platform: zoneminder
+#  command_on: Modect
+#  command_off: Monitor

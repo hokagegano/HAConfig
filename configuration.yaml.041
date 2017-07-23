@@ -1,0 +1,1556 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Maison de Gano
+  # Location required to calculate the time the sun rises and sets
+  latitude: 44.8865733
+  longitude: -0.6442743
+  # C for Celcius, F for Fahrenheit
+  #temperature_unit: C
+ # unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Paris
+  customize: !include devices/customize.yaml
+
+config:
+
+######### DEFINITION DES ZONES ###########
+zone:
+  name: Travail
+  latitude: !secret travlatitude
+  longitude: !secret travlongitude
+  icon: mdi:castle
+  radius: 500
+
+zone 2:
+  name: Maison de Gano
+  latitude: !secret halatitude
+  longitude: !secret halongitude
+  icon: mdi:home
+  radius: 500
+
+zone 3:
+  name: home
+  latitude: 44.8865824
+  longitude: -0.64426171
+  radius: 100
+
+
+######### DEFINITION DES SENSORS ###########
+sensor: !include devices/sensors.yaml
+
+
+######### DEFINITION DES MOTEURS TTS ###########
+tts:
+  - platform: google
+    language: 'fr'
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+  - platform: picotts
+    language: 'fr-FR'
+  # - platform: marytts
+  #   host: 'localhost'
+  #   port: 59125
+  #   codec: 'wav'
+  #   voice: 'cmu-slt-hsmm'
+  #   language: 'fr'
+
+
+######### DEFINITION DES DETECTEURS DE MOUVEMENTS ###########
+binary_sensor:
+  - platform: template
+    sensors:
+       movement:
+         value_template: "{{ states.switch.mvtsdb.state == 'on' }}"
+#         #sensor_class: motion
+         device_class: motion
+       movementwc:
+         value_template: "{{ states.switch.mvtwc.state == 'on' }}"
+         device_class: motion
+
+#binary_sensor:
+#    - platform: rfxtrx
+#      automatic_add: True
+      # devices:
+      #    0913001f9308f9019a70:
+        # 09130017ecad69019f70:
+        # name: mvtsdb
+          # device_class: motion
+      #    091300d3ecad69019c70:
+      #      name: mvtwc
+      # #      device_class: motion
+
+apiai:
+  intents:
+    GetTemperature:
+      speech: Voici les temperatures de la maison,  il fait {{ states('sensor.salon_temperature') }} degrés dans le salon, {{ states('sensor.tempchambre_temperature') }} degrés dans le chambre, {{ states('sensor.tempetage_temperature')}} degrés à l etage, {{ states('sensor.tempsdb_temperature')}} degrés dans la salle de bain et {{ states('sensor.tempext_temperature')}} degrés à l'exterieur. 
+      async_action: False
+    SurfAi:
+      speech: Voici les conditions mises à jour !
+      async_action: False
+      action:
+        - service: notify.teleha
+          data:
+           title: surfcast
+           message: Surf Alert
+           data:
+             photo:
+             - file: /home/gano/.homeassistant/www/surf/surf.png
+    BonjourAction:
+      async_action: False
+    RoutesAi:
+      speech: Pour aller au travail il vous faudra {{ states('sensor.travail') }} minutes et pour la plage il faudra {{ states('sensor.plage') }} minutes. 
+      async_action: False
+
+
+
+######### DEFINITION DU PANNEAU D'ALARME ###########
+alarm_control_panel:
+  platform: manual
+  code: !secret codeal
+
+
+######### DEFINITION DU RFXCOM ###########
+rfxtrx:
+  device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0
+
+
+######### DEFINITION DU PANEL ###########
+# panel_custom:
+#   - name: react
+#     sidebar_title: TodoMVC
+#     sidebar_icon: mdi:work
+#     url_path: todomvc
+#     config:
+#       title: hello
+panel_custom: 
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+    config: !include floorplan.yaml
+    
+# panel_iframe:
+#   router:
+#     title: 'Temperature'
+#     url: 'http://192.168.10.21:3003/dashboard/db/home-assistant?from=1494845685412&to=1494852885412&panelId=1&fullscreen'
+
+######### DEFINITION DU COMPTE GOOGLE ###########
+google:
+  client_id: !secret googleclient_id
+  client_secret: !secret googleclient_secret
+
+image_processing:
+ - platform: dlib_face_identify
+   source:
+    - entity_id: camera.salon1
+    - entity_id: camera.salon2
+    - entity_id: camera.salon3
+   faces:
+     Arnaud: /home/gano/.homeassistant/faces/arno2.jpg
+     Maeva: /home/gano/.homeassistant/faces/maeva.jpg
+     Marina: /home/gano/.homeassistant/faces/marina.jpg
+#image_processing:
+# - platform: microsoft_face_identify
+#   group: famille
+#   scan_inteval: 120
+#   source:
+#    - entity_id: camera.ganovideo
+
+#influxdb:
+#  host: localhost
+#  port: 8086
+#  database: home_assistant
+#  blacklist:
+#    - group.all_automations
+#    - sensor.google_travel_time__driving
+#    - sensor.google_travel_time__driving2
+#  username: home-assistant
+#  password: Ganopacha007
+
+######### INFLUXDB ##############
+
+# influxdb:
+#   host: 192.168.10.21
+
+######### DEFINITION DU BROKER MQTT LOCAL ###########
+mqtt:
+  # broker: 192.168.10.8
+  # port: 1883
+  # client_id: hadash
+  # keepalive: 60
+  # username: hadash
+  # password: hadash
+  broker: 192.168.10.21
+  port: 1883
+  client_id: hadash
+  keepalive: 60
+  # protocol: 3.1
+
+#mqtt:
+#  broker: m21.cloudmqtt.com
+#  port: 16455
+#  client_id: home-assistant-1
+#  keepalive: 60
+#  username: ha
+#  password: ha
+
+#mqtt:
+#  broker: m20.cloudmqtt.com
+#  port: 16047
+#  client_id: home-assistant-1
+#  keepalive: 60
+#  username: hokagegano
+#  password: ganopacha
+
+######### DEFINITION DES INPUT_SLIDER ###########
+input_slider:
+  alarmhour:
+    name: Heure
+    icon: mdi:timer
+    initial: 6
+    min: 0
+    max: 23
+    step: 1
+  alarmminutes:
+    name: Minutes
+    icon: mdi:timer
+    initial: 35
+    min: 0
+    max: 59
+    step: 5
+  luminosite:
+    name: Luminosité salon
+    icon: mdi:light
+    initial: 255
+    min: 0
+    max: 255
+    step: 5
+  temperature:
+    name: Temperature Maison
+    icon: mdi:timer
+    initial: 20
+    min: 10
+    max: 30
+    step: 0.5
+
+ 
+ 
+######### DEFINITION DES INPUT_BOOLEAN ###########
+input_boolean:
+  bonjour:
+    name: Service bonjour
+    initial: on
+  automa:
+    name: Automatisation
+    initial: on
+  alarmweekday:
+    name: Les jours de la semaine 
+    initial: on
+    icon: mdi:calendar
+  alarmweekon:
+    name: Activee     
+    initial: on
+  tvoffchambre:
+    name: Allume le radiateur la nuit
+    initial: off
+  envoipic:
+    name: Envoi video capturee
+    initial: off
+  cast_light:
+    name: Chromecast lumieres
+    initial: off
+    icon: mdi:spotlight-beam
+  freebox:
+    name: Reveil Freebox
+    initial: off
+    icon: mdi:power
+  rainbow_light:
+    name: Effet Lumieres
+    initial: off
+    icon: mdi:traffic-light
+  bieres:
+    name: bieres
+    initial: off
+    icon: mdi:bitbucket
+  papierwc:
+    name: papier wc
+    initial: off
+    icon: mdi:emoticon-poop
+  coca:
+    name: coca
+    initial: off
+    icon: mdi:bitbucket
+  lessive:
+    name: lessive
+    initial: off
+    icon: mdi:car-wash
+  poulet:
+    name: poulet
+    initial: off
+    icon: mdi:paw
+  steak:
+    name: steak
+    initial: off
+    icon: mdi:paw
+  poisson:
+    name: poisson
+    initial: off
+    icon: mdi:fish
+  shampooing:
+    name: shampooing
+    initial: off
+    icon: mdi:car-wash
+  geldouche:
+    name: gel douche
+    initial: off
+    icon: mdi:car-wash
+  cafe:
+    name: cafe
+    initial: off
+    icon: mdi:coffee
+  petitdej:
+    name: a bouffer pour le matin
+    initial: off
+    icon: mdi:coffee
+  cremefraiche:
+    name: creme fraiche
+    initial: off
+    icon: mdi:bitbucket
+  tomates:
+    name: tomates
+    initial: off
+    icon: mdi:food-apple
+  pommedeterre:
+    name: pommes de terre
+    initial: off
+    icon: mdi:food
+  poivron:
+    name: poivrons
+    initial: off
+    icon: mdi:food-apple
+  oignon:
+    name: oignons
+    initial: off
+    icon: mdi:food-apple
+  pizza:
+    name: pizzas
+    initial: off
+    icon: mdi:pizza
+  riz:
+    name: Riz
+    initial: off
+    icon: mdi:food
+  pates:
+    name: pates
+    initial: off
+    icon: mdi:food-variant
+  jambon:
+    name: jambon
+    initial: off
+    icon: mdi:food
+  apero:
+    name: apero
+    initial: off
+    icon: mdi:food
+  sacpoubelle:
+    name: sacs poubelle
+    initial: off
+    icon: mdi:delete
+  deo:
+    name: déodorant
+    initial: off
+    icon: mdi:weather-windy
+  dentifrice:
+    name: dentifrice
+    initial: off
+    icon: mdi:brush
+  oeufs:
+    name: oeufs
+    initial: off
+    icon: mdi:food
+  lait:
+    name: lait
+    initial: off
+    icon: mdi:food
+  trackme_arno:
+    name: tracking arnaud
+    initial: on
+
+
+######### DEFINITION DES INPUT_SELECT ###########
+input_select:
+#  alarmselect:
+#    name: "Les alarmes"
+#    initial: "semaine"
+#    options:
+#      - "semaine"
+#      - "weekend"
+#      - "off"
+  # categorie:
+  #   name: 'Categories'
+  #   options:
+  #     - Choisir
+  #     - divertissement/humour
+  #     - divertissement/jeux
+  #     - divertissement/tele-realite
+  #     - documentaires/culture
+  #     - documentaires/information
+  #     - documentaires/societe
+  #     - films-telefilms/sf-fantastique
+  #     - films-telefilms/dessin-anime
+  #     - films-telefilms/action-aventure
+  #     - films-telefilms/comedies
+  #     - films-telefilms/drame
+  #     - films-telefilms/policier
+  #     - films-telefilms/sentimental
+  #     - jeunesse/comedies
+  #     - magazine/culturel
+  #     - magazine/decouverte
+  #     - magazine/information
+  #     - series-tv/action-aventure
+  #     - series-tv/drame
+  #     - sport/football
+  #     - sport/rugby
+  #     - sport/sports-de-combat
+  #   initial: Choisir
+  categorie2:
+    name: 'Type'
+    options:
+      - Choisir
+      - divertissement
+      - documentaires
+      - films-telefilms
+      - jeunesse
+      - magazine
+      - sport
+    initial: Choisir
+  radio_station:
+    name: 'Radio Station:'
+    options:
+      - Franceinfo
+      - Jazz
+      - Nova Sauvagine
+  chromecast_radio:
+    name: 'Select Speakers:'
+    options:
+      - Kodi
+      - Shield
+    initial: Kodi
+    icon: mdi:speaker-wireless
+  freeplayon:
+    name: "Etat Allume Eteint Freebox"
+    initial: "Off"
+    options:
+      - "On"
+      - "Off"
+  chainefree:
+    name: "Freebox Chaines"
+    icon: mdi:remote
+    initial: "iTele"
+    options:
+      - "TF1"
+      - "France2"
+      - "France3"
+      - "CanalPlus"
+      - "France5"
+      - "M6"
+      - "Arte"
+      - "D8"
+      - "W9"
+      - "TMC"
+      - "NT1"
+      - "NRJ12"
+      - "LCP"
+      - "France4"
+      - "BFMTv"
+      - "iTele"
+      - "D17"
+      - "Gulli"
+      - "FranceÃ”"
+      - "HD1"
+      - "LEquipe21"
+      - "6Ter"
+      - "Numero23"
+      - "RMC Decouverte"
+      - "Cherie25"
+      - "RTL9"
+#  choixreveil:
+#    name: "reveil matin"
+#    icon: mdi:alarm-plus
+#    initial: "06:35"
+#    options:
+#      - "06:00"
+#      - "06:05"
+#      - "06:10"
+#      - "06:15"
+
+
+######### DEFINITION DES COMMANDES SHELL POUR LA FREEBOX ###########
+shell_command: !include shell_commands.yaml
+
+# android_ip_webcam:
+#   - host: 192.168.10.49
+#     name: Entree
+
+######### DEFINITION DES SWITCH WEMO ET DES DETECTEUR DE MVT RFX ###########
+switch:
+    - platform: wemo
+      static: []
+      scan_interval: 10
+    - platform: rfxtrx
+      automatic_add: False
+      devices:
+        0913001f9308f9019a70:
+    #     #0b110005003f6d460d010f70:
+           name: mvtsdb
+           fire_event: True
+        091300d3ecad69019c70:
+    #     #0b110006003f6d460f010f70:
+           name: mvtwc
+           fire_event: True
+#    - platform: zoneminder
+#      command_on: Modect
+#      command_off: Monitor
+
+
+
+# Enables support for tracking state changes over time.
+history:
+
+# Track the sun
+sun:
+
+# Show links to resources in log and frontend
+
+# View all events in a logbook
+logbook:
+
+
+
+http:
+  api_password: !secret httpapi_password
+#  ssl_certificate: !secret httpssl_certificate
+#  ssl_key: !secret httpssl_key
+  base_url: !secret httpbase_url
+#  use_x_forwarded_for: True
+#  trusted_networks:
+#    - 127.0.0.1
+#    - ::1
+#    - 192.168.10.32
+
+device_tracker: !include devices/tracker.yaml
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+# Enables the frontend
+frontend:
+
+# Checks for available updates
+updater:
+
+#telegram_bot:
+# platform: webhooks
+ #platform: polling
+# api_key: !secret teleapi_key
+# parse_mode: html
+# allowed_chat_ids:
+#   - !secret telechat_id
+
+######### DEFINITION DES SYSTEMES DE NOTIFICATION ###########
+notify:
+  - platform: pushbullet
+    api_key: !secret pushapi_key
+    name: pushgano
+#  - platform: html5
+#    gcm_api_key: 'AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho'
+#    gcm_sender_id: 'keyserver'
+  - platform: telegram
+    name: teleha
+    api_key: !secret teleapi_key
+    chat_id: !secret telechat_id
+  # - platform: telegram
+  #   name: teleha
+  #   api_key: !secret teleapi_key
+  #   chat_id: !secret telechat_id
+
+media_player: !include devices/media_players.yaml
+
+######### DEFINITION DES LUMIERES ###########
+light:
+  platform: hue
+  host: 192.168.10.50
+  scan_interval: 4
+
+
+######### DEFINITION DES CAMERAS / IMAGES ###########
+camera:
+  - platform: generic
+    still_image_url: http://api.sat24.com/animated/EU/infraPolair/2/Romance%20Standard%20Time/628670
+    #still_image_url: http://api.sat24.com/crop?type=visual5hdcomplete&lat=44.8378&lon=-0.5792&width=300&height=300&zoom=0.70&continent=eu
+    name: infrarouge
+  - platform: generic
+    still_image_url: http://api.sat24.com/animated/EU/visual/2/Romance%20Standard%20Time/555674
+    name: france
+  - platform: local_file
+    file_path: /home/gano/.homeassistant/www/surf/surf.png
+    name: surf
+#  - platform: zoneminder
+  - platform: mjpeg
+    mjpeg_url: http://192.168.10.15:9000
+    #name: ganovideo
+    name: salon1
+  - platform: mjpeg
+    mjpeg_url: http://192.168.10.15:9002
+    name: salon2
+  - platform: ffmpeg
+    input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
+    name: webcamsurf
+  - platform: mjpeg
+    mjpeg_url: http://192.168.10.49:2971/camera/stream
+    name: salon3
+#  - platform: local_file
+#    file_path: /home/gano/.homeassistant/www/face/face/facecam.jpg
+#    name: facecam
+
+
+#  - platform: local_file
+#    name: ganosnapshot
+#    file_path: /home/debian/.homeassistant/www/webcam/lastsnap.jpg
+#  - platform: local_file
+#    name: ganomotion
+#    file_path: /home/debian/.homeassistant/www/webcam/lastsnap_motion.jpg
+
+######### DEFINITION DES GROUPES ###########
+group: !include_dir_merge_named group
+# #  adblockgroup:
+# #    name: Pi Hole Group
+# #    entities:
+# #      - sensor.dnsqueries
+# #      - sensor.queries
+# #      - sensor.domainblocked
+# #      - sensor.percentagetoday
+# #  adblock:
+# #    name: Pi Hole Stats 
+# #    entities:
+# #      - group.adblockgroup
+#   maison:
+#     view: yes
+#     name: Principal
+#     entities:
+#       - sensor.alarmsensor
+#       - group.chauffage
+#       - group.calendrier
+#       - group.surf
+#       - group.hall
+#       - group.etage1
+#       - group.wc
+#       - group.salon
+#       - group.media
+#      # - group.free
+#       - group.ambiance
+#       - group.prises
+#       - group.devices
+#       - group.trackm
+#       - group.internet
+#       - group.alarmclock
+#       - camera.salon1
+#       - camera.salon2
+#       - camera.salon3
+#       - group.transport
+#   radio:
+#     view: yes
+#     name: Radio Maison
+#     entities:
+#       - group.radiog
+#   radiog:
+#     name: Radio Maison
+#     entities:
+#       - input_select.radio_station
+#       - input_select.chromecast_radio
+#       - script.radiolance
+#   polg:
+#     name: Taux de particules (<50 bon)
+#     entities:
+#       - sensor.waqi_gambetta_bordeaux_aquitaine
+#       - sensor.waqi_grand_parc_bordeaux_aquitaine
+#       - sensor.waqi_bastide_bordeaux_aquitaine
+#       # - sensor.ozonegambetta
+#       # - sensor.ozoneparc
+#       # - sensor.ozonebastide
+#       # - sensor.nitrogambetta
+#       # - sensor.nitroparc
+#       # - sensor.nitrobastide
+#       # - sensor.pmgambetta
+#       # - sensor.pmparc
+#       # - sensor.pmbastide
+#   systemg:
+#     name: Systeme GanoVM Ubuntu 64bits
+#     entities:
+#       - sensor.cpu_use
+#       - sensor.ram_free
+#       - sensor.disk_use_home
+# #  systempi:
+# #    name: Systeme RapberryPi
+# #    entities:
+# #      - sensor.cpupi
+# #      - sensor.mempi
+# #      - sensor.diskpi
+#   system:
+#     name: Systeme
+#     view: yes
+#     entities:
+#       - group.systemg
+# #      - group.adblockgroup
+# #      - group.systempi
+#   chauffage:
+#     name: Chauffage et temperature
+#     entities:
+#       - sensor.alarmsensor
+#       - sensor.tempext_temperature
+#       - sensor.exterieur_humidity
+#     #  - sensor.temperaturemaison
+#     #  - input_slider.temperature
+#       - switch.chambre
+#       - sensor.tempchambre_temperature
+#       - sensor.tempchambre_humidity
+#       - sensor.tempetage_temperature
+#       - sensor.tempetage_humidity
+#       - sensor.tempsdb_temperature
+#       - sensor.tempsdb_humidity
+#       - sensor.salon_lux
+#       - sensor.salon_motion
+#       - sensor.salon_temperature
+#   alarmclock:
+#     name: Wake Me Up
+#     entities: 
+#       - input_boolean.freebox
+#       - sensor.alarm_time
+#       - input_slider.alarmhour
+#       - input_slider.alarmminutes
+#       - input_boolean.alarmweekday
+#       - input_boolean.alarmweekon
+#   mesrdv:
+#     name: mes rdv
+#     entities:
+#       - sensor.rdv_arno
+#       - sensor.rdv_arno_h
+#       - sensor.rdv_contact
+#       - sensor.rdv_contact_h
+#       - sensor.rdv_ferie
+#       - sensor.rdv_ferie_h
+#   calendrier:
+#     name: Mon calendrier
+#     entities:
+#       - calendar.contacts
+#       - calendar.dalliesagmailcom
+#       - group.mesrdv
+#     view: yes
+#   transport:
+#     name: les bus
+#     entities:
+#       - sensor.ligne5
+#       - sensor.ligne2
+#   media:
+#     name: Les devices TV
+#     entities :
+#       - sensor.freeplayer
+#       - media_player.vlcpine
+#       - media_player.shield
+#       - media_player.tele_du_salon
+#       - media_player.shield_android_tv
+#       - media_player.ganoplex
+#       - media_player.unnamed_device
+#       - media_player.kodi
+#       - group.free
+# #  squeeze:
+# #    name: Les devices SqueezeBox
+# #    entities : 
+# #      - media_player.pine64
+# #      - media_player.squeezelite
+# #      - media_player.raspberrypi
+# #    view: yes
+# #  mediasync:
+# #    name: Les devices Music
+# #    entities :
+# #      - media_player.vlcpine
+# #      - media_player.chromecast2    
+# #  alarmg:
+# #    name: Alarme
+# #    entities:
+# #      - input_select.alarmselect
+# #  groupalarm:
+# #    name: Alarmes
+# #    view: yes
+# #    entities:
+# #      - group.alarmg
+# #  batterie:
+# #    name: batterie des telephones
+# #    entities:
+# #      - sensor.battery_arno
+#   googlemaps:
+#     name: googlemaps
+#     entities:
+#       - sensor.plage
+#       - sensor.travail
+#   tempsparcours:
+#     name: Temps de Route
+#     view: yes
+#     entities:
+#       - group.googlemaps
+#   rdc:
+#     name: Rez De Chaussee
+#     view: yes 
+#     entities:
+#       - group.chauffage
+#       - input_slider.temperature
+#       - input_slider.luminosite
+#       - light.hue_lightstrip_1
+#       - light.salon_couleur 
+#       - light.bibliocolor 
+#       - media_player.tele_du_salon
+#       - media_player.shield
+#       - media_player.shield_android_tv
+#       - switch.bureau 
+#   stats_sensor:
+#     name: Statistics sensor
+#     entities:
+#       - sensor.presence_a_la_maison
+#       - sensor.lumieres_on_today
+#       - sensor.ssl_certificate_expiry
+#   stats:
+#     name: Statistics
+#     view: yes
+#     entities:
+#       - group.stats_sensor
+#   trackm:
+#     name: Automatisation On/Off
+#     entities:
+#       - input_boolean.automa
+#       - input_boolean.trackme_arno
+#       - script.surftv
+#       - script.previsions
+#       - script.news
+#       - script.annoncematin
+#       - script.radar
+#       - script.surf
+#       - script.meteo
+#       - script.trafic
+#       - script.rendezvous
+#       - script.temperature
+#       - script.surveille
+#       - script.colorloop
+#   hall:
+#     name: Hall
+#     view: yes
+#     entities:
+#       - light.escalier
+#       - light.hall
+#   etage:
+#     name: 1er Etage
+#     view: yes
+#     entities:
+#       - light.escalier
+#       - light.chambre
+#       - light.sdb
+#       - group.chauffage
+#   sdb:
+#     name: Salle de Bain
+#     entities:
+#       - light.sdb
+#   etage1:
+#     name: 1er Etage
+#     entities:
+#       - light.escalier
+#       - light.chambre
+#       - light.sdb
+#       - input_boolean.tvoffchambre
+#       - switch.chambre
+#   wc:
+#     name: WC
+#     entities:
+#       - light.wc
+#   salon:
+#     name: Salon
+#     entities:
+#       - input_slider.luminosite
+#       - light.hall
+#       - light.hue_lightstrip_1
+#       - light.salon_couleur
+#       - light.bibliocolor
+#       - light.bureau
+#       - input_boolean.cast_light
+#       - input_boolean.rainbow_light
+#   free:
+#     name: Freebox
+#     entities:
+#       - input_select.freeplayon
+#       - input_select.chainefree
+#   ambiance:
+#     name: Ambiances
+#     entities:
+#       - scene.Salon_normal
+#       - scene.RougeLove
+#       - scene.Salon_soft
+#       - scene.Allume
+#       - scene.Eteint
+#       - scene.Salon_lumi
+#   prises:
+#     name: Prises connectees
+#     entities:
+#       - switch.bureau
+#       - switch.chambre
+#   weathergroup:
+#     name: La meteo
+#     entities:
+#       - camera.surf
+#       - camera.france
+#       - camera.infrarouge
+#       - group.ymeteo
+#       - group.group_meteo
+#       - group.wumeteo
+#       - group.polg
+# #      - camera.ISS
+# #      - group.internet
+#     view: yes
+#   courses:
+#     name: Liste des courses
+#     entities:
+#       - input_boolean.bieres
+#       - input_boolean.papierwc
+#       - input_boolean.coca
+#       - input_boolean.lessive
+#       - input_boolean.poulet
+#       - input_boolean.steak
+#       - input_boolean.poisson
+#       - input_boolean.shampooing
+#       - input_boolean.geldouche
+#       - input_boolean.cafe
+#       - input_boolean.petitdej
+#       - input_boolean.cremefraiche
+#       - input_boolean.tomates
+#       - input_boolean.pommedeterre
+#       - input_boolean.poivron
+#       - input_boolean.oignon
+#       - input_boolean.pizza
+#       - input_boolean.riz
+#       - input_boolean.pates
+#       - input_boolean.jambon
+#       - input_boolean.apero
+#       - input_boolean.sacpoubelle
+#       - input_boolean.deo
+#       - input_boolean.dentifrice
+#       - input_boolean.oeufs
+#       - input_boolean.lait
+#   courses_group:
+#     name: Les Courses
+#     view: yes
+#     entities:
+#       - script.envoiliste
+#       - group.courses
+#   salonlight:
+#     name: lumieres salon
+#     entities:
+#       - light.hue_lightstrip_1
+#       - light.salon_couleur
+#       - light.bibliocolor
+#       - light.bureau
+#   salonlightcoul:
+#     name: salon couleur
+#     entities:
+#       - light.hue_lightstrip_1
+#       - light.salon_couleur
+#       - light.bibliocolor
+#       - light.bureau
+#   devices:
+#     name: personne
+#     entities:
+# #      - device_tracker.owntracks_oneplus3
+#       #- device_tracker.hokagegano_r7sf
+#       - sensor.nutblanc
+#       - sensor.nutorange
+#       - sensor.miband3
+# #      - sensor.battery
+# #      - device_tracker.oneplus_3
+#   internet:
+#     name: internet
+#     entities:
+#       - sensor.fastcom_speedtest
+# #      - sensor.speedtest_download
+# #      - sensor.speedtest_upload
+#   meteo_group:
+#     name: Prévisions pour demain
+#     entities:
+#       - sensor.weather_forecast
+#       - sun.sun
+#       - sensor.weather_cloud_coverage
+#       - sensor.weather_humidity
+#       - sensor.weather_ozone
+#       - sensor.weather_precip_intensity
+#       - sensor.weather_precip_probability
+#       - sensor.weather_pressure
+#       - sensor.weather_temperature
+#       - sensor.weather_wind_speed
+#       - sensor.weather_minutely_summary
+#       - sensor.weather_hourly_summary
+#       - sensor.weather_daily_summary
+# #  prevision:
+# #    name: previsions à 3h
+# #    entities:
+# #      - sensor.weather_temperature_2
+# #      - sensor.weather_pressure_2
+# #      - sensor.weather_humidity_2
+# #      - sensor.weather_wind_speed_2
+# #      - sensor.weather_rain
+#   wumeteo:
+#     name: Meteo
+#     entities:
+#       - sensor.yweather_current
+#       - sensor.pws_temp_c
+#       - sensor.pws_feelslike_c
+#       - sensor.pws_precip_today_metric
+#       - sensor.pws_pressure_in
+#       - sensor.pws_pressure_mb
+#       - sensor.pws_relative_humidity
+#       - sensor.pws_wind_dir
+#       - sensor.pws_wind_kph
+#   # tele:
+#   #   name: Programme TV
+#   #   entities:
+#   #     # - input_select.categorie
+#   #     - input_select.categorie2
+#   #     - sensor.tf1
+#   #     # - sensor.tf1_h  
+#   #     - sensor.fr2
+#   #     # - sensor.fr2_h
+#   #     - sensor.fr3
+#   #     # - sensor.fr3_h
+#   #     - sensor.canal
+#   #     # - sensor.canal_h
+#   #     - sensor.arte
+#   #     # - sensor.arte_h
+#   #     - sensor.m6
+#   #     # - sensor.m6_h
+#   #     - sensor.fr5
+#   #     # - sensor.fr5_h
+#   #     - sensor.c8
+#   #     # - sensor.c8_h
+#   #     - sensor.w9
+#   #     # - sensor.w9_h
+#   #     - sensor.tmc
+#   #     # - sensor.tmc_h
+#   #     - sensor.nt1
+#   #     # - sensor.nt1_h
+#   #     - sensor.nrj12
+#   #     # - sensor.nrj12_h
+#   #     - sensor.lcp
+#   #     # - sensor.lcp_h
+#   #     - sensor.fr4
+#   #     # - sensor.fr4_h
+#   # divertissement:
+#   #   name: divertissement
+#   #   entities:
+#   #     - sensor.divertissement
+#   # documentaires:
+#   #   name: documentaires
+#   #   entities:   
+#   #     - sensor.documentaires
+#   # films-telefilms:
+#   #   name: filmstelefilms
+#   #   entities:
+#   #     - sensor.filmstelefilms
+#   # jeunesse:
+#   #   name: jeunesse
+#   #   entities:
+#   #     - sensor.jeunesse
+#   # magazine:
+#   #   name: magazine
+#   #   entities:
+#   #     - sensor.magazine
+#   # sport:
+#   #   name: sport
+#   #   entities:
+#   #     - sensor.sport
+#   # teleg:
+#   #   name: Tele
+#   #   view: yes
+#   #   entities:
+#   #     - group.tele
+#   #     - group.divertissement
+#   #     - group.documentaires
+#   #     - group.filmstelefilms
+#   #     - group.jeunesse
+#   #     - group.magazine
+#   #     - group.sport
+#   surf:
+#     name: Surf group
+#     entities:
+#       - camera.webcamsurf
+#       - camera.surf
+#       - sensor.surf9h
+#       - sensor.surf9h_h
+#       - sensor.surf13h
+#       - sensor.surf13h_h
+#       - sensor.surf17h
+#       - sensor.surf17h_h
+#       - sensor.tempocean
+#   surfg:
+#     name: Surf
+#     view: yes
+#     entities:
+#       - group.surf
+#   ymeteo:
+#     name: Prévisions pour demain
+#     entities:
+#       - sun.sun
+#       - sensor.yweather_condition
+#       - sensor.yweather_humidity
+#       #- sensor.yweather_pressure
+#       - sensor.yweather_temperature
+#       - sensor.yweather_temperature_max
+#       - sensor.yweather_temperature_min
+#       - sensor.yweather_wind_speed
+#       - sensor.yweather_visibility
+#   # androidcam:
+#   #   name: Android
+#   #   entities:
+#   #     - camera.entree
+#   #     - binary_sensor.entree_motion_active
+#   #     - switch.entree_night_vision
+#   #     - switch.entree_exposure_lock
+#   #     - switch.entree_focus
+#   #     - switch.entree_gps_active
+#   #     - switch.entree_video_recording
+#   #     - switch.entree_white_balance_lock
+#   #     - sensor.entree_light_level
+#   #     - sensor.entree_battery_level
+#   #     - sensor.entree_battery_temperature
+#   #     - sensor.entree_motion
+#   #     - sensor.entree_sound
+#   webcam:
+#     name: Webcam
+#     view: yes
+#     entities:
+#       #- camera.ganovideo
+#       - camera.salon1
+# #      - group.androidcam
+#  #     - camera.facecam
+#       - camera.salon2
+#  #     - camera.ganomotion
+#   # default_view:
+#   #   entities:
+#   #     - sensor.alarmsensor
+#   #     - group.chauffage
+#   #     - group.calendrier
+#   #     - group.surf
+#   #     - group.hall
+#   #     - group.etage1
+#   #     - group.wc
+#   #     - group.salon
+#   #     - group.media
+#   #    # - group.free
+#   #     - group.ambiance
+#   #     - group.prises
+#   #     - group.devices
+#   #     - group.trackm
+#   #     - group.internet
+#   #     - group.alarmclock
+#   #     - camera.salon1
+#   #     - camera.salon2
+#   #     - camera.salon3
+#   #     - group.transport  
+#   #     - sensor.alarmsensor
+#   #     - group.chauffage
+#   #     - group.calendrier
+#   #     - group.surf
+#   #     - group.hall
+#   #     - group.etage1
+#   #     - group.wc
+#   #     - group.salon
+#   #     - group.media
+
+#   #     - group.ambiance
+#   #     - group.prises
+#   #     - group.devices
+#   #     - group.trackm
+#   #     - group.internet
+#   #     - group.alarmclock
+#   #     - camera.salon1
+#   #     - camera.salon2
+#       # - group.free
+#   #     - sensor.alarmsensor
+#   #     - group.chauffage
+#   #     - group.calendrier
+#   #     - group.surf
+#   #     - group.hall
+#   #     - group.etage1
+#   #     - group.wc
+#   #     - group.salon
+#   #     - group.media
+#   #     # - group.free
+#   #     - group.ambiance
+#   #     - group.prises
+#   #     - group.devices
+#   #     - group.trackm
+#   #     - group.internet
+#   #     - group.alarmclock
+#   #     - camera.salon1
+#   #     - camera.salon2
+#      - camera.entree
+#      - camera.facecam
+#      - input_boolean.envoipic
+#microsoft_face:
+#  api_key: e563ea020b6e416396795e8556d481b3
+
+######### DEFINITION DES SCENES ###########
+scene: !include scenes.yaml
+
+######### DEFINITION DES AUTOMATISATIONS ###########
+#automation: !include automations.yaml
+automation: !include automation.yaml
+######### DEFINITION DES SCRIPTS ###########
+script:
+  envoiliste:
+    alias: Envoi Liste
+    sequence:
+     - alias: Envoi la liste des courses
+#       service: notify.pushgano
+       service: notify.teleha
+       data:
+         title: Liste des courses
+         message: "{% if is_state('input_boolean.bieres', 'on') %} - Bieres {% endif %}{% if is_state('input_boolean.papierwc', 'on') %} - Papier WC  {% endif %}{% if is_state('input_boolean.coca', 'on') %} - Coca Cola{% endif %}{% if is_state('input_boolean.lessive', 'on') %} - Lessive  {% endif %}{% if is_state('input_boolean.poulet', 'on') %} - Poulet  {% endif %}{% if is_state('input_boolean.steak', 'on') %} - Steaks  {% endif %}{% if is_state('input_boolean.poisson', 'on') %} - Poisson  {% endif %}{% if is_state('input_boolean.shampooing', 'on') %} - Shampooing  {% endif %}{% if is_state('input_boolean.geldouche', 'on') %} - Gel Douche  {% endif %}{% if is_state('input_boolean.cafe', 'on') %} - Cafe  {% endif %}{% if is_state('input_boolean.petitdej', 'on') %} - De la bouffe pour le petit dejeuner  {% endif %}{% if is_state('input_boolean.cremefraiche', 'on') %} - Creme fraiche  {% endif %}{% if is_state('input_boolean.tomates', 'on') %} - Tomates  {% endif %}{% if is_state('input_boolean.pommedeterre', 'on') %} - Pommes de Terre  {% endif %}{% if is_state('input_boolean.poivron', 'on') %} - Poivrons  {% endif %}{% if is_state('input_boolean.oignon', 'on') %} - Oignons  {% endif %}{% if is_state('input_boolean.pizza', 'on') %} - Pïzzas  {% endif %}{% if is_state('input_boolean.riz', 'on') %} - Riz  {% endif %}{% if is_state('input_boolean.pates', 'on') %} - Pates  {% endif %}{% if is_state('input_boolean.jambon', 'on') %} - Jambon  {% endif %}{% if is_state('input_boolean.apero', 'on') %} - Des trucs pour l'apéro  {% endif %}{% if is_state('input_boolean.sacpoubelle', 'on') %} - Sacs poubelle  {% endif %}{% if is_state('input_boolean.deo', 'on') %} - déodorant  {% endif %}{% if is_state('input_boolean.dentifrice', 'on') %} - Dentifrice  {% endif %}{% if is_state('input_boolean.oeufs', 'on') %} - Oeufs  {% endif %}{% if is_state('input_boolean.lait', 'on') %} - Lait  {% endif %}{% if is_state('input_boolean.lardon', 'on') %} - Lardons  {% endif %}{% if is_state('input_boolean.puree', 'on') %} - Purée  {% endif %}{% if is_state('input_boolean.glace', 'on') %} - Glaces  {% endif %}{% if is_state('input_boolean.dessert', 'on') %} - Dessert  {% endif %}{% if is_state('input_boolean.paindemie', 'on') %} - Pain de mie  {% endif %}{% if is_state('input_boolean.rhum', 'on') %} - Rhum  {% endif %}{% if is_state('input_boolean.sopalin', 'on') %} - Sopalin  {% endif %}{% if is_state('input_boolean.huileolive', 'on') %} - Huile d'olive  {% endif %}  !"
+  colorloop:
+    alias: ColorLoop Salon
+    sequence:
+      - alias: colorloop bureau
+        service: light.turn_on
+        entity_id: light.bureau
+        data:
+          brightness: 255
+          effect: colorloop
+      - alias: colorloop bibliocolor
+        service: light.turn_on
+        entity_id: light.bibliocolor
+        data:
+          brightness: 255
+          effect: colorloop
+      - alias: colorloop huestrip
+        service: light.turn_on
+        entity_id: light.hue_lightstrip_1
+        data:
+          brightness: 255
+          effect: colorloop
+      - alias: colorloop table salon
+        service: light.turn_on
+        entity_id: light.salon_couleur
+        data:
+          brightness: 255
+          effect: colorloop
+  allumehall:
+    alias: Allume hall
+    sequence:
+      - alias: Allume le hall
+        service: light.turn_on
+        entity_id: light.hall
+        data:
+          brightness: 255
+      - alias: Allume l'escalier
+        service: light.turn_on
+        entity_id: light.escalier
+        data:
+          brightness: 255
+  eteinthall:
+    alias: Eteint hall
+    sequence:
+      - alias: Eteint le hall
+        service: light.turn_off
+        entity_id: light.hall
+      - alias: Eteint l'escalier
+        service: light.turn_off
+        entity_id: light.escalier
+  allumechambre:
+    alias: Allume Chambre
+    sequence:
+      - alias: Allume la chambre
+        service: light.turn_on
+        entity_id: light.chambre
+        data:
+          brightness: 255
+  eteintchambre:
+    alias: Eteint Chambre
+    sequence:
+      - alias: Eteint la Chambre
+        service: light.turn_off
+        entity_id: light.chambre
+  allumesalon:
+    alias: Allume le salon
+    sequence:
+      - alias: Allume les lumieres du salon
+        service: light.turn_on
+        entity_id: group.salonlightcoul
+        data:
+          brightness: 255
+  baissesalon:
+    alias: Baisse le salon
+    sequence:
+      - alias: Baisse les lumieres du salon
+        service: light.turn_on
+        entity_id: group.salonlightcoul
+        data:
+          brightness: 150
+  augmentesalon:
+    alias: Augmente le salon
+    sequence:
+      - alias: Augmente les lumieres du salon
+        service: light.turn_on
+        entity_id: group.salonlightcoul
+        data:
+          brightness: 255      
+  eteintsalon:
+    alias: Eteint le salon
+    sequence:
+      - alias: Eteint les lumieres du salon
+        service: light.turn_off
+        entity_id: group.salonlightcoul
+  trafic:
+    alias: Annonce le trafic
+    sequence:
+     - alias: Annonce trafic
+       #service: tts.google_say
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "{{ ['Yo','Bonjour','Salut'] | random }} Il vous faudra {{ states.sensor.travail.state }} minutes pour aller au travail"
+         cache: false
+  meteo:
+    alias: Meteo
+    sequence:
+     - alias: Annonce meteo
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température extérieure est de {{ states.sensor.tempext_temperature.state }} degrés"
+         cache: false
+  surf:
+    alias: Surf
+    sequence:
+     - alias: Annonce surf
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Les conditions de surf sont les suivantes, La température de l'océan est de {{ states.sensor.tempocean.state }} degrés, à 9h ce matin, {{ states.sensor.surf9h.state }} avec {{ states.sensor.surf9h_h.state }}, à 13h, {{ states.sensor.surf13h.state }}, avec {{ states.sensor.surf13h_h.state }}, et à 17h, {{ states.sensor.surf17h.state }}, avec {{ states.sensor.surf17h_h.state }}"
+#         message: "Les previsions de surf pour la journée,  {%- if states.sensor.surf9h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf13h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf17h.state != "mauvais surf, session médiocre" -%} c'est bien toute la journée {%- else -%} c'est bien jusqu'au soir {%- endif -%} {%- else -%} c'est bien le matin {%- endif -%} {%- else -%} c'est nul toute la journée {%- endif -%} "
+         cache: false
+  annoncematin:
+    alias: Matin
+    sequence:
+     - alias: Annonce Matin
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Bonjour Arnaud. Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
+ il n'y a pas de monde sur la route
+{%- else -%}
+ attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}, concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est pourri toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien le matin tot
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien jusqu'en fin d'après midi
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien le matin et le soir
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien l'après midi
+{%- endif %}
+. La température de l'océan est de {{ states.sensor.tempocean.state }} degrés.
+{%- if (states.calendar.dalliesagmailcom.attributes.start_time != \"null\") and as_timestamp(states.calendar.dalliesagmailcom.attributes.start_time) - as_timestamp(now().strftime(\"%Y-%m-%d %H:%M:%S\")) < 86400 -%} .  N'oubliez pas vous avez un rendez vous aujourd'hui.  {{ states.calendar.dalliesagmailcom.attributes.message }}.{%- endif %}"
+  radar:
+    alias: Radar
+    sequence:
+     - alias: Annonce radar
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
+         cache: false  
+  previsions:
+    alias: Les Previsions
+    sequence:
+     - alias: Annonce previsions
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Voici le temps pour demain. Il semble que la météo prévoit, {{ states.sensor.forecast.state }}, avec des températures qui oscillent entre {{ states.sensor.yweather_temperature_min.state | round }} degrés, et {{ states.sensor.yweather_temperature_max.state | round }} degrés"
+         cache: false
+  news:
+    alias: Les News
+    sequence:
+     - alias: Annonce news
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
+         cache: false
+  rendezvous:
+    alias: Annonce les rendez-vous
+    sequence:
+     - alias: Annonce rdv
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "Arnaud, votre prochain rendez-vous est le {{ states.sensor.rdv_arno_h.state }} le sujet du rendez-vous est {{ states.sensor.rdv_arno.state }}"
+         cache: false
+  temperature:
+    alias: Temperature
+    sequence:
+     - alias: Annonce temp
+       service: tts.google_say
+       entity_id: media_player.kodi
+       data_template:
+         message: "La température à l'étage est de {{ states.sensor.tempetage_temperature.state | round }} degrés, la température du salon est de {{ states.sensor.salon_temperature.state | round }} degrés et la température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés"
+         cache: false
+  surveille:
+    alias: Surveillance
+    sequence:
+     - alias: lance surv
+       service: notify.teleha
+       data:
+         title: detection intrus
+         message: INTRUSION
+         data:
+           photo:
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+  radiolance:
+    alias: Radio sur Chromecast
+    sequence:
+      # -  service: media_player.volume_set
+      #    data:
+      #      entity_id: media_player.ca_livingroom
+      #      volume_level: '0.30'
+      -  service: media_player.play_media
+         data_template:
+           entity_id: >
+            {% if is_state("input_select.chromecast_radio", "Kodi") %} media_player.kodi
+            {% elif is_state("input_select.chromecast_radio", "Shield") %} media_player.shield
+            {% endif %}
+           media_content_id: >
+            {% if is_state("input_select.radio_station", "Franceinfo") %} http://direct.franceinfo.fr/live/franceinfo-midfi.mp3
+            {% elif is_state("input_select.radio_station", "Jazz") %} http://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3
+            {% elif is_state("input_select.radio_station", "Nova Sauvagine") %} http://broadcast.infomaniak.ch/snb-high.mp3
+            {% endif %}
+           media_content_type: 'audio/mp4'
+  # surveille_android:
+  #   alias: Surveillance Android
+  #   sequence:
+  #    - alias: lance surv android
+  #      service: notify.teleha
+  #      data:
+  #        title: detection intrus
+  #        message: INTRUSION
+  #        data:
+  #          photo:
+  #          - url: http://192.168.10.49:8080/photo.jpg
+#message: "Bonjour Arnaud, la température à l'étage est de {{ states.sensor.tempetage_temperature.state }} degrés, la température du salon est de {{ states.sensor.tempsalon_temperature.state }} degrés et la température exterieure est de {{ states.sensor.tempext_temperature.state }} degrés {%- if states.sensor.google_travel_time__driving.state | int < 14 -%}
+# il n'y a pas de monde sur la route
+#{%- else -%}
+# attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}"
+#  musique:
+#    alias: Musique
+#    sequence:
+#     - alias: Media play enceintes
+#       service: media_player.play_media
+#       data:
+#         entity_id: group.mediasync
+#         media_content_type: video/mp3
+#         media_content_id: https://ganhome.duckdns.org/local/Musique/01-tekilla-en_roue_libre.mp3
+#     - alias: Allume rouge
+#       service: scene.turn_on
+#       data:
+#         entity_id: scene.RougeLove
+  surftv:
+    alias: Surf TV
+    sequence:
+     - alias: Media play hiver
+       service: media_player.play_media
+       data:
+         entity_id: media_player.shield
+         media_content_type: video
+         media_content_id: 'https://ganhome.duckdns.org/local/surf/webcamsurf.mp4'
+#     - alias: Allume rouge
+#       service: scene.turn_on
+#       data:
+#         entity_id: scene.RougeLove
+#  forest:
+#    alias: Forest
+#    sequence:
+#     - alias: Media play forest
+#       service: media_player.play_media
+#       data:
+#         entity_id: media_player.chromecast2
+#         media_content_type: video/mp4
+#         media_content_id: https://gan0.duckdns.org/local/forest.mp4
+#     - alias: Allume vert
+#       service: scene.turn_on
+#       data:
+#         entity_id: scene.forest
+#  sexy:
+#    alias: Sexy
+#    sequence:
+#     - alias: Media play sexy
+#       service: media_player.play_media
+#       data:
+#         entity_id: media_player.chromecast2
+#         media_content_type: video/mp4
+#         media_content_id: https://gan0.duckdns.org/local/sexy.mp4
+#     - alias: Allume rouge
+#       service: scene.turn_on
+#       data:
+#         entity_id: scene.RougeLove
+#  ocean:
+#    alias: Ocean
+#    sequence:
+#     - alias: Media play ocean
+#       service: media_player.play_media
+#       data:
+#         entity_id: media_player.chromecast2
+#         media_content_type: video/mp4
+#         media_content_id: https://gan0.duckdns.org/local/ocean.mp4
+#     - alias: Allume bleu
+#       service: scene.turn_on
+#       data:
+#         entity_id: scene.Salon_soft
+#  wcallume:
+#    alias: "Wc allume"
+#    sequence:
+#     - service: script.turn_off
+#       data:
+#         entity_id: script.timer_off
+#     - service: light.turn_on
+#       data:
+#         entity_id: light.wc
+#     - service: script.turn_on
+#       data:
+#         entity_id: script.timer_off
+#
+#
+#  timer_off:
+#    alias: "Eteint la lumiere des WC"
+#    sequence:
+#      - delay:
+#          minutes: 5
+#      - service: light.turn_off
+#          data:
+#            entity_id: light.wc
+

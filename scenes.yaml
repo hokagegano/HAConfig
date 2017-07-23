@@ -1,0 +1,165 @@
+  - name: Salon_normal
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+  - name: Salon_lumi
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.4448, 0.4066 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.4448, 0.4066 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.4448, 0.4066 ]
+  - name: Salon_soft
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.1399, 0.0810 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.1399, 0.0810 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.1399, 0.0810 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.1399, 0.0810 ]
+  - name: RougeLove
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.6111, 0.3261 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.6111, 0.3261 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.6111, 0.3261 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.6111, 0.3261 ]
+  - name: forest
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.2140, 0.7090 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.2140, 0.7090 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.2140, 0.7090 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.2140, 0.7090 ]
+  - name: Eteint_Tout
+    entities:
+        switch.bureau:
+            state: off
+        switch.salon:
+            state: off
+  - name: Eteint
+    entities:
+        light.bureau:
+            state: off
+            transition: 2
+            #brightness: 170
+        light.hue_lightstrip_1:
+            state: off
+            transition: 2
+            #brightness: 170
+            #xy_color: [ 0.6111, 0.3261 ]
+        light.salon_couleur:
+            state: off
+            transition: 2
+            #brightness: 170
+            #xy_color: [ 0.6111, 0.3261 ]
+        light.bibliocolor:
+            state: off
+            transition: 2
+            #brightness: 170
+            #xy_color: [ 0.6111, 0.3261 ]
+  - name: Allume
+    entities:
+        light.bureau:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.salon_couleur:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.bibliocolor:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+  - name: Allume_Tout
+    entities:
+        switch.salon:
+            state: on
+        switch.bureau:
+            state: on

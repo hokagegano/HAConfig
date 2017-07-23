@@ -1,0 +1,1019 @@
+- platform: wunderground
+  api_key: c1e5e8ee509e9ebc
+  pws_id: IEYSINES2
+  monitored_conditions:
+    - weather
+    - temp_c
+#    - station_id
+    - feelslike_c
+    - feelslike_string
+    - heat_index_c
+    - heat_index_string
+#    - dewpoint_c
+#    - dewpoint_string
+    - wind_kph
+#    - wind_mph
+    - UV
+    - pressure_in
+    - pressure_mb
+    - wind_dir
+    - wind_string
+    - relative_humidity
+    - visibility_mi
+    - visibility_km
+    - precip_today_in
+    - precip_today_metric
+    - precip_today_string
+    - solarradiation
+
+- platform: darksky
+  api_key: 15a72d34b210ba6f135359416c9205ed
+  monitored_conditions:
+    - summary
+    - icon
+    - nearest_storm_distance
+    - temperature
+    - humidity
+    - precip_probability
+    - precip_intensity
+    - wind_speed
+    - pressure
+    - wind_bearing
+    - apparent_temperature
+
+- platform: google_travel_time
+  api_key: AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho
+  origin: Eysines, France
+  destination: Carcans plage, France
+  entity_picture: /local/plage.jpg 
+  friendly_name: Plage
+#  travel_mode: driving
+#  options:
+#    mode: driving
+
+# - platform: pi_hole
+#   host: 192.168.10.21:8000
+
+#- platform: template
+#  sensors:
+#    queries:
+#      friendly_name: 'Requetes par jour'
+#      value_template: '{{ states.sensor.pihole.attributes.queries_today }}'
+
+#- platform: template
+#  sensors:
+#    domainblocked:
+#      friendly_name: 'Domaines Bloques'
+#      value_template: '{{ states.sensor.pihole.attributes.domains_blocked }}'
+
+#- platform: template
+#  sensors:
+#    percentagetoday:
+#      friendly_name: 'Part des Requetes bloquees par jour'
+#      value_template: '{{ states.sensor.pihole.attributes.percentage_today }}'
+
+
+#- platform: template
+#  sensors:
+#    dnsqueries:
+#      friendly_name: 'DNS bloquees par jour'
+#      value_template: '{{ states.sensor.pihole.state }}'
+
+
+- platform: command_line
+  name: surf9h
+  entity_picture: /local/9h.jpg
+  command: "cat /home/gano/.homeassistant/www/surf/today_9h"
+
+- platform: command_line
+  name: webcamurl
+  #entity_picture: /local/9h.jpg
+  command: "cat /home/gano/.homeassistant/www/surf/webcam"
+
+- platform: command_line
+  name: tempocean
+  entity_picture: /local/9h.jpg
+  command: "cat /home/gano/.homeassistant/www/surf/temp_eau.txt"
+
+#- platform: mold_indicator
+#  indoor_temp_sensor: sensor.salon_temperature
+#  indoor_humidity_sensor: sensor.tempetage_humidity
+#  outdoor_temp_sensor: sensor.tempext_temperature
+#  calibration_factor: 2
+
+#- platform: command_line
+#  name: cpupi
+#  entity_picture: /local/cpu.png
+#  command: "cat /home/gano/.homeassistant/www/webcam/stats/cpu_pi"
+#  friendly_name: CPU Use
+
+#- platform: command_line
+#  name: mempi
+#  entity_picture: /local/mem.png
+#  command: "cat /home/gano/.homeassistant/www/webcam/stats/mem_pi"
+#  friendly_name: RAM Free
+
+#- platform: command_line
+#  name: diskpi
+#  entity_picture: /local/disk.png
+#  command: "cat /home/gano/.homeassistant/www/webcam/stats/disk_pi"
+#  friendly_name: Disk Use /home
+
+
+# LES BUS
+# - platform: gtfs
+#   origin: 2935
+#   destination: 6447
+#   data: keolis_bus.zip
+#   name: ligne2
+
+# - platform: gtfs
+#   origin: 2935
+#   destination: 1692
+#   data: keolis_bus.zip
+#   name: ligne5
+
+- platform: command_line
+  name: radar
+  command: "cat /home/gano/.homeassistant/www/radars/radars_final.txt"
+
+- platform: command_line
+  name: news
+  command: "cat /home/gano/.homeassistant/www/news/news.txt"
+
+- platform: command_line
+  name: surf9h_h
+  command: "cat /home/gano/.homeassistant/www/surf/today_9h_hauteur"
+
+- platform: command_line
+  name: surf13h
+  command: "cat /home/gano/.homeassistant/www/surf/today_9h"
+
+- platform: command_line
+  name: surf13h_h
+  command: "cat /home/gano/.homeassistant/www/surf/today_13h_hauteur"
+
+- platform: command_line
+  name: surf17h
+  command: "cat /home/gano/.homeassistant/www/surf/today_17h"
+
+- platform: command_line
+  name: surf17h_h
+  command: "cat /home/gano/.homeassistant/www/surf/today_17h_hauteur"
+
+# - platform: command_line
+#   name: tf1
+#   command: "cat /home/gano/.homeassistant/www/tele/tf1"
+
+# - platform: command_line
+#   name: fr2
+#   command: "cat /home/gano/.homeassistant/www/tele/fr2"
+
+# - platform: command_line
+#   name: fr3
+#   command: "cat /home/gano/.homeassistant/www/tele/fr3"
+
+# - platform: command_line
+#   name: canal
+#   command: "cat /home/gano/.homeassistant/www/tele/canal"
+
+# - platform: command_line
+#   name: arte
+#   command: "cat /home/gano/.homeassistant/www/tele/arte"
+
+# - platform: command_line
+#   name: m6
+#   command: "cat /home/gano/.homeassistant/www/tele/m6"
+
+# - platform: command_line
+#   name: fr5
+#   command: "cat /home/gano/.homeassistant/www/tele/fr5"
+
+# - platform: command_line
+#   name: c8
+#   command: "cat /home/gano/.homeassistant/www/tele/c8"
+
+# - platform: command_line
+#   name: w9
+#   command: "cat /home/gano/.homeassistant/www/tele/w9"
+
+# - platform: command_line
+#   name: tmc
+#   command: "cat /home/gano/.homeassistant/www/tele/tmc"
+
+# - platform: command_line
+#   name: nt1
+#   command: "cat /home/gano/.homeassistant/www/tele/nt1"
+
+# - platform: command_line
+#   name: nrj12
+#   command: "cat /home/gano/.homeassistant/www/tele/nrj12"
+
+# - platform: command_line
+#   name: lcp
+#   command: "cat /home/gano/.homeassistant/www/tele/lcp"
+
+# - platform: command_line
+#   name: fr4
+#   command: "cat /home/gano/.homeassistant/www/tele/fr4"
+
+# - platform: command_line
+#   name: divertissement
+#   command: "cat /home/gano/.homeassistant/www/tele/divertissement"
+
+# - platform: command_line
+#   name: documentaires
+#   command: "cat /home/gano/.homeassistant/www/tele/documentaires"
+
+# - platform: command_line
+#   name: filmstelefilms
+#   command: "cat /home/gano/.homeassistant/www/tele/films-telefilms"
+
+# - platform: command_line
+#   name: magazine
+#   command: "cat /home/gano/.homeassistant/www/tele/magazine"
+
+# - platform: command_line
+#   name: sport
+#   command: "cat /home/gano/.homeassistant/www/tele/sport"
+
+# - platform: command_line
+#   name: tf1_h
+#   command: "cat /home/gano/.homeassistant/www/tele/tf1.h"
+
+# - platform: command_line
+#   name: fr2_h
+#   command: "cat /home/gano/.homeassistant/www/tele/fr2.h"
+
+# - platform: command_line
+#   name: fr3_h
+#   command: "cat /home/gano/.homeassistant/www/tele/fr3.h"
+
+# - platform: command_line
+#   name: canal_h
+#   command: "cat /home/gano/.homeassistant/www/tele/canal.h"
+
+# - platform: command_line
+#   name: arte_h
+#   command: "cat /home/gano/.homeassistant/www/tele/arte.h"
+
+# - platform: command_line
+#   name: m6_h
+#   command: "cat /home/gano/.homeassistant/www/tele/m6.h"
+
+# - platform: command_line
+#   name: fr5_h
+#   command: "cat /home/gano/.homeassistant/www/tele/fr5.h"
+
+# - platform: command_line
+#   name: c8_h
+#   command: "cat /home/gano/.homeassistant/www/tele/c8.h"
+
+# - platform: command_line
+#   name: w9_h
+#   command: "cat /home/gano/.homeassistant/www/tele/w9.h"
+
+# - platform: command_line
+#   name: tmc_h
+#   command: "cat /home/gano/.homeassistant/www/tele/tmc.h"
+
+# - platform: command_line
+#   name: nt1_h
+#   command: "cat /home/gano/.homeassistant/www/tele/nt1.h"
+
+# - platform: command_line
+#   name: nrj12_h
+#   command: "cat /home/gano/.homeassistant/www/tele/nrj12.h"
+
+# - platform: command_line
+#   name: lcp_h
+#   command: "cat /home/gano/.homeassistant/www/tele/lcp.h"
+
+# - platform: command_line
+#   name: fr4_h
+#   command: "cat /home/gano/.homeassistant/www/tele/fr4.h"
+
+- platform: mqtt_room
+  device_id: c1f42791752e
+  name: 'NutBlanc'
+  state_topic: 'happy-bubbles/presence/ha'
+  timeout: 5
+  away_timeout: 60
+  
+- platform: mqtt_room
+  device_id: ceeb5d1bea5f
+  name: 'NutOrange'
+  state_topic: 'happy-bubbles/presence/ha'
+  timeout: 5
+  away_timeout: 60
+
+- platform: mqtt_room
+  device_id: c1f42791752e
+  name: 'miband3'
+  state_topic: 'happy-bubbles/presence/ha'
+  timeout: 5
+  away_timeout: 60
+
+#- platform: command_line
+#  name: plexsession
+#  command: "cat /home/debian/.homeassistant/www/plex/etat_plex.txt"
+
+#- platform: command_line
+#  name: facedetect
+#  command: "cat /home/gano/.homeassistant/www/face/face/presence.txt"
+#  scan_interval: 1
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_free
+    - type: processor_use
+    - type: memory_use
+
+- platform: yweather
+  woeid: 590452
+  forecast: 1
+  monitored_conditions:
+    - weather
+    - weather_current
+    - temp_min
+    - temp_max
+    - wind_speed
+    - pressure
+    - visibility
+    - humidity
+    - temperature
+
+- platform: waqi
+  token: ab22ede43ef9414eb73b06855e9d68018d68d4a5
+  locations:
+    - bordeaux
+  stations:
+#    - merignac
+    - gambetta
+    - grand parc
+    - bastide
+
+# - platform: template
+#   sensors:
+#     ozonegambetta:
+#       friendly_name: 'Ozone Gambetta'
+#       value_template: '{{ states.sensor.waqi_gambetta_bordeaux_aquitaine.attributes.ozone }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     ozonebastide:
+#       friendly_name: 'Ozone Bastide'
+#       value_template: '{{ states.sensor.waqi_bastide_bordeaux_aquitaine.attributes.ozone }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     ozoneparc:
+#       friendly_name: 'Ozone Grand Parc'
+#       value_template: '{{ states.sensor.waqi_grand_parc_bordeaux_aquitaine.attributes.ozone }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     nitrogambetta:
+#       friendly_name: 'NO2 Gambetta'
+#       value_template: '{{ states.sensor.waqi_gambetta_bordeaux_aquitaine.attributes.nitrogen_dioxide }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     nitrobastide:
+#       friendly_name: 'NO2 Bastide'
+#       value_template: '{{ states.sensor.waqi_bastide_bordeaux_aquitaine.attributes.nitrogen_dioxide }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     nitroparc:
+#       friendly_name: 'NO2 Grand Parc'
+#       value_template: '{{ states.sensor.waqi_grand_parc_bordeaux_aquitaine.attributes.nitrogen_dioxide }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     pmgambetta:
+#       friendly_name: 'Particules Fines Gambetta'
+#       value_template: '{{ states.sensor.waqi_gambetta_bordeaux_aquitaine.attributes.pm_10 }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     pmbastide:
+#       friendly_name: 'Particules Fines Bastide'
+#       value_template: '{{ states.sensor.waqi_bastide_bordeaux_aquitaine.attributes.pm_10 }}'
+# #      unit_of_measurement: 'mm'
+# - platform: template
+#   sensors:
+#     pmparc:
+#       friendly_name: 'Particules Fines Grand Parc'
+#       value_template: '{{ states.sensor.waqi_grand_parc_bordeaux_aquitaine.attributes.pm_10 }}'
+# #      unit_of_measurement: 'mm'
+
+
+- platform: rfxtrx
+  automatic_add: False
+  devices:
+#    0a520d447d0100d2420179:
+    0a520d027d0100cc400179:
+      name: tempsdb
+      data_type:
+       - Humidity
+       - Temperature
+    0a520d79a90100d53b0179:
+      name: tempchambre
+      data_type:
+       - Humidity
+       - Temperature
+    0a520d017a0100c5320179:
+      name: tempetage
+      data_type:
+       - Humidity
+       - Temperature
+    08500907a201006259:
+      name: tempext
+      data_type:
+       - Temperature
+#EN DESSOUS COMMENTER
+#    08500904a201005459:
+#      name: exterieur
+#      data_type:
+#       - Humidity
+#       - Temperature
+#    num2:
+#      name: tempchambre1
+#      data_type:
+#       - Humidity
+#       - Temperature
+#    num1:
+#      name: tempchambre2
+#      data_type:
+#       - Humidity
+#       - Temperature
+- platform: rest
+  resource: http://192.168.10.50/api/newdeveloper/sensors/7
+  value_template: '{{ value_json.state.lightlevel }}'
+  unit_of_measurement: Lux
+  name: 'Salon Lux'
+  
+- platform: rest
+  resource: http://192.168.10.50/api/newdeveloper/sensors/5
+  value_template: '{{ value_json.state.temperature | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Salon Temperature'
+
+- platform: rest
+  resource: http://192.168.10.50/api/newdeveloper/sensors/8
+  value_template: '{{ value_json.state.status }}'
+  name: 'Salon Motion'
+
+#- platform: template
+#  sensors:
+#    windkmh:
+#      friendly_name: 'Owm wind en kmh'
+#      value_template: '{{ states.sensor.owm_wind_speed.state | multiply(3.6) }}'
+#      unit_of_measurement: 'km/h'
+# - platform: mqtt
+#   state_topic: "wallpanel/hadash/sensor/battery"
+#   unit_of_measurement: "%"
+#   value_template: '{{ value_json.value }}'
+#   name: "homedash battery"
+
+# - platform: mqtt
+#   state_topic: "wallpanel/hadash/sensor/brightness"
+#   unit_of_measurement: "lx"
+#   value_template: '{{ value_json.value }}'
+#   name: "homedash brightness"
+
+# - platform: mqtt
+#   state_topic: "wallpanel/hadash/sensor/magneticField"
+#   unit_of_measurement: "mb"
+#   value_template: '{{ value_json.value }}'
+#   name: "homedash magneticfield"
+  
+- platform: template
+  sensors:
+    brightsalon:
+      friendly_name: 'Brightness salon'
+      value_template: '{{ states.light.salon_couleur.attributes.brightness }}'
+      unit_of_measurement: 'km/h'
+
+#- platform: template
+#  sensors:
+#    pluie:
+#      friendly_name: 'Pluie en mm'
+#      value_template: '{{ states.sensor.pws_precip_today_metric.state }}'
+#      unit_of_measurement: 'km/h'
+
+
+#- platform: template
+#  sensors:
+#    presence:
+#      friendly_name: 'Presence'
+#      value_template: >
+#        {%- if is_state("group.all_devices", "home") -%}
+#        1
+#        {%- else -%}
+#        0
+#        {%- endif %}
+
+
+- platform: template
+  sensors:
+    plage:
+      friendly_name: 'Plage'
+      value_template: >
+        {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
+        {{ states.sensor.google_travel_time__driving.state }}
+        {%- else -%}
+        {{ states.sensor.google_travel_time__driving_2.state }}
+        {%- endif %}
+
+- platform: template
+  sensors:
+    travail:
+      friendly_name: 'Travail'
+      value_template: >
+        {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
+        {{ states.sensor.google_travel_time__driving_2.state }}
+        {%- else -%}
+        {{ states.sensor.google_travel_time__driving.state }}
+        {%- endif %}
+
+- platform: template
+  sensors:
+    bonjour:
+      friendly_name: 'Jour'
+      value_template: '0' 
+
+#- platform: mqtt
+#  state_topic: "sensornode/livestream"
+#  name: "MQTT Sensor"
+#  qos: 0
+#  unit_of_measurement: "Lux"
+#  value_template: '{{ value.x }}'
+
+- binary_sensor:
+  platform: command_line
+  scan_interval: 30
+  name: FreePlayer
+  command: "/home/gano/.homeassistant/scripts/freeplayer.sh"
+  payload_on: "Success"
+  payload_off: "Fail"
+
+#- platform: template
+#  sensors:
+#    temperaturesalon:
+#      friendly_name: 'Temp en °C'
+#      value_template: '{{ states ("sensor.0a520d03a90100c8350179_temperature") }}'
+
+
+- platform: template
+  sensors:
+    alarm_time:
+      friendly_name: 'Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_slider.alarmhour") | int, states("input_slider.alarmminutes") | int) }}'
+
+- platform: template
+  sensors:
+    temperaturemaison:
+      friendly_name: 'Temp en °C'
+      value_template: '{{ (float(states.input_slider.temperature.state)) | round(1) }}'
+
+
+- platform: template
+  sensors:
+    luminositedim:
+      friendly_name: 'Luminosite Salon'
+      value_template: '{{ states.input_slider.luminosite }}'
+
+- platform: template
+  sensors:
+    alarmsensor:
+      friendly_name: 'Etat de l Alarme'
+      value_template: '{{ states.alarm_control_panel.ha_alarm.state }}'
+
+- platform: template
+  sensors:
+    rdv_arno:
+      friendly_name: 'Prochain Rdv'
+      value_template: '{{ states.calendar.dalliesagmailcom.attributes.message }}'
+
+- platform: template
+  sensors:
+    rdv_arno_h:
+      friendly_name: 'Heure Rdv'
+      value_template: '{{ states.calendar.dalliesagmailcom.attributes.start_time }}'
+
+- platform: template
+  sensors:
+    rdv_contact:
+      friendly_name: 'Les fetes anniversaire '
+      value_template: '{{ states.calendar.contacts.attributes.message }}'
+
+- platform: template
+  sensors:
+    rdv_contact_h:
+      friendly_name: 'Date anniv'
+      value_template: '{{ states.calendar.contacts.attributes.start_time }}'
+
+
+- platform: template
+  sensors:
+    rdv_ferie:
+      friendly_name: 'Prochain Jour Férié '
+      value_template: '{{ states.calendar.jours_feries_en_france.attributes.message }}'
+
+- platform: template
+  sensors:
+    rdv_ferie_h:
+      friendly_name: 'Date jour férié'
+      value_template: '{{ states.calendar.jours_feries_en_france.attributes.start_time }}'
+
+#- platform: rest
+#  resource: https://ml.internalpositioning.com/location?group=STALESPONGE&user=HOKAGEGANO
+#  value_template: '{{ value_json.users.hokagegano[0].location }}'
+#  method: GET
+#  name: FIND location
+#  scan_interval: 15
+
+
+
+#- platform: forecast
+#  api_key: 15a72d34b210ba6f135359416c9205ed
+#  monitored_conditions:
+#    - precip_intensity
+#    - precip_probability
+#    - temperature
+#    - wind_speed
+#    - cloud_cover
+#    - humidity
+#    - pressure
+#    - ozone
+#    - minutely_summary
+#    - hourly_summary
+#    - daily_summary
+
+- platform: openweathermap
+  api_key: fd7f5480e4b7c64b007931c34305d337
+  forecast: 1
+  monitored_conditions:
+    - temperature
+    - wind_speed
+    - humidity
+    - pressure
+    - rain
+
+#- platform: template
+#  sensors:
+#    windkmh:
+#      value_template: '{{ states.sensor.owm_wind_speed * 3.6 }}'
+
+#- platform: fastdotcom
+#  minute:
+#    - 0
+#    - 30
+
+
+- platform: google_travel_time
+  api_key: AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho
+  origin: Eysines, France
+  destination: Saint Medard en Jalles, France
+  entity_picture: /local/cete.jpg 
+  friendly_name: Travail
+#  options:
+#    mode: driving
+
+- platform: template
+  sensors:
+    forecast:
+      friendly_name: 'Meteo demain'
+      value_template: >
+        {%- if (states.sensor.yweather_condition.state == "tornado") -%}
+        des tornades
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Tropical Storm") -%}
+        des tempetes tropicales
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Hurricane") -%}
+        des ouragans
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Severe Thunderstorms") -%}
+        des orages importants
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Thunderstorms") -%}
+        des orages
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mixed Rain And Snow") -%}
+        de la pluie et de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mixed Rain And Sleet") -%}
+        de la pluie et de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mixed Snow And Sleet") -%}
+        de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Freezing Drizzle") -%}
+        des bruines verglassantes
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Drizzle") -%}
+        de la bruine
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Freezing Rain") -%}
+        des pluies verglassantes
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Showers") -%}
+        de la pluie
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Snow Flurries") -%}
+        des averses de neige 
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Light Snow Showers") -%}
+        des averses de neige en petite quantité
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Blowing Snow") -%}
+        de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Snow") -%}
+        de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Hail") -%}
+        de la grêle
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Sleet") -%}
+        de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Dust") -%}
+        de la poussiere
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Foggy") -%}
+        du brouillard
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Haze") -%}
+        de la brume
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Smoky") -%}
+        de la brume
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Blustery") -%}
+        des tempétes
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Windy") -%}
+        du vent
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Cold") -%}
+        un temps froid
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Cloudy") -%}
+        un temps nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mostly Cloudy \(Night\)") -%}
+        un temps plutot nuageux en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mostly Cloudy \(Day\)") -%}
+        un temps plutot nuageux en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mostly Cloudy") -%}
+        un temps plutot nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Partly Cloudy") -%}
+        un temps un peu nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Partly Cloudy \(Night\)") -%}
+        un temps un peu nuageux en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Partly Cloudy \(Day\)") -%}
+        un temps un peu nuageux en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Clear \(Night\)") -%}
+        un temps clair en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Sunny") -%}
+        un temps ensoleillé
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Fair \(Night\)") -%}
+        un temps mitigé en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Fair \(Day\)") -%}
+        un temps mitigé en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mixes Rain And Hail") -%}
+        de la grêle et de la pluie melée
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Hot") -%}
+        un temps chaud
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Isolated Thunderstorms") -%}
+        des orages isolées
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Scattered Thunderstorms") -%}
+        des orages éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Scattered Showers") -%}
+        des averses éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Heavy Snow") -%}
+        beaucoup de neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Scattered Snow Showers") -%}
+        des chute de neige éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Thundershowers") -%}
+        beaucoup d'orages
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Snow Showers") -%}
+        des chutes de neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Isolated Thundershowers") -%}
+        des orages isolés
+        {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Clear") -%}
+        un temps dégagé
+        {%- endif %}
+
+- platform: template
+  sensors:
+    meteotoday:
+      friendly_name: 'Meteo de la journée'
+      value_template: >
+        {%- if (states.sensor.yweather_current.state == "Clear") -%}
+        un temps dégagé
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "tornado") -%}
+        des tornades
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Tropical Storm") -%}
+        des tempetes tropicales
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Hurricane") -%}
+        des ouragans
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Severe Thunderstorms") -%}
+        des orages importants
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Thunderstorms") -%}
+        des orages
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mixed Rain And Snow") -%}
+        de la pluie et de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mixed Rain And Sleet") -%}
+        de la pluie et de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mixed Snow And Sleet") -%}
+        de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Freezing Drizzle") -%}
+        des bruines verglassantes
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Drizzle") -%}
+        de la bruine
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Freezing Rain") -%}
+        des pluies verglassantes
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Showers") -%}
+        de la pluie
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Snow Flurries") -%}
+        des averses de neige 
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Light Snow Showers") -%}
+        des averses de neige en petite quantité
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Blowing Snow") -%}
+        de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Snow") -%}
+        de la neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Hail") -%}
+        de la grêle
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Sleet") -%}
+        de la neige fondue
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Dust") -%}
+        de la poussiere
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Foggy") -%}
+        du brouillard
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Haze") -%}
+        de la brume
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Smoky") -%}
+        de la brume
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Blustery") -%}
+        des tempétes
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Windy") -%}
+        du vent
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Cold") -%}
+        un temps froid
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Cloudy") -%}
+        un temps nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mostly Cloudy \(Night\)") -%}
+        un temps plutot nuageux en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mostly Cloudy \(Day\)") -%}
+        un temps plutot nuageux en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mostly Cloudy") -%}
+        un temps plutot nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Partly Cloudy") -%}
+        un temps un peu nuageux
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Partly Cloudy \(Night\)") -%}
+        un temps un peu nuageux en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Partly Cloudy \(Day\)") -%}
+        un temps un peu nuageux en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Clear \(Night\)") -%}
+        un temps clair en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Sunny") -%}
+        un temps ensoleillé
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Fair \(Night\)") -%}
+        un temps mitigé en soirée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Fair \(Day\)") -%}
+        un temps mitigé en journée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mixes Rain And Hail") -%}
+        de la grêle et de la pluie melée
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Hot") -%}
+        un temps chaud
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Isolated Thunderstorms") -%}
+        des orages isolées
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Scattered Thunderstorms") -%}
+        des orages éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Scattered Showers") -%}
+        des averses éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Heavy Snow") -%}
+        beaucoup de neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Scattered Snow Showers") -%}
+        des chute de neige éparses
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Thundershowers") -%}
+        beaucoup d'orages
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Snow Showers") -%}
+        des chutes de neige
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Isolated Thundershowers") -%}
+        des orages isolés
+        {%- endif %}
+
+
+#- platform: plex
+#  host: 192.168.10.2
+#  port: 32400
+#- platform: template
+#  sensors:
+#    battery:
+#      friendly_name: 'Batterie Oneplus3'
+#      value_template: '{{ states.device_tracker.owntracks_oneplus3.attributes.battery }}'
+#      unit_of_measurement: '%'
+- platform: cert_expiry
+  host: ganhome.duckdns.org
+
+- platform: history_stats
+  name: Lumieres ON today
+  entity_id: light.salon_couleur
+  entity_picture: /local/stat.gif
+  state: 'on'
+  friendly_name: 'Lumières allumées aujourd hui'
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  sensors:
+  name: Presence a la maison
+  entity_picture: /local/stat.gif
+  entity_id: sensor.nutblanc
+  state: 'home'
+  friendly_name: 'Presence a la maison'
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+
+#- platform: template
+#  friendly_name: 'Plage'
+#  value_template: '{{ (states.google_travel_time.) }}'
+#- platform: gtfs
+#  origin: CCAMUS
+#  destination: TOURNY
+#  data: keolis_bus.zip

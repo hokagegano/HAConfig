@@ -1,0 +1,33 @@
+eteintfreebox: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=power'
+allumefreebox: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=power'; sleep 5; /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=ok'; sleep 2; /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=6'
+tf1: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1'
+france2: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2'
+france3: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=3'
+canalplus: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=4'
+france5: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=5'
+m6: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=6'
+arte: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=7'
+d8: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=8'
+w9: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=9'
+tmc: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=0'
+nt1: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=1'
+nrj12: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=2'
+lcp: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=3'
+fr4: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=4'
+bfm: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=5'
+itele: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=6'
+d17: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=7'
+gulli: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=8'
+fro: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=9'
+hd1: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=0'
+e21: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=1'
+6ter: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=2'
+n23: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=3'
+rmc: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=4'
+c25: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=5'
+rtl9: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=8'
+motionenvoi: /usr/bin/python3.4 /home/pi/.homeassistant/scripts/cameranotify_video.py
+restartha: sudo /home/debian/restartHA.sh
+#detectionabs: sudo killall motion; streamer -t 0:30 -s 640x480 -r 24 -o /tmp/WEBCAM_Salon1/detection.avi -f jpeg -a mute; sudo mv /tmp/WEBCAM_Salon1/detection.avi /tmp/WEBCAM_Salon1/detection`date +"%d-%m-%y-%T"`.avi; sudo motion
+#alarmsemaine: sudo crontab /home/pi/.homeassistant/scripts/crontab_semaine
+#alarmoff: sudo crontab /home/pi/.homeassistant/scripts/crontab_off

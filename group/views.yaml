@@ -1,0 +1,109 @@
+  default_view:
+    view: yes
+    icon: mdi:home
+    entities:
+      - sensor.alarmsensor
+      - group.chauffage
+      - group.calendrier
+      - group.surf
+      - group.hall
+      - group.etage1
+      - group.salon
+      - group.media
+      - group.ambiance
+      - group.prises
+      - group.devices
+      - group.trackm
+      - group.internet
+      - group.alarmclock
+      - camera.salon1
+      - camera.salon2
+      - camera.salon3
+  radio:
+    view: yes
+    icon: mdi:radio-tower
+    name: Radio Maison
+    entities:
+      - group.radiog
+  themeg:
+    view: yes
+    icon: mdi:format-paint
+    name: themes
+    entities:
+      - group.themesg
+  system:
+    name: Systeme
+    icon: mdi:desktop-classic
+    view: yes
+    entities:
+      - group.systemg
+  calendrier:
+    name: Mon calendrier
+    icon: mdi:calendar-clock
+    entities:
+      - calendar.contacts
+      - calendar.dalliesagmailcom
+      - group.mesrdv
+    view: yes
+  tempsparcours:
+    name: Temps de Route
+    icon: mdi:car
+    view: yes
+    entities:
+      - group.googlemaps
+  stats:
+    name: Statistics
+    icon: mdi:chart-line-stacked
+    view: yes
+    entities:
+      - group.stats_sensor
+  etage:
+    name: 1er Etage
+    icon: mdi:stairs
+    view: yes
+    entities:
+      - light.escalier
+      - light.chambre
+      - light.sdb
+      - group.chauffage
+  weathergroup:
+    name: La meteo
+    icon: mdi:weather-partlycloudy
+    entities:
+      - camera.surf
+      - camera.france
+      - camera.infrarouge
+      - group.ymeteo
+      - group.group_meteo
+      - group.wumeteo
+      - group.polg
+    view: yes
+  courses_group:
+    name: Les Courses
+    icon: mdi:cart-outline
+    view: yes
+    entities:
+      - script.envoiliste
+      - group.courses
+  surfg:
+    name: Surf
+    icon: mdi:waves
+    view: yes
+    entities:
+      - group.surf
+  webcam:
+    name: Webcam
+    icon: mdi:webcam
+    view: yes
+    entities:
+      - camera.salon1
+      - camera.salon2
+  tablette:
+    name: tablette
+    icon: mdi:tablet
+    view: yes
+    entities:
+      - group.chauffage
+      - group.surf
+      - group.etage1
+      - group.salon

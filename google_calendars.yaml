@@ -1,0 +1,23 @@
+
+- cal_id: dalliesa@gmail.com
+  entities:
+  - device_id: dalliesagmailcom
+    name: dalliesa@gmail.com
+    track: true
+  - device_id: rtt
+    name: rtt
+    track: true
+    search: "#Rtt"
+
+- cal_id: '#contacts@group.v.calendar.google.com'
+  entities:
+  - device_id: contacts
+    name: Contacts
+    track: true
+
+- cal_id: fr.french#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: jours_feries_en_france
+    name: "Jours f\xE9ri\xE9s en France"
+    track: true
+

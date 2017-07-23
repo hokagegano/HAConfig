@@ -1,0 +1,20 @@
+- platform: cast
+  host: 192.168.10.2
+- platform: panasonic_viera
+  host: 192.168.10.44
+  port: 55000
+  mac: 24:EC:99:2C:D7:AC
+  name: Tele du salon
+- platform: plex
+  host: 192.168.10.2
+  name: Ganoplex
+- platform: vlc
+  name: vlcpine
+  arguments: '--alsa-audio-device=hw:1,0'
+- platform: kodi
+  host: 192.168.10.15
+  username: kodi
+  password: kodi
+- platform: cast
+  host: 192.168.10.15
+

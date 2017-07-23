@@ -1,0 +1,1344 @@
+ # - alias: "Identification faciale"
+ #   trigger:
+ #     platform: event
+ #     event_type: identify_face
+ #     event_data:
+ #       entity_id: image_processing.microsoftface_ganovideo
+ #       name: 'Arnaud'
+ #   condition:
+ #     - condition: time
+ #       after: '13:00'
+ #       before: '23:00'
+ #     - condition: template
+ #       value_template: '{{(as_timestamp(now())-as_timestamp(states.device_tracker.hokagegano_r7sf.last_updated))> 3600}}'
+ #   action:
+ #     - service: tts.google_say
+ #       entity_id: media_player.kodi
+ #       data_template: 
+ #         message: "Je vous ai reconnu Arnaud, je ne vous ai pas vu depuis {{\"%+.0f\"|format( (as_timestamp(now())-as_timestamp(states.device_tracker.hokagegano_r7sf.last_updated))/3600 | round(0))}}  heures {%- if states.sensor.salon_temperature.state | int < 18 -%} pour information il fait un peu froid dans le salon {%- endif %}"
+ #         cache: false 
+  - alias: "Surf Alert 13h"
+    trigger:
+     - platform: state
+       entity_id: sensor.surf13h
+       #entity_id: group.all_devices
+       from: "mauvais surf, session médiocre"
+       to: "bon surf, session sympa"
+#      - platform: state
+#        entity_id: sensor.salon_motion
+#        from: '0'
+#        to: '1'
+    condition:
+      - condition: time
+        after: '09:00'
+        before: '18:00'
+#      - condition: template
+#        value_template: '{{(as_timestamp(now())-as_timestamp(states.device_tracker.hokagegano_r7sf.last_updated))> 3600}}'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Surf ALERTE !!!! les conditions ont changées pour ce debut d'après midi"
+          cache: false
+      - service: notify.teleha
+        data:
+         title: surfcast
+         message: Surf Alert
+         data:
+           photo:
+           - file: /home/gano/.homeassistant/www/surf/surf.png
+  - alias: "Alerte SSL"
+    trigger:
+     - platform: state
+       entity_id: sensor.ssl_certificate_expiry
+       #entity_id: group.all_devices
+       from: "11"
+       to: "10"
+    action:
+      - service: notify.teleha
+        data:
+         title: Alerte ssl
+         message: "Le certificat SSL est a renouveller dans 10 jours"
+  - alias: "Update HA"
+    trigger:
+     - platform: state
+       entity_id: updater.updater
+    action:
+     - service: notify.teleha
+       data:
+         message: 'Mise à jour disponible de Home Assistant.'
+  - alias: Arnaud est rentré facedetection 1
+    trigger:
+     - platform: event
+       event_type: image_processing.detect_face
+       event_data:
+         entity_id: image_processing.dlib_face_salon1
+         name: 'Arnaud'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Yo Arnaud ! Je te vois !"
+          cache: false
+  - alias: Arnaud est rentré facedetection 2
+    trigger:
+     - platform: event
+       event_type: image_processing.detect_face
+       event_data:
+         entity_id: image_processing.dlib_face_salon2
+         name: 'Arnaud'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Yo Arnaud ! Je te vois !"
+          cache: false  
+  - alias: Arnaud est rentré facedetection 3
+    trigger:
+     - platform: event
+       event_type: image_processing.detect_face
+       event_data:
+         entity_id: image_processing.dlib_face_salon3
+         name: 'Arnaud'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Yo Arnaud ! Je te vois !"
+          cache: false  
+  - alias: Maeva est rentré facedetection
+    trigger:
+     - platform: event
+       event_type: image_processing.detect_face
+       event_data:
+         entity_id: image_processing.dlib_face_salon1
+         name: 'Maeva'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Bonjour Maeva ! Je te vois ! Tu es très jolie !"
+          cache: false
+  - alias: Marina est rentré facedetection
+    trigger:
+     - platform: event
+       event_type: image_processing.detect_face
+       event_data:
+         entity_id: image_processing.dlib_face_salon1
+         name: 'Marina'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Bonjour Marina ! Je te vois !"
+          cache: false  
+  - alias: "Surf Alert 17h"
+    trigger:
+     - platform: state
+       entity_id: sensor.surf17h
+       #entity_id: group.all_devices
+       from: "mauvais surf, session médiocre"
+       to: "bon surf, session sympa"
+#      - platform: state
+#        entity_id: sensor.salon_motion
+#        from: '0'
+#        to: '1'
+    condition:
+      - condition: time
+        after: '09:00'
+        before: '20:00'
+#      - condition: template
+#        value_template: '{{(as_timestamp(now())-as_timestamp(states.device_tracker.hokagegano_r7sf.last_updated))> 3600}}'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Surf ALERTE !!!! les conditions ont changées pour la fin d'après midi"
+          cache: false
+      - service: notify.teleha
+        data:
+         title: surfcast
+         message: Surf Alert
+         data:
+           photo:
+           - file: /home/gano/.homeassistant/www/surf/surf.png
+  - alias: "Retour maison"
+    trigger:
+     - platform: state
+       #entity_id: device_tracker.hokagegano_r7sf
+       entity_id: sensor.nutblanc
+       from: 'away'
+       to: 'home'
+#      - platform: state
+#        entity_id: sensor.salon_motion
+#        from: '0'
+#        to: '1'
+    condition:
+      - condition: time
+        after: '16:00'
+        before: '23:30'
+#      - condition: template
+#        value_template: '{{(as_timestamp(now())-as_timestamp(states.device_tracker.hokagegano_r7sf.last_updated))> 3600}}'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "{{ ['Heureux de vous voir Arnaud','Bon retour à la maison Arnaud','Salut Arnaud'] | random }},  {%- if states.sensor.salon_temperature.state | int < 17 -%} pour information il fait un peu froid dans le salon {%- endif %}"
+          cache: false
+  - alias: "Set alarmtime_hour"
+    trigger:
+     - platform: mqtt
+       topic: "setHour"
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.alarmhour
+          value: '{{ trigger.payload}}'
+      - service: notify.pushgano
+        data:
+          message: "Reveil positionne"
+  - alias: "Set alarmtime_minutes"
+    trigger:
+     - platform: mqtt
+       topic: "setMinutes"
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.alarmminutes
+          value: '{{ trigger.payload}}'
+#  - alias: " Allume les WC quand un mouvement est detecte"
+#    trigger:
+#      - platform: state
+#        entity_id: sensor.motion_wc
+#        to: 'on'
+#    action:
+#      service: homeassistant.turn_on
+#      entity_id: script.wcallume  - alias: LuminoAllume
+#    trigger:
+#     - platform: state
+#        entity_id: input_slider.luminosite
+#    action:
+#      - service: light.turn_on
+#        data_template:
+#          entity_id: group.salonlight
+#          brightness: '{{ states.input_slider.luminosite.state | int }}'
+  - alias: "Luminosite salon"
+    trigger:
+      - platform: state
+        entity_id: input_slider.luminosite
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: group.salonlight
+          brightness: '{{ states.input_slider.luminosite.state | int }}'
+#  - alias: "Disco salon"
+#    trigger:
+#      - platform: time
+#        minutes: '/1'
+#        seconds: 0
+#    condition:
+#      - condition: state
+#        entity_id: media_player.squeezelite
+#        state: 'playing'
+#      - condition: state
+#        entity_id: media_player.pine64
+#        state: 'playing'
+#      - condition: state
+#        entity_id: media_player.raspberrypi
+#        state: 'playing'
+#    action:
+#        service: light.turn_on
+#        entity_id: group.salonlightcoul
+#        data:
+#          effect: random
+#          transition: 5
+#          brightness: 255
+  - alias: "Rainbow light sur la lumiere du salon"
+    trigger:
+      - platform: time
+        minutes: '/1'
+        seconds: 0
+    condition:
+      condition: state
+      entity_id: input_boolean.rainbow_light
+      state: 'on'
+    action:
+        service: light.turn_on
+        entity_id: group.salonlightcoul
+        data:
+          effect: random
+          transition: 5
+          brightness: 255
+  - alias: "Media player paused/stopped"
+    trigger:
+      - platform: state
+        entity_id: media_player.shield_android_tv
+        from: 'playing'
+    condition:
+      - condition: state
+        entity_id: input_boolean.cast_light
+        state: 'on'
+    action:
+        - service: scene.turn_on
+          entity_id: scene.Allume
+        - service: light.turn_on
+          entity_id: light.bureau
+  - alias: "Media player playing"
+    trigger:
+      - platform: state
+        entity_id: media_player.shield_android_tv
+        to: 'playing'
+    condition:
+      - condition: state
+        entity_id: input_boolean.cast_light
+        state: 'on'
+    action:
+        - service: scene.turn_on
+          entity_id: scene.Eteint
+        - service: light.turn_off
+          entity_id: light.bureau
+#  - alias: "Allume chambre le soir"
+#    trigger:
+#      - platform: state
+#        entity_id: media_player.tele_du_salon
+#        from: 'on'
+#        to: 'off'
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.automa
+#        state: 'on'
+#      - condition: state
+#        entity_id: sun.sun
+#        state: 'below_horizon'
+#      - condition: time
+#        after: '22:30:00'
+#        before: '05:00:00'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.chambre
+#        data:
+#          brightness: 155
+#      - service: light.turn_on
+#        entity_id: light.escalier
+#        data:
+#          brightness: 155
+  - alias: "Allume chambre le soir"
+    trigger:
+      - platform: state
+        entity_id: sensor.salon_motion
+        from: '0'
+        to: '1'
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+      - condition: state
+        entity_id: media_player.tele_du_salon
+        state: 'off'
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'
+      - condition: time
+        after: '22:30:00'
+        before: '05:00:00'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template: 
+          message: "Vous allez vous coucher,  extinction des lumieres dans une minute et mise en place de l'alarme, bonne nuit Arnaud"
+          cache: true
+      - service: light.turn_on
+        entity_id: light.chambre
+        data:
+          brightness: 155
+      - delay: '00:01:00'
+      - service: light.turn_off
+        entity_id: light.chambre
+      - service: scene.turn_on
+        entity_id: scene.Eteint
+      - service: light.turn_off
+        entity_id: light.bureau      
+#  - alias: "Mouvement escalier"
+#    trigger:
+#      - platform: event
+#        event_type: button_pressed
+#        event_data: {"entity_id": "switch.mvtescalier"}
+#    condition:
+#      - condition: state
+#        entity_id: sun.sun
+#        state: 'below_horizon'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.escalier
+#        data:
+#         brightness: 110
+#      - service: light.turn_on
+#        entity_id: light.bureau
+#        data:
+#          brightness: 255
+#      - delay: '00:00:35'
+#      - service: light.turn_off
+#        entity_id: light.escalier
+#      - service: light.turn_off
+#        entity_id: light.bureau
+#  - alias: "Detection faciale"
+#    trigger:
+#      - platform: state
+#        entity_id: sensor.facedetect
+#        from: ''
+#        to: 'arnaud'
+#    action:
+#      - service: tts.google_say
+#        entity_id: media_player.kodi
+#        data_template:
+#          message: "Arnaud, je vous ai reconnu ! J'allume la lumière de la chambre ! Bonne nuit !"
+#      - service: light.turn_on
+#        entity_id: light.chambre
+#        data:
+#          brightness: 255
+  - alias: "Mouvement salon absent"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.entree_motion_active
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: sensor.nutblanc
+        state: 'away'
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: notify.teleha
+        data:
+         title: detection intrus
+         message: INTRUSION
+         data:
+           photo:
+           # - url: 'https://ganhome.duckdns.org{{ states.camera.salon1.attributes.entity_picture}}'
+           # - url: 'https://ganhome.duckdns.org{{ states.camera.salon2.attributes.entity_picture}}'
+           # - url: 'https://ganhome.duckdns.org{{ states.camera.salon3.attributes.entity_picture}}'
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+  - alias: "Mouvement escalier absent"
+    trigger:
+      - platform: state
+        entity_id: sensor.salon_motion
+        from: '0'
+        to: '1'
+    condition:
+      - condition: state
+        entity_id: sensor.nutblanc
+        state: 'away'
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: notify.teleha
+        data:
+         title: detection intrus
+         message: INTRUSION
+         data:
+           photo:
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
+           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+  - alias: "Mouvement WC"
+    trigger:
+      # - platform: state
+      #   entity_id: binary_sensor.mvtwc
+      #   from: off
+      #   to: on
+      - platform: event
+        event_type: button_pressed
+        #event_data: {"entity_id": "binary_sensor.mvtwc"}
+        event_data: {"entity_id": "switch.mvtwc"}
+    action:
+      - service: light.turn_on
+        entity_id: light.wc
+        data:
+          brightness: 255
+          transition: 3
+      - delay: '00:15:00'
+      - delay: '00:00:02'
+      - service: light.turn_off
+        entity_id: light.wc
+  - alias: "Allume Radiateur en fin d'apres midi"
+    trigger:
+      - platform: time
+        hours: '22'
+        minutes: '0'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+    action:
+        service: switch.turn_on
+        entity_id: switch.chambre
+  - alias: "Positionne le flag pour l'annonce le matin"
+    trigger:
+      - platform: time
+        hours: '04'
+        minutes: '0'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+    action:
+        service: input_boolean.turn_on
+        entity_id: input_boolean.bonjour
+  - alias: "Allume Radiateur le matin"
+    trigger:
+      - platform: time
+        hours: '04'
+        minutes: '0'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+    action:
+        service: switch.turn_on
+        entity_id: switch.chambre
+  - alias: "Eteint Radiateur dans la nuit"
+    trigger:
+      - platform: time
+        hours: '02'
+        minutes: '0'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+    action:
+        service: switch.turn_off
+        entity_id: switch.chambre
+  - alias: "Eteint Radiateur le matin"
+    trigger:
+      - platform: time
+        hours: '06'
+        minutes: '0'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+    action:
+        service: switch.turn_off
+        entity_id: switch.chambre
+  - alias: "Allume les lumieres quand le soleil se couche Arnaud"
+    trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:09:00"
+    condition:
+      - condition: state
+        #entity_id: device_tracker.hokagegano_r7sf
+        entity_id: sensor.nutblanc
+        state: home
+    action:
+        service: light.turn_on
+        entity_id: group.salonlight
+        data:
+          transition: 2700
+          brightness: 255
+  - alias: "Allume les lumieres quand le soleil se couche Arnaud decalage"
+    trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:10:00"
+    condition:
+      - condition: state
+        #entity_id: device_tracker.hokagegano_r7sf
+        entity_id: sensor.nutblanc
+        state: home
+    action:
+        service: light.turn_on
+        entity_id: group.salonlight
+        data:
+          transition: 1800
+          brightness: 255
+  - alias: "Allume tout en arrivant a la maison"
+    trigger:
+     - platform: state
+       #entity_id: device_tracker.hokagegano_r7sf
+       entity_id: sensor.nutblanc
+       from: 'away'
+       to: 'home'
+    condition:
+      - condition: time
+        after: '19:00'
+        before: '23:59'
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: group.salonlight
+      - service: scene.turn_on
+        entity_id: scene.Salon_normal
+#      - service: notify.pushgano
+#        data:
+#          message: "Alarme desactivee"
+  - alias: "Mouvement SDB"
+    trigger:
+      - platform: event
+        event_type: button_pressed
+        event_data: {"entity_id": "switch.mvtsdb"}
+    action:
+      - service: light.turn_on
+        entity_id: light.sdb
+        data:
+          brightness: 255
+          transition: 3
+      - delay: '00:20:00'
+      - delay: '00:00:02'
+      - service: light.turn_off
+        entity_id: light.sdb
+#  - alias: "Mouvement Absence"
+#    trigger:
+#      - platform: event
+#        event_type: button_pressed
+#        event_data: {"entity_id": "switch.mvtescalier"}
+#    condition:
+#      - condition: state
+#        entity_id: group.all_devices
+#        state: 'not_home'
+#    action:
+#      - service: tts.google_say
+#        entity_id: media_player.vlcpine
+#        data_template:
+#          message: "Bonjour Visiteur, la police a été avertie ! bonne journée"
+#      - service: notify.teleha
+#        data:
+#          title: Send an image
+#          message: Mouvement detecte.
+#          data:
+#            photo:
+#            - file: /home/debian/.homeassistant/www/webcam/lastsnap_motion.jpg
+#              caption: Image Salon
+#        data:
+#          url: "/home/debian/.homeassistant/www/webcam/lastsnap_motion.jpg"
+#          message: "quelqu'un est a la maison"
+  - alias: "Annonce voix"
+    trigger:
+      - platform: state
+        entity_id: media_player.tele_du_salon
+        from: 'off'
+        to: 'on'
+      # - platform: state
+      #   entity_id: sensor.salon_motion
+      #   from: '0'
+      #   to: '1'
+    condition:
+      - condition: time
+        after: '05:00'
+        before: '19:00'
+      - condition: state
+        entity_id: input_boolean.bonjour
+        state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.meteo
+      - service: tts.google_say
+        entity_id: media_player.kodi
+        data_template:
+          #{{ ['Pour cette nouvelle journée Arnaud','Aujourdhui Arnaud','Salut Arnaud'] | random }}
+          message: "Aujourdhui Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
+ il n'y a pas de monde sur la route
+{%- else -%}
+ attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}, concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est pourri toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien le matin tot
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien jusqu'en fin d'après midi
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien le matin et le soir
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien l'après midi
+{%- endif %}
+{%- if as_timestamp(states.calendar.dalliesagmailcom.attributes.start_time) - as_timestamp(now().strftime(\"%Y-%m-%d %H:%M:%S\")) < 86400 -%} .  N'oubliez pas vous avez un rendez vous aujourd'hui.  {{ states.calendar.dalliesagmailcom.attributes.message }}.{%- endif %}
+{%- if (states.calendar.contacts.state == 'on') -%} N'oubliez pas vous avez un anniversaire a souhaiter, celui de {{ states.calendar.contacts.attributes.message }} {%- endif %}"
+          cache: false
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.bonjour
+#      - service: notify.pushgano
+#        data:
+#          message: "Alarme desactivee"
+  - alias: "Allume tout en arrivant a la maison part2"
+    trigger:
+     - platform: state
+       #entity_id: device_tracker.hokagegano_r7sf
+       entity_id: sensor.nutblanc
+       #from: 'not_home'
+       from: 'away'
+       to: 'home'
+    condition:
+      - condition: time
+        after: '00:00'
+        before: '09:00'
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: group.salonlight
+      - service: scene.turn_on
+        entity_id: scene.Salon_normal
+  - alias: "Eteint tout en partant de la maison"
+    trigger:
+     - platform: state
+ #      entity_id: group.all_devices
+       entity_id: sensor.nutblanc
+       from: 'home'
+       to: 'away'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.rainbow_light
+#      - service: light.turn_off
+#        entity_id: group.all_lights
+      - service: light.turn_off
+        entity_id: group.salonlight
+      - service: light.turn_off
+        entity_id: light.chambre
+      - delay: '00:00:02'
+      - service: light.turn_off
+        entity_id: group.salonlight
+      - service: light.turn_off
+        entity_id: light.chambre
+  # - alias: "choisir"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'Choisir'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False        
+  # - alias: "divertissement"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'divertissement'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: True
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False
+  # - alias: "documentaires"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'documentaires'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: True
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False
+  # - alias: "filmstelefilms"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'films-telefilms'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: True
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False
+  # - alias: "magazine"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'magazine'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: True
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False
+  # - alias: "sport"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'sport'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: True
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: False
+  # - alias: "jeunesse"
+  #   trigger:
+  #    - platform: state
+  #      entity_id: input_select.categorie2
+  #      state: 'jeunesse'
+  #   action:
+  #     - service: group.set_visibility
+  #       entity_id: group.documentaires
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.divertissement
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.filmstelefilms
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.magazine
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.sport
+  #       data:
+  #         visible: False
+  #     - service: group.set_visibility
+  #       entity_id: group.jeunesse
+  #       data:
+  #         visible: True
+  - alias: "FreeBox Allume"
+    trigger:
+     - platform: state
+       entity_id: input_select.freeplayon
+       to: 'On'
+    action:
+        service: shell_command.allumefreebox
+#  - alias: "FreeBox Eteinte"
+#    trigger:
+#     - platform: state
+#       entity_id: input_boolean.freebox
+#       state: 'off'
+#    action:
+#        service: shell_command.eteintfreebox
+  - alias: "FreeBox Eteinte"
+    trigger:
+     - platform: state
+       entity_id: input_select.freeplayon
+       to: 'Off'
+    action:
+        service: shell_command.eteintfreebox
+  - alias: "chaineTF1"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'TF1'
+    action:
+        service: shell_command.tf1
+  - alias: "chaineFR2"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'France2'
+    action:
+        service: shell_command.france2
+  - alias: "chaineFR3"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'France3'
+    action:
+        service: shell_command.france3
+  - alias: "chaineCA4"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'CanalPlus'
+    action:
+        service: shell_command.canalplus
+  - alias: "chaineFR5"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'France5'
+    action:
+        service: shell_command.france5
+  - alias: "chaineM6"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'M6'
+    action:
+        service: shell_command.m6
+  - alias: "chaineArte"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'Arte'
+    action:
+        service: shell_command.arte
+  - alias: "chaineD8"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'D8'
+    action:
+        service: shell_command.d8
+  - alias: "chaineD8"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'W9'
+    action:
+        service: shell_command.w9
+  - alias: "chaineTMC"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'TMC'
+    action:
+        service: shell_command.tmc
+  - alias: "chaineNT1"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'NT1'
+    action:
+        service: shell_command.nt1
+  - alias: "chaineNRJ12"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'NRJ12'
+    action:
+        service: shell_command.nrj12
+  - alias: "chaineLCP"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'LCP'
+    action:
+        service: shell_command.lcp
+  - alias: "chaineFR4"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'France4'
+    action:
+        service: shell_command.fr4
+  - alias: "chaineBFM"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'BFMTv'
+    action:
+        service: shell_command.bfm
+  - alias: "chaineiTele"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'iTele'
+    action:
+        service: shell_command.itele
+  - alias: "chaineD17"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'D17'
+    action:
+        service: shell_command.d17
+  - alias: "chaineGulli"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'Gulli'
+    action:
+        service: shell_command.gulli
+  - alias: "chaineFRO"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'FranceO'
+    action:
+        service: shell_command.fro
+  - alias: "chaineHD1"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'HD1'
+    action:
+        service: shell_command.hd1
+  - alias: "chaineE21"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'LEquipe21'
+    action:
+        service: shell_command.e21
+  - alias: "chaine6Ter"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: '6Ter'
+    action:
+        service: shell_command.6ter
+  - alias: "chaineN23"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'Numero23'
+    action:
+        service: shell_command.n23
+  - alias: "chaineRMC"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'RMC Decouverte'
+    action:
+        service: shell_command.rmc
+  - alias: "chaineC25"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'Cherie25'
+    action:
+        service: shell_command.c25
+  - alias: "chaineRTL9"
+    trigger:
+     - platform: state
+       entity_id: input_select.chainefree
+       to: 'RTL9'
+    action:
+        service: shell_command.rtl9
+  - alias: "reveil matin Freebox"
+    trigger:
+      - platform: time
+        minutes: '/5'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekon
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekday
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.freebox
+        state: 'on'
+      - condition: state
+        entity_id: calendar.jours_feries_en_france
+        state: 'off'
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: template
+        value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+    action:
+       service: shell_command.allumefreebox
+  - alias: "reveil matin Aurore Semaine"
+    trigger:
+      - platform: time
+        minutes: '/1'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekon
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekday
+        state: 'on'
+      - condition: state
+        entity_id: calendar.jours_feries_en_france
+        state: 'off'
+      - condition: state
+        entity_id: calendar.rtt
+        state: 'off'
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: template
+        #value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+        value_template: '{{ ((now().strftime("%s") | int + 300) | timestamp_custom("%H:%M") == states.sensor.alarm_time.state) }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.chambre
+        data:
+          transition: 600
+          brightness: 255
+#      - service: light.turn_on
+#        entity_id: light.escalier
+  - alias: "reveil matin Aurore les weekend"
+    trigger:
+      - platform: time
+        minutes: '/1'
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_boolean.automa
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekon
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekday
+        state: 'off'
+      - condition: time
+        weekday:
+          - sat
+          - sun
+      - condition: template
+        value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+    action:
+      service: light.turn_on
+      entity_id: light.chambre
+      data:
+        transition: 600
+        brightness: 255
+#  - alias: "Envoi motion pic"
+#    trigger:
+#     - platform: state
+#       entity_id: input_boolean.envoipic
+#       state: 'on'
+#    action:
+#      - service: notify.pushgano
+#        data:
+#          url: "/home/debian/.homeassistant/www/webcam/lastsnap_motion.jpg"
+#          message: "Test envoi"
+#        service: shell_command.motionenvoi
+#  - alias: "Alarme positionnee le weekend"
+#    trigger:
+#     - platform: state
+#       entity_id: input_select.alarmselect
+#       state: 'weekend'
+#    action:
+#        service: shell_command.alarmwe
+#  - alias: "Alarme positionnee la semaine"
+#    trigger:
+#     - platform: state
+#       entity_id: input_select.alarmselect
+#       state: 'semaine'
+#    action:
+#        service: shell_command.alarmsemaine
+#  - alias: "Alarme off"
+#    trigger:
+#     - platform: state
+#       entity_id: input_select.alarmselect
+#       state: 'off'
+#    action:
+#        service: shell_command.alarmoff
+#  - alias: "Desactive alarme quand j'arrive"
+#    trigger:
+#     - platform: state
+#       entity_id: device_tracker.hokagegano_r7sf
+#       #entity_id: group.all_devices
+#       from: 'not_home'
+#       to: 'home'
+#    action:
+#      - service: shell_command.alarmoff
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.alarmselect
+#          option: "off"
+#  - alias: "Active alarme quand je pars"
+#    trigger:
+#     - platform: state
+#       entity_id: device_tracker.hokagegano_r7sf
+#       #entity_id: group.all_devices
+#       from: 'home'
+#       to: 'not_home'
+#    action:
+#      - service: shell_command.alarmwe
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.alarmselect
+#          option: "weekend"
+#  - alias: "Envoi la liste des courses"
+#    trigger:
+#      - platform: time
+#        after: "16:56:00"
+#    condition:
+#      condition: state
+#      entity_id: input_boolean.acheter
+#      state: 'on'
+#    action:
+#        service: notify.pushgano
+#        data:
+#          message: " Liste des courses : {% if is_state('input_boolean.bieres', 'on') %} - Bieres  {% endif %}{% if is_state('input_boolean.papierwc', 'on') %} - Papier WC  {% endif %}{% if is_state('input_boolean.coca', 'on') %} - Coca Cola{% endif %}{% if is_state('input_boolean.lessive', 'on') %} - Lessive  {% endif %}{% if is_state('input_boolean.poulet', 'on') %} - Poulet  {% endif %}{% if is_state('input_boolean.steak', 'on') %} - Steaks  {% endif %}{% if is_state('input_boolean.poisson', 'on') %} - Poisson  {% endif %}{% if is_state('input_boolean.shampooing', 'on') %} - Shampooing  {% endif %}{% if is_state('input_boolean.geldouche', 'on') %} - Gel Douche  {% endif %}{% if is_state('input_boolean.cafe', 'on') %} - Cafe  {% endif %}{% if is_state('input_boolean.petitdej', 'on') %} - De la bouffe pour le petit dejeuner  {% endif %}{% if is_state('input_boolean.cremefraiche', 'on') %} - Creme fraiche  {% endif %}{% if is_state('input_boolean.tomates', 'on') %} - Tomates  {% endif %}{% if is_state('input_boolean.pommedeterre', 'on') %} - Pommes de Terre  {% endif %}{% if is_state('input_boolean.poivron', 'on') %} - Poivrons  {% endif %}{% if is_state('input_boolean.oignon', 'on') %} - Oignons  {% endif %}{% if is_state('input_boolean.pizza', 'on') %} - Pïzzas  {% endif %}{% if is_state('input_boolean.riz', 'on') %} - Riz  {% endif %}{% if is_state('input_boolean.pates', 'on') %} - Pates  {% endif %}{% if is_state('input_boolean.jambon', 'on') %} - Jambon  {% endif %}{% if is_state('input_boolean.apero', 'on') %} - Des trucs pour l'apéro  {% endif %}{% if is_state('input_boolean.sacpoubelle', 'on') %} - Sacs poubelle  {% endif %}{% if is_state('input_boolean.deo', 'on') %} - déodorant  {% endif %}{% if is_state('input_boolean.dentifrice', 'on') %} - Dentifrice  {% endif %}{% if is_state('input_boolean.oeufs', 'on') %} - Oeufs  {% endif %}{% if is_state('input_boolean.lait', 'on') %} - Lait  {% endif %}{% if is_state('input_boolean.lardon', 'on') %} - Lardons  {% endif %}{% if is_state('input_boolean.puree', 'on') %} - Purée  {% endif %}{% if is_state('input_boolean.glace', 'on') %} - Glaces  {% endif %}{% if is_state('input_boolean.dessert', 'on') %} - Dessert  {% endif %}{% if is_state('input_boolean.paindemie', 'on') %} - Pain de mie  {% endif %}{% if is_state('input_boolean.rhum', 'on') %} - Rhum  {% endif %}{% if is_state('input_boolean.sopalin', 'on') %} - Sopalin  {% endif %}{% if is_state('input_boolean.huileolive', 'on') %} - Huile d'olive  {% endif %}  !"
+
+
+#  - alias: 'In office'
+#    trigger:
+#      - platform: state
+#        entity_id: sensor.find_location_sensor
+#    condition:
+#      - platform: template
+#        value_template: "{% if 'office' in states('sensor.find_location_sensor') %}true{% else %}false{% endif %}"
+#    action:
+#      service: homeassistant.turn_on
+#      entity_id: script.timed_office
+  - alias: 'Alarm Away when Leave home'
+    trigger:
+      - platform: state
+        #entity_id: device_tracker.hokagegano_r7sf
+        entity_id: sensor.nutblanc
+        from: 'home'
+        to: 'away'
+    condition:
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: alarm_control_panel.alarm_arm_away
+        entity_id: alarm_control_panel.ha_alarm
+        data: 
+          code: 0007
+  - alias: 'Alarm Auto DISARM when Enter home'
+    trigger:
+      - platform: state
+        #entity_id: device_tracker.hokagegano_r7sf
+        entity_id: sensor.nutblanc
+        from: 'away'
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.trackme_arno
+        state: 'on'
+    action:
+      - service: alarm_control_panel.alarm_disarm
+        entity_id: alarm_control_panel.ha_alarm
+        data:
+          code: 0007
+

@@ -1,0 +1,538 @@
+sun.sun:
+  entity_picture: /local/day.svg
+sensor.battery:
+  entity_picture: /local/battery.png
+sensor.nitrobastide:
+  entity_picture: /local/NO2.jpg
+sensor.nitrogambetta:
+  entity_picture: /local/NO2.jpg
+sensor.nitroparc:
+  entity_picture: /local/NO2.jpg
+sensor.ozonebastide:
+  entity_picture: /local/O3.jpg
+sensor.ozonegambetta:
+  entity_picture: /local/O3.jpg
+sensor.ozoneparc: 
+  entity_picture: /local/O3.jpg
+sensor.pmbastide:
+  entity_picture: /local/PM10.jpg
+sensor.pmgambetta:
+  entity_picture: /local/PM10.jpg
+sensor.pmparc: 
+  entity_picture: /local/PM10.jpg
+sensor.rdv_arno:
+  entity_picture: /local/rdv2.gif
+sensor.rdv_arno_h:
+  entity_picture: /local/time.gif
+sensor.rdv_contact:
+  entity_picture: /local/rdv2.gif
+sensor.rdv_contact_h:
+  entity_picture: /local/time.gif
+sensor.rdv_ferie:
+  entity_picture: /local/rdv2.gif
+sensor.rdv_ferie_h:
+  entity_picture: /local/time.gif
+script.envoiliste:
+  entity_picture: /local/telegram.gif
+sensor.alarmsensor:
+  entity_picture: /local/alarm_armed.jpg
+sensor.google_travel_time__driving_2:
+  entity_picture: /local/traffic.gif
+sensor.plage:
+  entity_picture: /local/traffic.gif
+#  #icon: mdi:beach
+  friendly_name: Plage
+sensor.nutblanc:
+  entity_picture: /local/nut.jpg
+sensor.nutorange:
+  entity_picture: /local/nut2.jpg
+sensor.miband3:
+  entity_picture: /local/mi.png
+sensor.travail:
+  entity_picture: /local/traffic.gif
+sensor.google_travel_time__driving:
+  entity_picture: /local/traffic.gif
+  #icon: mdi:beach
+  friendly_name: Travail
+#sensor.find_location:
+#  entity_picture: /local/location.jpg
+#  friendly_name: Localisation
+sensor.queries:
+  unit_of_measurement: ''
+  entity_picture: /local/pi_hole.png
+sensor.domainblocked:
+  unit_of_measurement: ''
+  entity_picture: /local/pi_hole.png
+sensor.percentagetoday:
+  unit_of_measurement: '%'
+  entity_picture: /local/pi_hole.png
+sensor.dnsqueries:
+  unit_of_measurement: ''
+  entity_picture: /local/pi_hole.png
+sensor.cpupi:
+  entity_picture: /local/cpu.png
+  unit_of_measurement: '%'
+  friendly_name: CPU Use
+sensor.mempi:
+  entity_picture: /local/mem.png
+  unit_of_measurement: "MiB"
+  friendly_name: MEM Free
+sensor.diskpi:
+  entity_picture: /local/disk.png
+  unit_of_measurement: '%'
+  friendly_name: Disk Use /home
+sensor.cpu_use:
+  entity_picture: /local/cpu.png
+sensor.disk_use_home:
+  entity_picture: /local/disk.png
+sensor.ram_free:
+  entity_picture: /local/mem.png
+input_slider.luminosite:
+  entity_picture: /local/luminosite.gif
+input_slider.temperature:
+  entity_picture: /local/nest.png
+sensor.salon_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature Salon
+sensor.salon_lux:
+  entity_picture: /local/luminosite.gif
+  friendly_name: Luminosité salon
+sensor.salon_motion:
+  entity_picture: /local/motion.gif
+  friendly_name: Detection de mouvement Hall
+sensor.pws_temp_c:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature
+sensor.pws_feelslike_c:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature Ressentie
+sensor.pws_precip_today_metric:
+  entity_picture: /local/humidite.gif
+  friendly_name: Precipitations
+sensor.pws_pressure_in:
+  entity_picture: /local/pression.png
+  friendly_name: Pression
+sensor.pws_wind_kph:
+  entity_picture: /local/cloudy.svg
+  friendly_name: Vitesse du vent
+sensor.pws_pressure_mb:
+  entity_picture: /local/pression.png
+  friendly_name: Pression en mbar
+sensor.pws_relative_humidity:
+  entity_picture: /local/humidite.gif
+  friendly_name: Humidité
+sensor.pws_wind_dir:
+  entity_picture: /local/cloudy.svg
+  friendly_name: Direction du vent
+sensor.yweather_wind_speed:
+  entity_picture: /local/cloudy.svg
+  friendly_name: Vitesse du vent
+sensor.temperaturemaison:
+  entity_picture: /local/temp.gif
+  friendly_name: Thermostat Maison
+sensor.tempext_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature exterieure
+sensor.tempsdb_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature de la salle de bain
+sensor.tempetage_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature a l'etage
+sensor.tempetage_humidity:
+  entity_picture: /local/humidite.gif
+  friendly_name: Humidité a l'etage
+sensor.tempchambre_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature de la chambre
+sensor.tempsdb_humidity:
+  entity_picture: /local/humidite.gif
+  friendly_name: Humidité de la salle de bain
+sensor.tempchambre_humidity:
+  entity_picture: /local/humidite.gif
+  friendly_name: Humidité de la chambre
+sensor.freeplayer:
+  entity_picture: /local/mafreebox.png
+  friendly_name: Etat du Freeplayer
+sensor.yweather_humidity:
+  entity_picture: /local/rain.svg
+  friendly_name: Humidité
+sensor.yweather_temperature:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature
+sensor.yweather_temperature_max:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature Max
+sensor.yweather_temperature_min:
+  entity_picture: /local/temp.gif
+  friendly_name: Temperature Min
+#sensor.yweather_wind_speed:
+#  entity_picture: /local/wind.png
+#  friendly_name: Vitesse du vent
+sensor.yweather_pressure:
+  entity_picture: /local/pression.png
+  friendly_name: Pression 
+#sensor.battery_arno:
+#  entity_picture: /local/oppo.png
+#  friendly_name: Oppo R7s Batterie
+light.hue_lightstrip_1:
+  entity_picture: /local/strip.jpg
+light.bureau:
+  entity_picture: /local/bureau.jpg
+light.escalier:
+  entity_picture: /local/escalier.jpg
+light.chambre:
+  entity_picture: /local/bed.jpg
+light.salon_couleur:
+  entity_picture: /local/lampesalon.jpg
+light.wc:
+  entity_picture: /local/wc.jpg
+light.bibliocolor:
+  entity_picture: /local/lampe2.jpg
+light.sdb:
+  entity_picture: /local/sdb.jpg
+  friendly_name: Salle de Bain
+light.hall:
+  entity_picture: /local/entree.jpg
+input_boolean.tvoffchambre:
+  name: Allume le radiateur la nuit
+  entity_picture: /local/chauffage.gif
+input_select.freeplayon:
+  entity_picture: /local/power.jpg
+input_select.alarmselect:
+  entity_picture: /local/alarm.jpg
+input_boolean.alarmweekon:
+  entity_picture: /local/auto.gif
+input_boolean.automa:
+  entity_picture: /local/auto.gif
+input_boolean.rainbow_light:
+  entity_picture: /local/effet.gif
+input_boolean.envoipic:
+  entity_picture: /local/video.jpg
+sensor.alarm_time:
+  entity_picture: /local/config.gif
+input_boolean.lightreveil:
+  entity_picture: /local/reveil3.jpg
+input_boolean.cast_light:
+  entity_picture: /local/luminosite.gif
+input_boolean.freebox:
+  entity_picture: /local/freebox-revolution-player.png
+input_select.chainefree:
+  entity_picture: /local/rdv.gif
+input_select.choixreveil:
+  entity_picture: /local/reveil2.jpg
+input_boolean.lardon:
+  entity_picture: /local/lardon.jpg
+input_boolean.puree:
+  entity_picture: /local/puree.jpg
+input_boolean.glace:
+  entity_picture: /local/glace.jpg
+input_boolean.dessert:
+  entity_picture: /local/mousse.jpg
+input_boolean.paindemie:
+  entity_picture: /local/painmie.jpg
+sensor.presence_a_la_maison:
+  entity_picture: /local/stat.gif
+sensor.lumieres_on_today:
+  entity_picture: /local/stat.gif
+input_boolean.rhum:
+  entity_picture: /local/rhum.jpg
+input_boolean.sopalin:
+  entity_picture: /local/sopalin.jpg
+input_boolean.huileolive:
+  entity_picture: /local/huileolive.jpg
+input_boolean.bieres:
+  entity_picture: /local/biere.jpg
+input_boolean.papierwc:
+  entity_picture: /local/wc.jpg
+input_boolean.coca:
+  entity_picture: /local/coca.jpg
+input_boolean.lessive:
+  entity_picture: /local/lessive.jpg
+input_boolean.geldouche:
+  entity_picture: /local/gel.jpg
+input_boolean.cafe:
+  entity_picture: /local/cafe.jpg
+input_boolean.petitdej:
+  entity_picture: /local/dej.jpg
+input_boolean.cremefraiche:
+  entity_picture: /local/creme.jpg
+input_boolean.oignon:
+  entity_picture: /local/oignons.jpg
+input_boolean.pates:
+  entity_picture: /local/pates.jpg
+input_boolean.jambon:
+  entity_picture: /local/jambon.jpg
+input_boolean.apero:
+  entity_picture: /local/apero.jpg
+input_boolean.deo:
+  entity_picture: /local/deo.jpg
+input_boolean.dentifrice:
+  entity_picture: /local/dentifrice.jpg
+input_boolean.oeufs:
+  entity_picture: /local/oeufs.jpg
+input_boolean.lait:
+  entity_picture: /local/lait.jpg
+input_boolean.poulet:
+  entity_picture: /local/poulet.jpg
+input_boolean.steak:
+  entity_picture: /local/steak.jpg
+input_boolean.poisson:
+  entity_picture: /local/poisson.jpg
+input_boolean.shampooing:
+  entity_picture: /local/shampoing.jpg
+input_boolean.tomates:
+  entity_picture: /local/tomate.jpg
+input_boolean.pommedeterre:
+  entity_picture: /local/pdt.jpg
+input_boolean.poivron:
+  entity_picture: /local/poivron.jpg
+input_boolean.pizza:
+  entity_picture: /local/pizza.jpg
+input_boolean.riz:
+  entity_picture: /local/riz.jpg
+input_boolean.sacpoubelle:
+  entity_picture: /local/sac.jpg
+input_boolean.trackme_arno:
+  entity_picture: /local/hokagegano.jpg
+input_boolean.trackme_dim:
+  entity_picture: /local/moujik.png
+input_boolean.alarmweekday:
+  entity_picture: /local/rdv2.png
+input_slider.alarmhour:
+  entity_picture: /local/time.gif
+input_slider.alarmminutes:
+  entity_picture: /local/time.gif
+#
+#
+sensor.tf1_h:
+  friendly_name: Heure debut
+sensor.fr2_h:
+  friendly_name: Heure debut
+sensor.fr3_h:
+  friendly_name: Heure debut
+sensor.canal_h:
+  friendly_name: Heure debut
+sensor.arte_h:
+  friendly_name: Heure debut
+sensor.m6_h:
+  friendly_name: Heure debut
+sensor.fr5_h:
+  friendly_name: Heure debut
+sensor.c8_h:
+  friendly_name: Heure debut
+sensor.w9_h:
+  friendly_name: Heure debut
+sensor.tmc_h:
+  friendly_name: Heure debut
+sensor.nt1_h:
+  friendly_name: Heure debut
+sensor.nrj12_h:
+  friendly_name: Heure debut
+sensor.lcp_h:
+  friendly_name: Heure debut
+sensor.fr4_h:
+  friendly_name: Heure debut
+sensor.tf1:
+  friendly_name: TF1
+  entity_picture: /local/tele/tf1.png
+sensor.fr2:
+  friendly_name: France 2
+  entity_picture: /local/tele/fr2.png
+sensor.fr3:
+  friendly_name: France 3
+  entity_picture: /local/tele/fr3.png
+sensor.canal:
+  friendly_name: Canal+
+  entity_picture: /local/tele/canal.png
+sensor.arte:
+  friendly_name: Arte
+  entity_picture: /local/tele/arte.png
+sensor.m6:
+  friendly_name: M6
+  entity_picture: /local/tele/m6.png
+sensor.fr5:
+  friendly_name: France 5
+  entity_picture: /local/tele/fr5.png
+sensor.c8:
+  friendly_name: C8
+  entity_picture: /local/tele/c8.png
+sensor.w9:
+  friendly_name: W9
+  entity_picture: /local/tele/w9.png
+sensor.tmc:
+  friendly_name: TMC
+  entity_picture: /local/tele/tmc.png
+sensor.nt1:
+  friendly_name: NT1
+  entity_picture: /local/tele/nt1.png
+sensor.nrj12:
+  friendly_name: Nrj12
+  entity_picture: /local/tele/nrj12.png
+sensor.lcp:
+  friendly_name: LCP
+  entity_picture: /local/tele/lcp.png
+sensor.fr4:
+  friendly_name: France 4
+  entity_picture: /local/tele/fr4.png
+sensor.surf9h:
+  friendly_name: Aujourd'hui à 9h
+  entity_picture: /local/9h.jpg
+sensor.surf9h_h:
+  friendly_name: Vagues à 9h
+  entity_picture: /local/wave.png
+sensor.surf13h:
+  friendly_name: Aujourd'hui à 13h
+  entity_picture: /local/13h.jpg
+sensor.surf13h_h:
+  friendly_name: Vagues à 13h
+  entity_picture: /local/wave.png
+sensor.surf17h:
+  friendly_name: Aujourd'hui à 17h
+  entity_picture: /local/17h.jpg
+sensor.surf17h_h:
+  friendly_name: Vagues à 17h
+  entity_picture: /local/wave.png
+sensor.speedtest_ping:
+  entity_picture: /local/ping.png
+#  icon: mdi:speedometer
+  friendly_name: Ping
+sensor.speedtest_download:
+#  icon: mdi:download
+  entity_picture: /local/download.png
+  friendly_name: Download
+sensor.speedtest_upload:
+  entity_picture: /local/upload.png
+#  icon: mdi:upload
+  friendly_name: Upload
+sensor.weather_temperature_2:
+  friendly_name: Temp Max
+sensor.weather_temperature_3:
+  friendly_name: Temp actuelle
+sensor.weather_temperature:
+  friendly_name: Temp Min
+sensor.weather_cloud_coverage:
+  icon: mdi:weather-cloudy
+  friendly_name: Nuage
+sensor.weather_humidity:
+  icon: mdi:weather-rainy
+  friendly_name: Humidité
+sensor.weather_ozone:
+  icon: mdi:biohazard
+  friendly_name: Pollution
+sensor.weather_precip_intensity:
+  icon: mdi:weather-pouring
+  friendly_name: Intensité pluie
+sensor.weather_precip_probability:
+  icon: mdi:water-percent
+  friendly_name: Probabilité pluie
+sensor.weather_pressure:
+  icon: mdi:weather-fog
+  friendly_name: Pression
+sensor.weather_wind_speed:
+  icon: mdi:weather-windy-variant
+  friendly_name: Vitesse vent
+sensor.weather_humidity_2:
+  icon: mdi:weather-rainy
+  friendly_name: Humidité à venir
+sensor.weather_rain:
+  icon: mdi:weather-pouring
+  friendly_name: Intensité pluie à venir
+sensor.weather_pressure_2:
+  icon: mdi:weather-fog
+  friendly_name: Pression à venir
+sensor.weather_wind_speed_2:
+  icon: mdi:weather-windy-variant
+  friendly_name: Vitesse vent à venir
+switch.bureau:
+#  icon: mdi:desktop-tower
+  entity_picture: /local/pc.gif
+switch.chambre:
+  entity_picture: /local/radiateur.gif
+  friendly_name: Radiateur
+#  icon: mdi:television-guide
+scene.allume:
+ friendly_name: lumieres On
+ entity_picture: /local/light-on.gif
+scene.eteint:
+ friendly_name: lumieres Off
+ entity_picture: /local/light-off.gif
+scene.allume_tout:
+ friendly_name: prises on
+ entity_picture: /local/wemo_on.jpg
+scene.eteint_tout:
+ friendly_name: prises off
+ entity_picture: /local/wemo_off.jpg
+scene.rougelove:
+ friendly_name: ambiance red
+ entity_picture: /local/light1.gif
+scene.salon_soft:
+ friendly_name: ambiance tamisée
+ entity_picture: /local/light1.gif
+scene.salon_normal:
+ friendly_name: ambiance normale
+ entity_picture: /local/light1.gif
+scene.salon_lumi:
+ friendly_name: ambiance tamisée
+ entity_picture: /local/luminosite.gif
+scene.forest:
+ friendly_name: ambiance green
+ entity_picture: /local/light1.gif
+script.forest:
+ friendly_name : La foret
+ entity_picture: /local/forest.jpg
+sensor.ligne2:
+  friendly_name: Ligne 2 Quinconces (rue picot)
+sensor.ligne5:
+  friendly_name: Ligne 5 Tourny
+script.hiver:
+ friendly_name: Feu de cheminée
+ entity_picture: /local/fire.png
+script.ocean:
+ friendly_name: Ocean
+ entity_picture: /local/mer.jpg
+script.radar:
+ friendly_name: position radar
+ entity_picture: /local/radars.gif
+script.previsions:
+ friendly_name: les previsions météo pour demain
+ entity_picture: /local/rdv.gif
+script.meteo:
+ friendly_name: la météo
+ entity_picture: /local/rdv.gif
+script.news:
+ friendly_name: Les news
+ entity_picture: /local/rdv.gif
+script.trafic:
+ friendly_name: Le trafic
+ entity_picture: /local/traffic.gif
+script.surf:
+ friendly_name: Le Surf
+ entity_picture: /local/surf.gif
+script.surftv:
+ friendly_name: Webcam Lacanau
+ entity_picture: /local/surf.gif
+script.rendezvous:
+ friendly_name: Les rendezvous
+ entity_picture: /local/rdv.gif
+script.temperature:
+ friendly_name: temperature
+ entity_picture: /local/chauffage.gif
+script.surveille:
+ friendly_name: surveillance
+ entity_picture: /local/telegram.gif
+sensor.waqi_gambetta_bordeaux_aquitaine:
+ friendly_name: Gambetta
+ entity_picture: /local/cloudy.svg
+sensor.waqi_grand_parc_bordeaux_aquitaine:
+ friendly_name: Grand Parc
+ entity_picture: /local/cloudy.svg
+sensor.waqi_bastide_bordeaux_aquitaine:
+ friendly_name: Bastide
+ entity_picture: /local/cloudy.svg
+media_player.pine64:
+ friendly_name: SqueezeLite Pine64
+media_player.squeezelite:
+ friendly_name: SqueezeLite PC
+sensor.ssl_certificate_expiry:
+  friendly_name: expiration SSL 

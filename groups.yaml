@@ -1,0 +1,21 @@
+default_view:
+  entities:
+  - sensor.alarmsensor
+  - group.chauffage
+  - group.calendrier
+  - group.surf
+  - group.hall
+  - group.etage1
+  - group.wc
+  - group.salon
+  - group.media
+  - group.ambiance
+  - group.prises
+  - group.devices
+  - group.trackm
+  - group.internet
+  - group.alarmclock
+  - camera.salon1
+  - camera.salon2
+  name: default_view
+  view: true
