@@ -1,5 +1,5 @@
-Home Assistant |Build Status| |Coverage Status| |Chat Status|
+Ma config Home Assistant
 =============================================================
 
-.. |screenshot-components| image:: https://raw.github.com/home-assistant/home-assistant/dev/docs/screenshot-components.png
-   :target: https://home-assistant.io/components/
+.. |screenshot-components| image:: https://github.com/hokagegano/HAConfig/blob/master/Hagit.png
+
