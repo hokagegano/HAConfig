@@ -1,5 +1,5 @@
 Ma config Home Assistant
 =============================================================
 
-.. |screenshot-components| image:: https://github.com/hokagegano/HAConfig/raw/master/Hagit.png
+.. |screenshot-components| image:: https://raw.githubusercontent.com/hokagegano/HAConfig/master/Hagit.png
 
