@@ -11,10 +11,8 @@
 # - platform: vlc
 #   name: vlcpi
 #   arguments: '--alsa-audio-device=hw:1,0'
-- platform: kodi
+- platform: mpd
   host: 192.168.10.12
-  username: kodi
-  password: kodi
 - platform: squeezebox
   host: 192.168.10.21
   port: 9002

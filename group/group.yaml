@@ -63,7 +63,7 @@
       - media_player.shield_android_tv
       - media_player.raspberrypi3
       - media_player.pine64
-      - media_player.kodi
+      - media_player.mpd
       - group.free
   googlemaps:
     name: googlemaps

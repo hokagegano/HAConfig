@@ -442,7 +442,7 @@ sun:
 logbook:
 
 logger:
-  default: warning
+  default: info
   logs:
     # homeassistant.components.camera: fatal
     requests.packages.urllib3: critical
@@ -638,7 +638,7 @@ script:
      - alias: Annonce trafic
        #service: tts.google_say
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "{{ ['Yo','Bonjour','Salut'] | random }} Il vous faudra {{ states.sensor.travail.state }} minutes pour aller au travail"
          cache: false
@@ -647,7 +647,7 @@ script:
     sequence:
      - alias: Annonce meteo
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température extérieure est de {{ states.sensor.tempext_temperature.state }} degrés"
          cache: false
@@ -656,7 +656,7 @@ script:
     sequence:
      - alias: Annonce surf
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Les conditions de surf sont les suivantes, La température de l'océan est de {{ states.sensor.tempocean.state }} degrés, à 9h ce matin, {{ states.sensor.surf9h.state }} avec {{ states.sensor.surf9h_h.state }}, à 13h, {{ states.sensor.surf13h.state }}, avec {{ states.sensor.surf13h_h.state }}, et à 17h, {{ states.sensor.surf17h.state }}, avec {{ states.sensor.surf17h_h.state }}"
 #         message: "Les previsions de surf pour la journée,  {%- if states.sensor.surf9h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf13h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf17h.state != "mauvais surf, session médiocre" -%} c'est bien toute la journée {%- else -%} c'est bien jusqu'au soir {%- endif -%} {%- else -%} c'est bien le matin {%- endif -%} {%- else -%} c'est nul toute la journée {%- endif -%} "
@@ -666,7 +666,7 @@ script:
     sequence:
      - alias: Annonce Matin
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Bonjour Arnaud. Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
  il n'y a pas de monde sur la route
@@ -696,7 +696,7 @@ c'est bien l'après midi
     sequence:
      - alias: Annonce radar
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
          cache: false  
@@ -705,7 +705,7 @@ c'est bien l'après midi
     sequence:
      - alias: Annonce previsions
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Voici le temps pour demain. Il semble que la météo prévoit, {{ states.sensor.forecast.state }}, avec des températures qui oscillent entre {{ states.sensor.yweather_temperature_min.state | round }} degrés, et {{ states.sensor.yweather_temperature_max.state | round }} degrés"
          cache: false
@@ -714,7 +714,7 @@ c'est bien l'après midi
     sequence:
      - alias: Annonce news
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
          cache: false
@@ -723,7 +723,7 @@ c'est bien l'après midi
     sequence:
      - alias: Annonce rdv
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "Arnaud, votre prochain rendez-vous est le {{ states.sensor.rdv_arno_h.state }} le sujet du rendez-vous est {{ states.sensor.rdv_arno.state }}"
          cache: false
@@ -732,7 +732,7 @@ c'est bien l'après midi
     sequence:
      - alias: Annonce temp
        service: tts.google_say
-       entity_id: media_player.kodi
+       entity_id: media_player.mpd
        data_template:
          message: "La température à l'étage est de {{ states.sensor.tempetage_temperature.state | round }} degrés, la température du salon est de {{ states.sensor.salon_temperature.state | round }} degrés et la température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés"
          cache: false
@@ -758,7 +758,7 @@ c'est bien l'après midi
       -  service: media_player.play_media
          data_template:
            entity_id: >
-            {% if is_state("input_select.chromecast_radio", "Kodi") %} media_player.kodi
+            {% if is_state("input_select.chromecast_radio", "Kodi") %} media_player.mpd
             {% elif is_state("input_select.chromecast_radio", "Shield") %} media_player.shield
             {% endif %}
            media_content_id: >

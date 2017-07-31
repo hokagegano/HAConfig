@@ -9,6 +9,45 @@
       - service: notify.teleha
         data:
           message: "Voici les temperatures de la maison,  il fait {{ states('sensor.salon_temperature') }} degrés dans le salon, {{ states('sensor.tempchambre_temperature') }} degrés dans le chambre, {{ states('sensor.tempetage_temperature')}} degrés à l etage, {{ states('sensor.tempsdb_temperature')}} degrés dans la salle de bain et {{ states('sensor.tempext_temperature')}} degrés à l'exterieur."
+  - alias: "Annonce Matin Telegram "
+    trigger:
+      - platform: state
+        entity_id: sensor.salon_motion
+        from: '0'
+        to: '1'
+    condition:
+      - condition: time
+        after: '05:00'
+        before: '10:00'
+      - condition: state
+        entity_id: input_boolean.bonjour
+        state: 'on'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
+ il n'y a pas de monde sur la route
+{%- else -%}
+ attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}, concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est pourri toute la journée
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien le matin tot
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien jusqu'en fin d'après midi
+{%- endif %}
+{%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+c'est bien le matin et le soir
+{%- endif %}
+{%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
+c'est bien l'après midi
+{%- endif %}
+{%- if as_timestamp(states.calendar.dalliesagmailcom.attributes.start_time) - as_timestamp(now().strftime(\"%Y-%m-%d %H:%M:%S\")) < 86400 -%} .  N'oubliez pas vous avez un rendez vous aujourd'hui.  {{ states.calendar.dalliesagmailcom.attributes.message }}.{%- endif %}
+{%- if (states.calendar.contacts.state == 'on') -%} N'oubliez pas vous avez un anniversaire a souhaiter, celui de {{ states.calendar.contacts.attributes.message }} {%- endif %}"
   - alias: 'Demande du mode Surf'
     hide_entity: true
     trigger:
@@ -92,7 +131,7 @@
         before: '18:00'
     action:
       - service: tts.google_say
-        entity_id: media_player.kodi
+        entity_id: media_player.mpd
         data_template: 
           message: "Surf ALERTE !!!! les conditions ont changées pour ce debut d'après midi"
           cache: false
@@ -199,7 +238,7 @@
         before: '20:00'
     action:
       - service: tts.google_say
-        entity_id: media_player.kodi
+        entity_id: media_player.mpd
         data_template: 
           message: "Surf ALERTE !!!! les conditions ont changées pour la fin d'après midi"
           cache: false
@@ -222,7 +261,7 @@
         before: '23:30'
     action:
       - service: tts.google_say
-        entity_id: media_player.kodi
+        entity_id: media_player.mpd
         data_template: 
           message: "{{ ['Heureux de vous voir Arnaud','Bon retour à la maison Arnaud','Salut Arnaud'] | random }},  {%- if states.sensor.salon_temperature.state | int < 17 -%} pour information il fait un peu froid dans le salon {%- endif %}"
           cache: false
@@ -321,7 +360,7 @@
         before: '05:00:00'
     action:
       - service: tts.google_say
-        entity_id: media_player.kodi
+        entity_id: media_player.mpd
         data_template: 
           message: "Vous allez vous coucher,  extinction des lumieres dans une minute et mise en place de l'alarme, bonne nuit Arnaud"
           cache: true
@@ -542,7 +581,7 @@
       - service: script.turn_on
         entity_id: script.meteo
       - service: tts.google_say
-        entity_id: media_player.kodi
+        entity_id: media_player.mpd
         data_template:
           message: "Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
  il n'y a pas de monde sur la route
