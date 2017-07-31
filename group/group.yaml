@@ -19,7 +19,7 @@
   themesg:
     name: Les themes
     entities:
-      - input_select.themesi
+      - input_select.themesi     
   chauffage:
     name: Chauffage et temperature
     entities:
@@ -58,12 +58,11 @@
     name: Les devices TV
     entities :
       - sensor.freeplayer
-      - media_player.vlcpine
       - media_player.shield
       - media_player.tele_du_salon
       - media_player.shield_android_tv
-      - media_player.ganoplex
-      - media_player.unnamed_device
+      - media_player.raspberrypi3
+      - media_player.pine64
       - media_player.kodi
       - group.free
   googlemaps:
@@ -107,6 +106,8 @@
       - input_boolean.tvoffchambre
       - switch.chambre
       - light.wc
+      - binary_sensor.mvtsdb
+      - binary_sensor.mvtwc
   salon:
     name: Salon
     entities:

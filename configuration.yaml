@@ -145,16 +145,16 @@ google:
   client_id: !secret googleclient_id
   client_secret: !secret googleclient_secret
 
-image_processing:
- - platform: dlib_face_identify
-   source:
-    - entity_id: camera.salon1
-    - entity_id: camera.salon2
-    - entity_id: camera.salon3
-   faces:
-     Arnaud: /home/gano/.homeassistant/faces/arno2.jpg
-     Maeva: /home/gano/.homeassistant/faces/maeva.jpg
-     Marina: /home/gano/.homeassistant/faces/marina.jpg
+# image_processing:
+#  - platform: dlib_face_identify
+#    source:
+#     - entity_id: camera.salon1
+#     - entity_id: camera.salon2
+#     - entity_id: camera.salon3
+#    faces:
+#      Arnaud: /home/gano/.homeassistant/faces/arno2.jpg
+#      Maeva: /home/gano/.homeassistant/faces/maeva.jpg
+#      Marina: /home/gano/.homeassistant/faces/marina.jpg
 
 
 ######### DEFINITION DU BROKER MQTT LOCAL ###########
@@ -441,7 +441,11 @@ sun:
 # View all events in a logbook
 logbook:
 
-
+logger:
+  default: warning
+  logs:
+    # homeassistant.components.camera: fatal
+    requests.packages.urllib3: critical
 
 http:
   api_password: !secret httpapi_password
@@ -460,12 +464,12 @@ conversation:
 updater:
 
 telegram_bot:
-- platform: broadcast
-# - platform: polling
-  api_key: !secret teleapi_key
-  parse_mode: html
-  allowed_chat_ids:
-    - !secret telechat_id
+#- platform: broadcast
+  - platform: polling
+    api_key: !secret teleapi_key
+#    parse_mode: html
+    allowed_chat_ids:
+      - !secret telechat_id
 
 ######### DEFINITION DES SYSTEMES DE NOTIFICATION ###########
 notify:
@@ -501,11 +505,11 @@ camera:
     name: surf
 #  - platform: zoneminder
   - platform: mjpeg
-    mjpeg_url: http://192.168.10.15:9000
+    mjpeg_url: http://192.168.10.15:9900
     #name: ganovideo
     name: salon1
   - platform: mjpeg
-    mjpeg_url: http://192.168.10.15:9002
+    mjpeg_url: http://192.168.10.15:9902
     name: salon2
   - platform: ffmpeg
     input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4

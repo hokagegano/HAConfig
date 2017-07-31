@@ -2,20 +2,34 @@ default_view:
   entities:
   - sensor.alarmsensor
   - group.chauffage
-  - group.calendrier
-  - group.surf
-  - group.hall
-  - group.etage1
-  - group.wc
   - group.salon
-  - group.media
+  - group.etage1
+  - group.calendrier
+  - group.camera
+  - group.surf
   - group.ambiance
   - group.prises
   - group.devices
   - group.trackm
   - group.internet
   - group.alarmclock
-  - camera.salon1
-  - camera.salon2
   name: default_view
   view: true
+weathergroup:
+  entities:
+  - camera.surf
+  - group.ymeteo
+  - group.group_meteo
+  - group.wumeteo
+  - group.polg
+  - camera.infrarouge
+  - camera.france
+  name: La meteo
+  view: true
+stats_sensor:
+  entities:
+  - sensor.ssl_certificate_expiry
+  - sensor.presence_a_la_maison
+  - sensor.lumieres_on_today
+  name: Statistics sensor
+  view: false

@@ -5,67 +5,76 @@
       - sensor.alarmsensor
       - group.chauffage
       - group.calendrier
-      - group.surf
-      - group.hall
+      # - group.surf
+  #    - group.hall
       - group.etage1
       - group.salon
-      - group.media
+      # - group.media
       - group.ambiance
       - group.prises
       - group.devices
       - group.trackm
       - group.internet
       - group.alarmclock
-      - camera.salon1
-      - camera.salon2
-      - camera.salon3
+  surfg:
+    name: Surf group
+    view: yes
+    icon: mdi:waves
+    entities:
+      - group.surf
   radio:
     view: yes
     icon: mdi:radio-tower
     name: Radio Maison
     entities:
       - group.radiog
-  themeg:
-    view: yes
-    icon: mdi:format-paint
-    name: themes
-    entities:
-      - group.themesg
+      - group.media
   system:
-    name: Systeme
+    name: Systeme et Stats
     icon: mdi:desktop-classic
     view: yes
     entities:
       - group.systemg
+      # - group.googlemaps
+      - group.stats_sensor
   calendrier:
-    name: Mon calendrier
+    name: Calendrier et Maps
     icon: mdi:calendar-clock
     entities:
       - calendar.contacts
       - calendar.dalliesagmailcom
       - group.mesrdv
-    view: yes
-  tempsparcours:
-    name: Temps de Route
-    icon: mdi:car
-    view: yes
-    entities:
       - group.googlemaps
-  stats:
-    name: Statistics
-    icon: mdi:chart-line-stacked
     view: yes
-    entities:
-      - group.stats_sensor
-  etage:
-    name: 1er Etage
-    icon: mdi:stairs
+  # tempsparcours:
+  #   name: Temps de Route
+  #   icon: mdi:car
+  #   view: yes
+  #   entities:
+  #     - group.googlemaps
+  # stats:
+  #   name: Statistics
+  #   icon: mdi:chart-line-stacked
+  #   view: yes
+  #   entities:
+  #     - group.stats_sensor
+  # etage:
+  #   name: 1er Etage
+  #   icon: mdi:stairs
+  #   view: yes
+  #   entities:
+  #     - light.escalier
+  #     - light.chambre
+  #     - light.sdb
+  #     - group.chauffage
+  camerag:
+    name: Les cameras
     view: yes
+    icon: mdi:webcam
     entities:
-      - light.escalier
-      - light.chambre
-      - light.sdb
-      - group.chauffage
+      - camera.salon1
+      - camera.salon2
+      - camera.salon3
   weathergroup:
     name: La meteo
     icon: mdi:weather-partlycloudy
@@ -85,25 +94,31 @@
     entities:
       - script.envoiliste
       - group.courses
-  surfg:
-    name: Surf
-    icon: mdi:waves
+  themeg:
     view: yes
+    icon: mdi:format-paint
+    name: themes
     entities:
-      - group.surf
-  webcam:
-    name: Webcam
-    icon: mdi:webcam
-    view: yes
-    entities:
-      - camera.salon1
-      - camera.salon2
-  tablette:
-    name: tablette
-    icon: mdi:tablet
-    view: yes
-    entities:
-      - group.chauffage
-      - group.surf
-      - group.etage1
-      - group.salon
+      - group.themesg
+  # surfg:
+  #   name: Surf
+  #   icon: mdi:waves
+  #   view: yes
+  #   entities:
+  #     - group.surf
+  # webcam:
+  #   name: Webcam
+  #   icon: mdi:webcam
+  #   view: yes
+  #   entities:
+  #     - camera.salon1
+  #     - camera.salon2
+  # tablette:
+  #   name: tablette
+  #   icon: mdi:tablet
+  #   view: yes
+  #   entities:
+  #     - group.chauffage
+  #     - group.surf
+  #     - group.etage1
+  #     - group.salon

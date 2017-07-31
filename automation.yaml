@@ -1,3 +1,85 @@
+  - alias: 'Demande des temperatures'
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/temperatures'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Voici les temperatures de la maison,  il fait {{ states('sensor.salon_temperature') }} degrés dans le salon, {{ states('sensor.tempchambre_temperature') }} degrés dans le chambre, {{ states('sensor.tempetage_temperature')}} degrés à l etage, {{ states('sensor.tempsdb_temperature')}} degrés dans la salle de bain et {{ states('sensor.tempext_temperature')}} degrés à l'exterieur."
+  - alias: 'Demande du mode Surf'
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/surf'
+    action:
+      - service: notify.teleha
+        data:
+          message: 'Voici les conditions de surf à jour :'
+          data:
+           photo:
+           - file: /home/gano/.homeassistant/www/surf/surf.png
+  - alias: "Temperature choix"
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/degres'
+    action:
+      - service: notify.teleha
+        data:
+          message: 'Quelle temperature voulez vous ?'
+          data:
+            keyboard:
+              - '/Chambre'
+              - '/Salon'
+              - '/Etage'
+              - '/Sdb'
+  - alias: 'Temperature Chambre'
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Chambre'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Il fait {{ states('sensor.tempchambre_temperature') }} degrés dans la chambre."
+  - alias: 'Temperature Salon'
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Salon'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Il fait {{ states('sensor.salon_temperature') }} degrés dans le salon."
+  - alias: 'Temperature Etage'
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Etage'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Il fait {{ states('sensor.tempetage_temperature')}} degrés à l'etage."
+  - alias: 'Temperature Salle de bain'
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Sdb'
+    action:
+      - service: notify.teleha
+        data:
+          message: "Il fait {{ states('sensor.tempsdb_temperature')}} degrés dans la salle de bain."
   - alias: "Surf Alert 13h"
     trigger:
      - platform: state
@@ -40,71 +122,71 @@
      - service: notify.teleha
        data:
          message: 'Mise à jour disponible de Home Assistant.'
-  - alias: Arnaud est rentré facedetection 1
-    trigger:
-     - platform: event
-       event_type: image_processing.detect_face
-       event_data:
-         entity_id: image_processing.dlib_face_salon1
-         name: 'Arnaud'
-    action:
-      - service: tts.google_say
-        entity_id: media_player.kodi
-        data_template: 
-          message: "Yo Arnaud ! Je te vois !"
-          cache: false
-  - alias: Arnaud est rentré facedetection 2
-    trigger:
-     - platform: event
-       event_type: image_processing.detect_face
-       event_data:
-         entity_id: image_processing.dlib_face_salon2
-         name: 'Arnaud'
-    action:
-      - service: tts.google_say
-        entity_id: media_player.kodi
-        data_template: 
-          message: "Yo Arnaud ! Je te vois !"
-          cache: false  
-  - alias: Arnaud est rentré facedetection 3
-    trigger:
-     - platform: event
-       event_type: image_processing.detect_face
-       event_data:
-         entity_id: image_processing.dlib_face_salon3
-         name: 'Arnaud'
-    action:
-      - service: tts.google_say
-        entity_id: media_player.kodi
-        data_template: 
-          message: "Yo Arnaud ! Je te vois !"
-          cache: false  
-  - alias: Maeva est rentré facedetection
-    trigger:
-     - platform: event
-       event_type: image_processing.detect_face
-       event_data:
-         entity_id: image_processing.dlib_face_salon1
-         name: 'Maeva'
-    action:
-      - service: tts.google_say
-        entity_id: media_player.kodi
-        data_template: 
-          message: "Bonjour Maeva ! Je te vois ! Tu es très jolie !"
-          cache: false
-  - alias: Marina est rentré facedetection
-    trigger:
-     - platform: event
-       event_type: image_processing.detect_face
-       event_data:
-         entity_id: image_processing.dlib_face_salon1
-         name: 'Marina'
-    action:
-      - service: tts.google_say
-        entity_id: media_player.kodi
-        data_template: 
-          message: "Bonjour Marina ! Je te vois !"
-          cache: false  
+  # - alias: Arnaud est rentré facedetection 1
+  #   trigger:
+  #    - platform: event
+  #      event_type: image_processing.detect_face
+  #      event_data:
+  #        entity_id: image_processing.dlib_face_salon1
+  #        name: 'Arnaud'
+  #   action:
+  #     - service: tts.google_say
+  #       entity_id: media_player.kodi
+  #       data_template: 
+  #         message: "Yo Arnaud ! Je te vois !"
+  #         cache: false
+  # - alias: Arnaud est rentré facedetection 2
+  #   trigger:
+  #    - platform: event
+  #      event_type: image_processing.detect_face
+  #      event_data:
+  #        entity_id: image_processing.dlib_face_salon2
+  #        name: 'Arnaud'
+  #   action:
+  #     - service: tts.google_say
+  #       entity_id: media_player.kodi
+  #       data_template: 
+  #         message: "Yo Arnaud ! Je te vois !"
+  #         cache: false  
+  # - alias: Arnaud est rentré facedetection 3
+  #   trigger:
+  #    - platform: event
+  #      event_type: image_processing.detect_face
+  #      event_data:
+  #        entity_id: image_processing.dlib_face_salon3
+  #        name: 'Arnaud'
+  #   action:
+  #     - service: tts.google_say
+  #       entity_id: media_player.kodi
+  #       data_template: 
+  #         message: "Yo Arnaud ! Je te vois !"
+  #         cache: false  
+  # - alias: Maeva est rentré facedetection
+  #   trigger:
+  #    - platform: event
+  #      event_type: image_processing.detect_face
+  #      event_data:
+  #        entity_id: image_processing.dlib_face_salon1
+  #        name: 'Maeva'
+  #   action:
+  #     - service: tts.google_say
+  #       entity_id: media_player.kodi
+  #       data_template: 
+  #         message: "Bonjour Maeva ! Je te vois ! Tu es très jolie !"
+  #         cache: false
+  # - alias: Marina est rentré facedetection
+  #   trigger:
+  #    - platform: event
+  #      event_type: image_processing.detect_face
+  #      event_data:
+  #        entity_id: image_processing.dlib_face_salon1
+  #        name: 'Marina'
+  #   action:
+  #     - service: tts.google_say
+  #       entity_id: media_player.kodi
+  #       data_template: 
+  #         message: "Bonjour Marina ! Je te vois !"
+  #         cache: false  
   - alias: "Surf Alert 17h"
     trigger:
      - platform: state
