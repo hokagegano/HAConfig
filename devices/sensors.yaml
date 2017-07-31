@@ -1,5 +1,5 @@
 - platform: wunderground
-  api_key: c1e5e8ee509e9ebc
+  api_key: !secret wunder_api
   pws_id: IEYSINES2
   monitored_conditions:
     - weather
@@ -27,7 +27,7 @@
     - solarradiation
 
 - platform: darksky
-  api_key: 15a72d34b210ba6f135359416c9205ed
+  api_key: !secret darksky_api
   monitored_conditions:
     - summary
     - icon
@@ -42,7 +42,7 @@
     - apparent_temperature
 
 - platform: google_travel_time
-  api_key: AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho
+  api_key: !secret google_api
   origin: Eysines, France
   destination: Carcans plage, France
   entity_picture: /local/plage.jpg 
