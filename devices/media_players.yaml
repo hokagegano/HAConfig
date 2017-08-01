@@ -12,7 +12,9 @@
 #   name: vlcpi
 #   arguments: '--alsa-audio-device=hw:1,0'
 - platform: mpd
-  host: 192.168.10.12
+  host: 192.168.10.15
+# - platform: mpd
+#   host: 192.168.10.12
 - platform: squeezebox
   host: 192.168.10.21
   port: 9002

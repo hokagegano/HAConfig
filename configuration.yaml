@@ -442,7 +442,7 @@ sun:
 logbook:
 
 logger:
-  default: info
+  default: warning
   logs:
     # homeassistant.components.camera: fatal
     requests.packages.urllib3: critical
