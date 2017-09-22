@@ -28,6 +28,50 @@ c25: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=
 rtl9: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=2&key=8'
 motionenvoi: /usr/bin/python3.4 /home/pi/.homeassistant/scripts/cameranotify_video.py
 restartha: sudo /home/debian/restartHA.sh
+squeezeon: ssh 192.168.10.15 -l pi -t '/home/pi/SqueezeOff.sh'
+squeezeoff: ssh 192.168.10.15 -l pi -t '/home/pi/SqueezeOn.sh'
+test: ssh 192.168.10.15 -l pi -t 'touch /tmp/hass-shell-command-test'
+cleanmiroir: /usr/bin/curl -G -v http://192.168.10.21:18081/RemoveMemo?memoTitle=Notes --data-urlencode "item=ALL"
+miroirbieres: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Bieres"
+miroirwc: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Papier WC"
+miroircoca: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Coca"
+miroirlessive: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Lessive"
+miroirpoulet: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Poulet"
+miroirsteak: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Steak"
+miroirpoisson: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Poisson"
+miroirshampoo: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Shampooing"
+miroirgeldouche: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Gel Douche"
+miroircafe: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Café"
+miroirpetitdej: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Petit Dejeuner"
+cremefraiche: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Crème fraîche"
+tomates: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Tomates"
+pommedeterre: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Pommes de Terre"
+poivron: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Poivrons"
+oignon: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Oignons"
+pizza: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Pizza"
+riz: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Riz"
+pates: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Pâtes"
+jambon: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Jambon"
+apero: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Gateaux Apero"
+sacpoubelle: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Sac Poubelle"
+deo: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Déodorant"
+dentifrice: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Dentifrice"
+oeufs: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Oeufs"
+lait: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Lait"
+lardon: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Lardons"
+puree: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Purée"
+glace: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Glaces"
+dessert: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Dessert"
+paindemie: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Pain de mie"
+rhum: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Rhum"
+sopalin: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Sopalin"
+huileolive: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Huile d'Olive"
+#todoadd: bash /home/gano/.homeassistant/todoadd.sh {{text}}
+todoadd: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=ToDo --data-urlencode "item={{states.input_text.text1.state}}"
+tododel: bash /home/gano/.homeassistant/tododel.sh {{text}}
+# /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=ToDo --data-urlencode "item={{ text }}"" > /tmp/test'
+todoclear: /usr/bin/curl -G -v http://192.168.10.21:18081/RemoveMemo?memoTitle=ToDo --data-urlencode "item=ALL"; rm /home/gano/.homeassistant/todo_list
+todoclearid: /usr/bin/curl -G -v http://192.168.10.21:18081/RemoveMemo?memoTitle=ToDo --data-urlencode "item={{states.input_text.text1.state}}"
 #detectionabs: sudo killall motion; streamer -t 0:30 -s 640x480 -r 24 -o /tmp/WEBCAM_Salon1/detection.avi -f jpeg -a mute; sudo mv /tmp/WEBCAM_Salon1/detection.avi /tmp/WEBCAM_Salon1/detection`date +"%d-%m-%y-%T"`.avi; sudo motion
 #alarmsemaine: sudo crontab /home/pi/.homeassistant/scripts/crontab_semaine
 #alarmoff: sudo crontab /home/pi/.homeassistant/scripts/crontab_off

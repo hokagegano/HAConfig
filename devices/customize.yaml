@@ -1,3 +1,5 @@
+group.salonlightcoul:
+  emulated_hue_name: "lumieres du salon" 
 sun.sun:
   entity_picture: /local/day.svg
 sensor.battery:
@@ -57,6 +59,23 @@ sensor.google_travel_time__driving:
 #sensor.find_location:
 #  entity_picture: /local/location.jpg
 #  friendly_name: Localisation
+sensor.datesurf:
+  friendly_name: Date
+sensor.lieusurf:
+  friendly_name: Lieu
+sensor.dureesurf:
+  friendly_name: Durée
+sensor.vmaxsurf:
+  unit_of_measurement: 'km/h'
+  friendly_name: Vitesse Max en km/h
+sensor.vmoysurf:
+  unit_of_measurement: 'km/h'
+  friendly_name: Vitesse Moy en km/h
+sensor.distasurf:
+  unit_of_measurement: 'km'
+  friendly_name: Distance en km
+sensor.ddepsurf:
+  friendly_name: Durée en mvt
 sensor.queries:
   unit_of_measurement: ''
   entity_picture: /local/pi_hole.png
@@ -176,6 +195,7 @@ sensor.yweather_pressure:
 #  entity_picture: /local/oppo.png
 #  friendly_name: Oppo R7s Batterie
 light.hue_lightstrip_1:
+  friendly_name: light TV
   entity_picture: /local/strip.jpg
 light.bureau:
   entity_picture: /local/bureau.jpg
@@ -184,10 +204,12 @@ light.escalier:
 light.chambre:
   entity_picture: /local/bed.jpg
 light.salon_couleur:
+  friendly_name: light table
   entity_picture: /local/lampesalon.jpg
 light.wc:
   entity_picture: /local/wc.jpg
 light.bibliocolor:
+  friendly_name: light canapé
   entity_picture: /local/lampe2.jpg
 light.sdb:
   entity_picture: /local/sdb.jpg
@@ -509,6 +531,7 @@ script.trafic:
 script.surf:
  friendly_name: Le Surf
  entity_picture: /local/surf.gif
+ emulated_hue_name: "Script surf"
 script.surftv:
  friendly_name: Webcam Lacanau
  entity_picture: /local/surf.gif

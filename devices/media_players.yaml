@@ -1,5 +1,9 @@
 - platform: cast
   host: 192.168.10.2
+- platform: cast
+  host: 192.168.10.7
+- platform: cast
+  host: 192.168.10.13
 - platform: panasonic_viera
   host: 192.168.10.44
   port: 55000
@@ -20,3 +24,6 @@
   port: 9002
 # - platform: squeezebox
 #   host: 192.168.10.15
+- platform: spotify
+  client_id: !secret spotifyclient
+  client_secret: !secret spotifysecret

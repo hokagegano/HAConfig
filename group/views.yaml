@@ -22,6 +22,13 @@
     icon: mdi:waves
     entities:
       - group.surf
+      - group.session
+  octog:
+    name: Imprimante 3D
+    view: yes
+    icon: mdi:printer-3d
+    entities:
+      - group.octo
   radio:
     view: yes
     icon: mdi:radio-tower
@@ -37,6 +44,7 @@
       - group.systemg
       # - group.googlemaps
       - group.stats_sensor
+      - camera.qrcode
   calendrier:
     name: Calendrier et Maps
     icon: mdi:calendar-clock
@@ -74,7 +82,7 @@
     entities:
       - camera.salon1
       - camera.salon2
-      - camera.salon3
+      # - camera.salon3
   weathergroup:
     name: La meteo
     icon: mdi:weather-partlycloudy
@@ -93,6 +101,9 @@
     view: yes
     entities:
       - script.envoiliste
+      - script.effacelistemiroir
+      - script.envoilistemiroir       
+      - group.todolist
       - group.courses
   themeg:
     view: yes

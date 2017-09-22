@@ -25,7 +25,9 @@
     - precip_today_metric
     - precip_today_string
     - solarradiation
-
+# - platform: worldtidesinfo
+#   api_key: 25463990-3598-470f-b0ba-da3f494082fd
+  
 - platform: darksky
   api_key: !secret darksky_api
   monitored_conditions:
@@ -160,6 +162,41 @@
 - platform: command_line
   name: surf17h_h
   command: "cat /home/gano/.homeassistant/www/surf/today_17h_hauteur"
+
+- platform: command_line
+  name: datesurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Date"
+  friendly_name: Date
+
+- platform: command_line
+  name: lieusurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Lieu"
+  friendly_name: Lieu
+
+- platform: command_line
+  name: dureesurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Duree"
+  friendly_name: Durée
+
+- platform: command_line
+  name: vmaxsurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/VitesseMax"
+  friendly_name: Vitesse Max en km/h
+
+- platform: command_line
+  name: vmoysurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/VitesseMoy"
+  friendly_name: Vitesse Moy en km/h
+
+- platform: command_line
+  name: distasurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Distance"
+  friendly_name: Distance en km
+
+- platform: command_line
+  name: ddepsurf
+  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/DureeDeplacement"
+  friendly_name: Durée en mvt
 
 # - platform: command_line
 #   name: tf1
@@ -307,12 +344,12 @@
   timeout: 5
   away_timeout: 60
 
-- platform: mqtt_room
-  device_id: c1f42791752e
-  name: 'miband3'
-  state_topic: 'happy-bubbles/presence/ha'
-  timeout: 5
-  away_timeout: 60
+# - platform: mqtt_room
+#   device_id: c1f42791752e
+#   name: 'miband3'
+#   state_topic: 'happy-bubbles/presence/ha'
+#   timeout: 5
+#   away_timeout: 60
 
 #- platform: command_line
 #  name: plexsession
@@ -560,6 +597,19 @@
   command: "/home/gano/.homeassistant/scripts/freeplayer.sh"
   payload_on: "Success"
   payload_off: "Fail"
+
+# - binary_sensor:
+#   platform: octoprint
+#   monitored_conditions:
+#     - Printing
+#     - Printing Error
+
+- platform: octoprint
+  name: OctoPrint
+  monitored_conditions:
+    - Current State
+    - Temperatures
+    - Job Percentage
 
 #- platform: template
 #  sensors:

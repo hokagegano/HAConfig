@@ -53,10 +53,20 @@ frontend:
     white:
       paper-grey-50: paper-grey-50
 
+emulated_hue:
+  type: google_home
+  host_ip: 192.168.10.8
+  listen_port: 80
+#  off_maps_to_on_domains:
+#    - script
+#    - scene  
+  expose_by_default: true
+  exposed_domains:
+    - light
+    - script
+    - media_player
 
-
-
-######### DEFINITION DES SENSORS ###########
+######## #DEFINITION DES SENSORS ###########
 sensor: !include devices/sensors.yaml
 
 
@@ -119,6 +129,11 @@ binary_sensor:
 #       speech: Pour aller au travail il vous faudra {{ states('sensor.travail') }} minutes et pour la plage il faudra {{ states('sensor.plage') }} minutes. 
 #       async_action: False
 
+octoprint:
+  host: 192.168.10.5
+  api_key: !secret octoapi
+  bed: true
+  number_of_tools: 1
 
 
 ######### DEFINITION DU PANNEAU D'ALARME ###########
@@ -164,6 +179,10 @@ mqtt:
   client_id: hadash
   keepalive: 60
 
+input_text:
+  text1:
+    name: Text 1
+    pattern: '[a-fA-F0-9]*'
 
 ######### DEFINITION DES INPUT_SLIDER ###########
 input_slider:
@@ -200,8 +219,14 @@ input_slider:
  
 ######### DEFINITION DES INPUT_BOOLEAN ###########
 input_boolean:
+  squeeze:
+    name: Squeeze PI Etat
+    initial: off
   bonjour:
     name: Service bonjour
+    initial: on
+  bye:
+    name: Service bye
     initial: on
   automa:
     name: Automatisation
@@ -374,9 +399,10 @@ input_select:
   chromecast_radio:
     name: 'Select Speakers:'
     options:
-      - Kodi
+      - Google Home
+      - Raspberry PI2
       - Shield
-    initial: Kodi
+    initial: Google Home
     icon: mdi:speaker-wireless
   freeplayon:
     name: "Etat Allume Eteint Freebox"
@@ -503,6 +529,9 @@ camera:
   - platform: local_file
     file_path: /home/gano/.homeassistant/www/surf/surf.png
     name: surf
+  - platform: local_file
+    file_path: /home/gano/.homeassistant/www/QR_CODE.png
+    name: qrcode
 #  - platform: zoneminder
   - platform: mjpeg
     mjpeg_url: http://192.168.10.15:9900
@@ -515,8 +544,8 @@ camera:
     input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
     name: webcamsurf
   - platform: mjpeg
-    mjpeg_url: http://192.168.10.49:2971/camera/stream
-    name: salon3
+    mjpeg_url: http://192.168.10.5:8080/?action=stream
+    name: octocam
 
 ######### DEFINITION DES GROUPES ###########
 group: !include_dir_merge_named group
@@ -530,6 +559,59 @@ scene: !include scenes.yaml
 automation: !include automation.yaml
 ######### DEFINITION DES SCRIPTS ###########
 script:
+  tvoff:
+    alias: tele off
+    sequence:
+     - alias: tele
+       service: media_player.turn_off
+       data:
+        entity_id: media_player.tele_du_salon
+  soireeoff:
+    alias: soiree off
+    sequence:
+     - alias: soiree
+       service: input_boolean.turn_off
+       data:
+        entity_id: input_boolean.rainbow_light
+     - alias: normal
+       service: scene.turn_on
+       data:
+        entity_id: scene.salon_normal  
+  soireon:
+    alias: soiree on
+    sequence:
+     - alias: soiree
+       service: input_boolean.turn_on
+       data:
+        entity_id: input_boolean.rainbow_light 
+  cinemaoff:
+    alias: cinema off
+    sequence:
+     - alias: cinema
+       service: input_boolean.turn_off
+       data:
+        entity_id: input_boolean.cast_light 
+  cinemaon:
+    alias: cinema on
+    sequence:
+     - alias: cinema
+       service: input_boolean.turn_on
+       data:
+        entity_id: input_boolean.cast_light
+  squeezeoff:
+    alias: arrete squeeze
+    sequence:
+     - alias: squeeze
+       service: media_player.media_pause
+       data:
+        entity_id: media_player.pine64  
+  squeeze:
+    alias: lance squeeze
+    sequence:
+     - alias: squeeze
+       service: media_player.media_play
+       data:
+        entity_id: media_player.pine64
   envoiliste:
     alias: Envoi Liste
     sequence:
@@ -539,8 +621,140 @@ script:
        data:
          title: Liste des courses
          message: "{% if is_state('input_boolean.bieres', 'on') %} - Bieres {% endif %}{% if is_state('input_boolean.papierwc', 'on') %} - Papier WC  {% endif %}{% if is_state('input_boolean.coca', 'on') %} - Coca Cola{% endif %}{% if is_state('input_boolean.lessive', 'on') %} - Lessive  {% endif %}{% if is_state('input_boolean.poulet', 'on') %} - Poulet  {% endif %}{% if is_state('input_boolean.steak', 'on') %} - Steaks  {% endif %}{% if is_state('input_boolean.poisson', 'on') %} - Poisson  {% endif %}{% if is_state('input_boolean.shampooing', 'on') %} - Shampooing  {% endif %}{% if is_state('input_boolean.geldouche', 'on') %} - Gel Douche  {% endif %}{% if is_state('input_boolean.cafe', 'on') %} - Cafe  {% endif %}{% if is_state('input_boolean.petitdej', 'on') %} - De la bouffe pour le petit dejeuner  {% endif %}{% if is_state('input_boolean.cremefraiche', 'on') %} - Creme fraiche  {% endif %}{% if is_state('input_boolean.tomates', 'on') %} - Tomates  {% endif %}{% if is_state('input_boolean.pommedeterre', 'on') %} - Pommes de Terre  {% endif %}{% if is_state('input_boolean.poivron', 'on') %} - Poivrons  {% endif %}{% if is_state('input_boolean.oignon', 'on') %} - Oignons  {% endif %}{% if is_state('input_boolean.pizza', 'on') %} - Pïzzas  {% endif %}{% if is_state('input_boolean.riz', 'on') %} - Riz  {% endif %}{% if is_state('input_boolean.pates', 'on') %} - Pates  {% endif %}{% if is_state('input_boolean.jambon', 'on') %} - Jambon  {% endif %}{% if is_state('input_boolean.apero', 'on') %} - Des trucs pour l'apéro  {% endif %}{% if is_state('input_boolean.sacpoubelle', 'on') %} - Sacs poubelle  {% endif %}{% if is_state('input_boolean.deo', 'on') %} - déodorant  {% endif %}{% if is_state('input_boolean.dentifrice', 'on') %} - Dentifrice  {% endif %}{% if is_state('input_boolean.oeufs', 'on') %} - Oeufs  {% endif %}{% if is_state('input_boolean.lait', 'on') %} - Lait  {% endif %}{% if is_state('input_boolean.lardon', 'on') %} - Lardons  {% endif %}{% if is_state('input_boolean.puree', 'on') %} - Purée  {% endif %}{% if is_state('input_boolean.glace', 'on') %} - Glaces  {% endif %}{% if is_state('input_boolean.dessert', 'on') %} - Dessert  {% endif %}{% if is_state('input_boolean.paindemie', 'on') %} - Pain de mie  {% endif %}{% if is_state('input_boolean.rhum', 'on') %} - Rhum  {% endif %}{% if is_state('input_boolean.sopalin', 'on') %} - Sopalin  {% endif %}{% if is_state('input_boolean.huileolive', 'on') %} - Huile d'olive  {% endif %}  !"
+  envoilistemiroir:
+    alias: Envoi Liste Miroir
+    sequence:
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.bieres', 'on') %} shell_command.miroirbieres {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.papierwc', 'on') %} shell_command.miroirwc {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.coca', 'on') %} shell_command.miroircoca {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.lessive', 'on') %} shell_command.miroirlessive {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.poulet', 'on') %} shell_command.miroirpoulet {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.steak', 'on') %} shell_command.miroirsteak {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.poisson', 'on') %} shell_command.miroirpoisson {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.shampooing', 'on') %} shell_command.miroirshampoo {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.geldouche', 'on') %} shell_command.miroirgeldouche {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.cafe', 'on') %} shell_command.miroircafe {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.petitdej', 'on') %} shell_command.miroirpetitdej {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.cremefraiche', 'on') %} shell_command.cremefraiche {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.tomates', 'on') %} shell_command.tomates {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.pommedeterre', 'on') %} shell_command.pommedeterre {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.poivron', 'on') %} shell_command.poivron {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.oignon', 'on') %} shell_command.oignon {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.pizza', 'on') %} shell_command.pizza {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.riz', 'on') %} shell_command.riz {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.pates', 'on') %} shell_command.pates {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.jambon', 'on') %} shell_command.jambon {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.apero', 'on') %} shell_command.apero {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.sacpoubelle', 'on') %} shell_command.sacpoubelle {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.deo', 'on') %} shell_command.deo {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.dentifrice', 'on') %} shell_command.dentifrice {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.oeufs', 'on') %} shell_command.oeufs {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.lardon', 'on') %} shell_command.lardon {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.puree', 'on') %} shell_command.puree {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.lait', 'on') %} shell_command.lait {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.glace', 'on') %} shell_command.glace {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.dessert', 'on') %} shell_command.dessert {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.paindemie', 'on') %} shell_command.paindemie {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.rhum', 'on') %} shell_command.rhum {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.sopalin', 'on') %} shell_command.sopalin {% endif %}
+     - alias: Envoi la liste des courses sur le miroir
+       service_template: >
+        {% if is_state('input_boolean.huileolive', 'on') %} shell_command.huileolive {% endif %}
+  effacelistemiroir:
+    alias: Efface Liste Miroir
+    sequence:
+     - alias: Efface la liste des courses sur le miroir
+#       service: notify.pushgano
+       service: shell_command.cleanmiroir
+  effacetodolist:
+    alias: Efface ToDo Miroir
+    sequence:
+     - alias: Efface la ToDo List sur le miroir
+#       service: notify.pushgano
+       service: shell_command.todoclear
+  addtodolist:
+    alias: Add ToDo Miroir
+    sequence:
+     - alias: Add la ToDo List sur le miroir
+#       service: notify.pushgano
+       service: shell_command.todoadd       
+  effacetodolistid:
+    alias: Efface ToDo Miroir id
+    sequence:
+     - alias: Efface un element de la ToDo List
+#       service: notify.pushgano
+       service: shell_command.todoclearid
+#       data:
+#         title: Liste des courses
+#         message: "{% if is_state('input_boolean.bieres', 'on') %} - Bieres {% endif %}{% if is_state('input_boolean.papierwc', 'on') %} - Papier WC  {% endif %}{% if is_state('input_boolean.coca', 'on') %} - Coca Cola{% endif %}{% if is_state('input_boolean.lessive', 'on') %} - Lessive  {% endif %}{% if is_state('input_boolean.poulet', 'on') %} - Poulet  {% endif %}{% if is_state('input_boolean.steak', 'on') %} - Steaks  {% endif %}{% if is_state('input_boolean.poisson', 'on') %} - Poisson  {% endif %}{% if is_state('input_boolean.shampooing', 'on') %} - Shampooing  {% endif %}{% if is_state('input_boolean.geldouche', 'on') %} - Gel Douche  {% endif %}{% if is_state('input_boolean.cafe', 'on') %} - Cafe  {% endif %}{% if is_state('input_boolean.petitdej', 'on') %} - De la bouffe pour le petit dejeuner  {% endif %}{% if is_state('input_boolean.cremefraiche', 'on') %} - Creme fraiche  {% endif %}{% if is_state('input_boolean.tomates', 'on') %} - Tomates  {% endif %}{% if is_state('input_boolean.pommedeterre', 'on') %} - Pommes de Terre  {% endif %}{% if is_state('input_boolean.poivron', 'on') %} - Poivrons  {% endif %}{% if is_state('input_boolean.oignon', 'on') %} - Oignons  {% endif %}{% if is_state('input_boolean.pizza', 'on') %} - Pïzzas  {% endif %}{% if is_state('input_boolean.riz', 'on') %} - Riz  {% endif %}{% if is_state('input_boolean.pates', 'on') %} - Pates  {% endif %}{% if is_state('input_boolean.jambon', 'on') %} - Jambon  {% endif %}{% if is_state('input_boolean.apero', 'on') %} - Des trucs pour l'apéro  {% endif %}{% if is_state('input_boolean.sacpoubelle', 'on') %} - Sacs poubelle  {% endif %}{% if is_state('input_boolean.deo', 'on') %} - déodorant  {% endif %}{% if is_state('input_boolean.dentifrice', 'on') %} - Dentifrice  {% endif %}{% if is_state('input_boolean.oeufs', 'on') %} - Oeufs  {% endif %}{% if is_state('input_boolean.lait', 'on') %} - Lait  {% endif %}{% if is_state('input_boolean.lardon', 'on') %} - Lardons  {% endif %}{% if is_state('input_boolean.puree', 'on') %} - Purée  {% endif %}{% if is_state('input_boolean.glace', 'on') %} - Glaces  {% endif %}{% if is_state('input_boolean.dessert', 'on') %} - Dessert  {% endif %}{% if is_state('input_boolean.paindemie', 'on') %} - Pain de mie  {% endif %}{% if is_state('input_boolean.rhum', 'on') %} - Rhum  {% endif %}{% if is_state('input_boolean.sopalin', 'on') %} - Sopalin  {% endif %}{% if is_state('input_boolean.huileolive', 'on') %} - Huile d'olive  {% endif %}  !"         
   colorloop:
-    alias: ColorLoop Salon
+    alias: ColorLoop
     sequence:
       - alias: colorloop bureau
         service: light.turn_on
@@ -560,7 +774,7 @@ script:
         data:
           brightness: 255
           effect: colorloop
-      - alias: colorloop table salon
+      - alias: colorloop table
         service: light.turn_on
         entity_id: light.salon_couleur
         data:
@@ -603,71 +817,110 @@ script:
         service: light.turn_off
         entity_id: light.chambre
   allumesalon:
-    alias: Allume le salon
+    alias: Allume le rez de chaussée
     sequence:
-      - alias: Allume les lumieres du salon
+      - alias: Allume les lumieres du rez de chaussée
         service: light.turn_on
         entity_id: group.salonlightcoul
         data:
           brightness: 255
   baissesalon:
-    alias: Baisse le salon
+    alias: Baisse le rez de chaussée
     sequence:
-      - alias: Baisse les lumieres du salon
+      - alias: Baisse les lumieres du rez de chaussée
         service: light.turn_on
         entity_id: group.salonlightcoul
         data:
           brightness: 150
   augmentesalon:
-    alias: Augmente le salon
+    alias: Augmente le rez de chaussée
     sequence:
-      - alias: Augmente les lumieres du salon
+      - alias: Augmente les lumieres du rez de chaussée
         service: light.turn_on
         entity_id: group.salonlightcoul
         data:
           brightness: 255      
   eteintsalon:
-    alias: Eteint le salon
+    alias: Eteint le rez de chaussée
     sequence:
-      - alias: Eteint les lumieres du salon
+      - alias: Eteint les lumieres du rez de chaussée
         service: light.turn_off
         entity_id: group.salonlightcoul
   trafic:
     alias: Annonce le trafic
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40
      - alias: Annonce trafic
        #service: tts.google_say
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75
          message: "{{ ['Yo','Bonjour','Salut'] | random }} Il vous faudra {{ states.sensor.travail.state }} minutes pour aller au travail"
+         cache: false
+  maeva:
+    alias: Maeva
+    sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40
+     - alias: Annonce maeva
+       service: tts.google_say
+       entity_id: media_player.google_home 
+       data_template:
+         # volume_level: 0,75
+         message: "Bonjour Maeva, je te connais tu es la niéce de mon propriétaire. Vas-tu allé au zoo aujourd'hui ? je sais que les animaux ont envie de te voir ! je te souhaite une belle journée !"
          cache: false
   meteo:
     alias: Meteo
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40
      - alias: Annonce meteo
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75
          message: "Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température extérieure est de {{ states.sensor.tempext_temperature.state }} degrés"
          cache: false
   surf:
     alias: Surf
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40      
      - alias: Annonce surf
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75 
          message: "Les conditions de surf sont les suivantes, La température de l'océan est de {{ states.sensor.tempocean.state }} degrés, à 9h ce matin, {{ states.sensor.surf9h.state }} avec {{ states.sensor.surf9h_h.state }}, à 13h, {{ states.sensor.surf13h.state }}, avec {{ states.sensor.surf13h_h.state }}, et à 17h, {{ states.sensor.surf17h.state }}, avec {{ states.sensor.surf17h_h.state }}"
 #         message: "Les previsions de surf pour la journée,  {%- if states.sensor.surf9h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf13h.state != "mauvais surf, session médiocre" -%} {%- if states.sensor.surf17h.state != "mauvais surf, session médiocre" -%} c'est bien toute la journée {%- else -%} c'est bien jusqu'au soir {%- endif -%} {%- else -%} c'est bien le matin {%- endif -%} {%- else -%} c'est nul toute la journée {%- endif -%} "
          cache: false
   annoncematin:
     alias: Matin
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40       
      - alias: Annonce Matin
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75 
          message: "Bonjour Arnaud. Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
  il n'y a pas de monde sur la route
 {%- else -%}
@@ -694,46 +947,76 @@ c'est bien l'après midi
   radar:
     alias: Radar
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40       
      - alias: Annonce radar
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75 
          message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
          cache: false  
   previsions:
     alias: Les Previsions
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home
+        volume_level: 0.40       
      - alias: Annonce previsions
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75
          message: "Voici le temps pour demain. Il semble que la météo prévoit, {{ states.sensor.forecast.state }}, avec des températures qui oscillent entre {{ states.sensor.yweather_temperature_min.state | round }} degrés, et {{ states.sensor.yweather_temperature_max.state | round }} degrés"
          cache: false
   news:
     alias: Les News
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40       
      - alias: Annonce news
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75 
          message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
          cache: false
   rendezvous:
     alias: Annonce les rendez-vous
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40       
      - alias: Annonce rdv
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75
          message: "Arnaud, votre prochain rendez-vous est le {{ states.sensor.rdv_arno_h.state }} le sujet du rendez-vous est {{ states.sensor.rdv_arno.state }}"
          cache: false
   temperature:
     alias: Temperature
     sequence:
+     - alias: Set Volume
+       service: media_player.volume_set
+       data_template:
+        entity_id: media_player.google_home 
+        volume_level: 0.40       
      - alias: Annonce temp
        service: tts.google_say
-       entity_id: media_player.mpd
+       entity_id: media_player.google_home 
        data_template:
+         # volume_level: 0,75 
          message: "La température à l'étage est de {{ states.sensor.tempetage_temperature.state | round }} degrés, la température du salon est de {{ states.sensor.salon_temperature.state | round }} degrés et la température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés"
          cache: false
   surveille:
@@ -758,7 +1041,8 @@ c'est bien l'après midi
       -  service: media_player.play_media
          data_template:
            entity_id: >
-            {% if is_state("input_select.chromecast_radio", "Kodi") %} media_player.mpd
+            {% if is_state("input_select.chromecast_radio", "Google Home") %} media_player.google_home
+            {% elif is_state("input_select.chromecast_radio", "Raspberry PI2") %} media_player.mpd
             {% elif is_state("input_select.chromecast_radio", "Shield") %} media_player.shield
             {% endif %}
            media_content_id: >
