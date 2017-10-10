@@ -106,9 +106,9 @@ sensor.disk_use_home:
   entity_picture: /local/disk.png
 sensor.ram_free:
   entity_picture: /local/mem.png
-input_slider.luminosite:
+input_number.luminosite:
   entity_picture: /local/luminosite.gif
-input_slider.temperature:
+input_number.temperature:
   entity_picture: /local/nest.png
 sensor.salon_temperature:
   entity_picture: /local/temp.gif

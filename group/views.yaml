@@ -2,6 +2,7 @@
     view: yes
     icon: mdi:home
     entities:
+      - input_number.luminosite
       - sensor.alarmsensor
       - group.chauffage
       - group.calendrier
@@ -75,13 +76,13 @@
   #     - light.chambre
   #     - light.sdb
   #     - group.chauffage
-  camerag:
-    name: Les cameras
-    view: yes
-    icon: mdi:webcam
-    entities:
-      - camera.salon1
-      - camera.salon2
+  # camerag:
+  #   name: Les cameras
+  #   view: yes
+  #   icon: mdi:webcam
+  #   entities:
+  #     - camera.salon1
+  #     - camera.salon2
       # - camera.salon3
   weathergroup:
     name: La meteo
@@ -93,7 +94,7 @@
       - group.ymeteo
       - group.group_meteo
       - group.wumeteo
-      - group.polg
+#      - group.polg
     view: yes
   courses_group:
     name: Les Courses

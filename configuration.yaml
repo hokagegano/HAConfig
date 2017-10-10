@@ -13,6 +13,11 @@ homeassistant:
 
 config:
 
+recorder:
+  purge_interval: 2
+  purge_keep_days: 31
+  db_url: sqlite:///home/gano/.homeassistant/home-assistant_v2.db
+
 ######### DEFINITION DES ZONES ###########
 zone:
   name: Travail
@@ -147,6 +152,23 @@ rfxtrx:
   device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0
 
 
+################### HISTORY GRAPH ########
+history_graph:
+  gr1:
+    name: Lights Graph
+    entities:
+      - light.bibliocolor
+      - light.bureau
+      - light.chambre
+      - light.escalier
+      - light.hall
+      - light.hue_lightstrip_1
+      - light.salon_couleur
+      - light.sdb
+      - light.wc
+    hours_to_show: 240
+    refresh: 60
+
 ######### DEFINITION DU PANEL ###########
 panel_custom: 
   - name: floorplan
@@ -185,7 +207,7 @@ input_text:
     pattern: '[a-fA-F0-9]*'
 
 ######### DEFINITION DES INPUT_SLIDER ###########
-input_slider:
+input_number:
   alarmhour:
     name: Heure
     icon: mdi:timer
@@ -193,6 +215,7 @@ input_slider:
     min: 0
     max: 23
     step: 1
+    mode: slider
   alarmminutes:
     name: Minutes
     icon: mdi:timer
@@ -200,6 +223,7 @@ input_slider:
     min: 0
     max: 59
     step: 5
+    mode: slider
   luminosite:
     name: Luminosité salon
     icon: mdi:light
@@ -207,6 +231,7 @@ input_slider:
     min: 0
     max: 255
     step: 5
+    mode: slider
   temperature:
     name: Temperature Maison
     icon: mdi:timer
@@ -214,6 +239,7 @@ input_slider:
     min: 10
     max: 30
     step: 0.5
+    mode: slider
 
  
  
@@ -533,13 +559,13 @@ camera:
     file_path: /home/gano/.homeassistant/www/QR_CODE.png
     name: qrcode
 #  - platform: zoneminder
-  - platform: mjpeg
-    mjpeg_url: http://192.168.10.15:9900
-    #name: ganovideo
-    name: salon1
-  - platform: mjpeg
-    mjpeg_url: http://192.168.10.15:9902
-    name: salon2
+  # - platform: mjpeg
+  #   mjpeg_url: http://192.168.10.15:9900
+  #   #name: ganovideo
+  #   name: salon1
+  # - platform: mjpeg
+  #   mjpeg_url: http://192.168.10.15:9902
+  #   name: salon2
   - platform: ffmpeg
     input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
     name: webcamsurf

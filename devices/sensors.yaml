@@ -382,15 +382,14 @@
     - humidity
     - temperature
 
-- platform: waqi
-  token: ab22ede43ef9414eb73b06855e9d68018d68d4a5
-  locations:
-    - bordeaux
-  stations:
-#    - merignac
-    - gambetta
-    - grand parc
-    - bastide
+#- platform: waqi
+#  token: ab22ede43ef9414eb73b06855e9d68018d68d4a5
+#  locations:
+#    - bordeaux
+#  stations:
+#    - gambetta
+#    - grand parc
+#    - bastide
 
 # - platform: template
 #   sensors:
@@ -622,20 +621,20 @@
   sensors:
     alarm_time:
       friendly_name: 'Time'
-      value_template: '{{ "%0.02d:%0.02d" | format(states("input_slider.alarmhour") | int, states("input_slider.alarmminutes") | int) }}'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
 
 - platform: template
   sensors:
     temperaturemaison:
       friendly_name: 'Temp en °C'
-      value_template: '{{ (float(states.input_slider.temperature.state)) | round(1) }}'
+      value_template: '{{ (float(states.input_number.temperature.state)) | round(1) }}'
 
 
 - platform: template
   sensors:
     luminositedim:
       friendly_name: 'Luminosite Salon'
-      value_template: '{{ states.input_slider.luminosite }}'
+      value_template: '{{ states.input_number.luminosite }}'
 
 - platform: template
   sensors:
@@ -880,6 +879,9 @@
         {%- if (states.sensor.yweather_condition.state == "Clear") -%}
         un temps dégagé
         {%- endif %}
+        {%- if (states.sensor.yweather_condition.state == "Mostly Clear") -%}
+        un temps plutot dégagé
+        {%- endif %}
 
 - platform: template
   sensors:
@@ -1026,6 +1028,9 @@
         {%- endif %}
         {%- if (states.sensor.yweather_current.state == "Isolated Thundershowers") -%}
         des orages isolés
+        {%- endif %}
+        {%- if (states.sensor.yweather_current.state == "Mostly Clear") -%}
+        un temps plutot dégagé
         {%- endif %}
 
 

@@ -338,9 +338,9 @@ c'est bien l'après midi
      - platform: mqtt
        topic: "setHour"
     action:
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.alarmhour
+          entity_id: input_number.alarmhour
           value: '{{ trigger.payload}}'
       - service: notify.pushgano
         data:
@@ -350,19 +350,20 @@ c'est bien l'après midi
      - platform: mqtt
        topic: "setMinutes"
     action:
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.alarmminutes
+          entity_id: input_number.alarmminutes
           value: '{{ trigger.payload}}'
   - alias: "Luminosite salon"
     trigger:
       - platform: state
-        entity_id: input_slider.luminosite
+        entity_id: input_number.luminosite
     action:
       - service: light.turn_on
         data_template:
           entity_id: group.salonlight
-          brightness: '{{ states.input_slider.luminosite.state | int }}'
+#          brightness: '{{ states.input_slider.luminosite.state | int }}'
+          brightness: '{{ trigger.to_state.state | int }}'
   - alias: "Rainbow light sur la lumiere du salon"
     trigger:
       - platform: time
@@ -483,11 +484,11 @@ c'est bien l'après midi
       - service: notify.teleha
         data:
          title: detection intrus
-         message: INTRUSION
-         data:
-           photo:
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+         message: 'Intrusion dans la maison'
+         # data:
+         #   photo:
+         #   - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
+         #   - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
   - alias: "Mouvement escalier absent"
     trigger:
       - platform: state
@@ -505,11 +506,11 @@ c'est bien l'après midi
       - service: notify.teleha
         data:
          title: detection intrus
-         message: INTRUSION
-         data:
-           photo:
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+         message: 'Intrusion dans la maison'
+         # data:
+         #   photo:
+         #   - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
+         #   - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
   - alias: "Mouvement WC"
     trigger:
       - platform: state

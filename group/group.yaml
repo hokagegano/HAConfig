@@ -4,12 +4,12 @@
       - input_select.radio_station
       - input_select.chromecast_radio
       - script.radiolance
-  polg:
-    name: Taux de particules (<50 bon)
-    entities:
-      - sensor.waqi_gambetta_bordeaux_aquitaine
-      - sensor.waqi_grand_parc_bordeaux_aquitaine
-      - sensor.waqi_bastide_bordeaux_aquitaine
+#  polg:
+#    name: Taux de particules (<50 bon)
+#    entities:
+#      - sensor.waqi_gambetta_bordeaux_aquitaine
+#      - sensor.waqi_grand_parc_bordeaux_aquitaine
+#      - sensor.waqi_bastide_bordeaux_aquitaine
   systemg:
     name: Systeme GanoVM Ubuntu 64bits
     entities:
@@ -41,8 +41,8 @@
     entities: 
       - input_boolean.freebox
       - sensor.alarm_time
-      - input_slider.alarmhour
-      - input_slider.alarmminutes
+      - input_number.alarmhour
+      - input_number.alarmminutes
       - input_boolean.alarmweekday
       - input_boolean.alarmweekon
   mesrdv:
@@ -114,7 +114,7 @@
   salon:
     name: Salon
     entities:
-      - input_slider.luminosite
+      - input_number.luminosite
       - light.hall
       - light.hue_lightstrip_1
       - light.salon_couleur
