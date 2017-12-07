@@ -106,6 +106,12 @@
       - script.envoilistemiroir       
       - group.todolist
       - group.courses
+  finance:
+    icon: mdi:currency-btc
+    name: Crypto Monnaies
+    view: yes
+    entities:
+     - group.financeg
   themeg:
     view: yes
     icon: mdi:format-paint

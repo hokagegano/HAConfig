@@ -40,6 +40,7 @@ zone 3:
   radius: 100
 
 frontend:
+  # javascript_version: latest
   themes:
     noir:
       primary-color: black
@@ -91,6 +92,7 @@ tts:
 binary_sensor:
    - platform: rfxtrx
      automatic_add: False
+     #automatic_add: True
      devices:
          091300479308f9019a70:
         # 09130010ecad69019f70:
@@ -111,7 +113,14 @@ binary_sensor:
            fire_event: True
            off_delay:
              seconds: 5
-          
+
+# timer:
+#   timerwc:
+#     duration: '00:02:00'
+#   timersdb:
+#     duration: '00:02:00'
+
+
 # apiai:
 #   intents:
 #     GetTemperature:
@@ -146,7 +155,8 @@ alarm_control_panel:
   platform: manual
   code: !secret codeal
 
-
+map:
+  
 ######### DEFINITION DU RFXCOM ###########
 rfxtrx:
   device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0
@@ -162,7 +172,7 @@ history_graph:
       - light.chambre
       - light.escalier
       - light.hall
-      - light.hue_lightstrip_1
+      - light.hue_lightstrip_plus_1
       - light.salon_couleur
       - light.sdb
       - light.wc
@@ -196,10 +206,13 @@ google:
 
 ######### DEFINITION DU BROKER MQTT LOCAL ###########
 mqtt:
-  broker: 192.168.10.21
+  #broker: 192.168.10.21
+  broker: 192.168.10.8
   port: 1883
   client_id: hadash
   keepalive: 60
+  username: hadash
+  password: hadash
 
 input_text:
   text1:
@@ -245,6 +258,12 @@ input_number:
  
 ######### DEFINITION DES INPUT_BOOLEAN ###########
 input_boolean:
+  stopsoir:
+    name: Eteint la lumiere la nuit
+    initial: on
+  autoprint:
+    name: Extinction auto A8
+    initial: off
   squeeze:
     name: Squeeze PI Etat
     initial: off
@@ -478,9 +497,18 @@ switch:
     - platform: wemo
       static: []
       scan_interval: 10
-
-
-
+    - platform: broadlink
+      host: 192.168.10.3
+      mac: '34:EA:34:C9:A0:4D'
+      friendly_name: MP1
+      type: mp1
+      slots:
+      # friendly name of slots - optional
+      # if not set, slot name will be switch's friendly_name + 'slot {slot_index}'. e.g 'MP1 slot 1'
+       slot_1: 'Prise Hue'
+       slot_2: 'Lampe Print'
+       slot_3: 'Raspberry'
+       slot_4: 'Anet A8'
 
 # Enables support for tracking state changes over time.
 history:
@@ -494,10 +522,11 @@ sun:
 logbook:
 
 logger:
-  default: warning
+  default: warn
   logs:
     # homeassistant.components.camera: fatal
     requests.packages.urllib3: critical
+    urllib3.connectionpool: critical
 
 http:
   api_password: !secret httpapi_password
@@ -796,7 +825,7 @@ script:
           effect: colorloop
       - alias: colorloop huestrip
         service: light.turn_on
-        entity_id: light.hue_lightstrip_1
+        entity_id: light.hue_lightstrip_plus_1
         data:
           brightness: 255
           effect: colorloop
@@ -970,21 +999,21 @@ c'est bien l'après midi
 {%- endif %}
 . La température de l'océan est de {{ states.sensor.tempocean.state }} degrés.
 {%- if (states.calendar.dalliesagmailcom.attributes.start_time != \"null\") and as_timestamp(states.calendar.dalliesagmailcom.attributes.start_time) - as_timestamp(now().strftime(\"%Y-%m-%d %H:%M:%S\")) < 86400 -%} .  N'oubliez pas vous avez un rendez vous aujourd'hui.  {{ states.calendar.dalliesagmailcom.attributes.message }}.{%- endif %}"
-  radar:
-    alias: Radar
-    sequence:
-     - alias: Set Volume
-       service: media_player.volume_set
-       data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40       
-     - alias: Annonce radar
-       service: tts.google_say
-       entity_id: media_player.google_home 
-       data_template:
-         # volume_level: 0,75 
-         message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
-         cache: false  
+  # radar:
+  #   alias: Radar
+  #   sequence:
+  #    - alias: Set Volume
+  #      service: media_player.volume_set
+  #      data_template:
+  #       entity_id: media_player.google_home 
+  #       volume_level: 0.40       
+  #    - alias: Annonce radar
+  #      service: tts.google_say
+  #      entity_id: media_player.google_home 
+  #      data_template:
+  #        # volume_level: 0,75 
+  #        message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
+  #        cache: false  
   previsions:
     alias: Les Previsions
     sequence:
@@ -1000,21 +1029,21 @@ c'est bien l'après midi
          # volume_level: 0,75
          message: "Voici le temps pour demain. Il semble que la météo prévoit, {{ states.sensor.forecast.state }}, avec des températures qui oscillent entre {{ states.sensor.yweather_temperature_min.state | round }} degrés, et {{ states.sensor.yweather_temperature_max.state | round }} degrés"
          cache: false
-  news:
-    alias: Les News
-    sequence:
-     - alias: Set Volume
-       service: media_player.volume_set
-       data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40       
-     - alias: Annonce news
-       service: tts.google_say
-       entity_id: media_player.google_home 
-       data_template:
-         # volume_level: 0,75 
-         message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
-         cache: false
+  # news:
+  #   alias: Les News
+  #   sequence:
+  #    - alias: Set Volume
+  #      service: media_player.volume_set
+  #      data_template:
+  #       entity_id: media_player.google_home 
+  #       volume_level: 0.40       
+  #    - alias: Annonce news
+  #      service: tts.google_say
+  #      entity_id: media_player.google_home 
+  #      data_template:
+  #        # volume_level: 0,75 
+  #        message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
+  #        cache: false
   rendezvous:
     alias: Annonce les rendez-vous
     sequence:
@@ -1087,3 +1116,8 @@ c'est bien l'après midi
          entity_id: media_player.shield
          media_content_type: video
          media_content_id: 'https://ganhome.duckdns.org/local/surf/webcamsurf.mp4'
+  allumefreebox:
+    alias: Allume la TV
+    sequence:
+     - alias: TV on
+       service: shell_command.allumefreebox

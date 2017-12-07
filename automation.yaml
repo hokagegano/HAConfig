@@ -316,7 +316,7 @@ c'est bien l'après midi
     trigger:
      - platform: state
        entity_id: sensor.nutblanc
-       from: 'away'
+       from: 'not_home'
        to: 'home'
     condition:
       - condition: time
@@ -438,6 +438,9 @@ c'est bien l'après midi
       - condition: time
         after: '22:30:00'
         before: '05:00:00'
+      - condition: state
+        entity_id: input_boolean.stopsoir
+        state: 'on' 
       # - condition: state
       #   entity_id: sensor.nutblanc
       #   state: home
@@ -476,7 +479,7 @@ c'est bien l'après midi
     condition:
       - condition: state
         entity_id: sensor.nutblanc
-        state: 'away'
+        state: 'not_home'
       - condition: state
         entity_id: input_boolean.trackme_arno
         state: 'on'
@@ -498,7 +501,7 @@ c'est bien l'après midi
     condition:
       - condition: state
         entity_id: sensor.nutblanc
-        state: 'away'
+        state: 'not_home'
       - condition: state
         entity_id: input_boolean.trackme_arno
         state: 'on'
@@ -511,35 +514,58 @@ c'est bien l'après midi
          #   photo:
          #   - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
          #   - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
-  - alias: "Mouvement WC"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.mvtwc
-        from: 'off'
-        to: 'on'
-    action:
-      - service: light.turn_on
-        entity_id: light.wc
-        data:
-          brightness: 255
-          transition: 3
-      - delay: '00:15:00'
-      - delay: '00:00:02'
-      - service: light.turn_off
-        entity_id: light.wc
-  - alias: "Allume Radiateur en fin d'apres midi"
-    trigger:
-      - platform: time
-        hours: '22'
-        minutes: '0'
-        seconds: 0
-    condition:
-      - condition: state
-        entity_id: input_boolean.automa
-        state: 'on'
-    action:
-        service: switch.turn_on
-        entity_id: switch.chambre
+  # - alias: "Eteint WC"
+  #   trigger:
+  #     - platform: event
+  #       event_type: timer.finished
+  #       event_data:
+  #         entity_id: timer.timerwc
+  #   action:
+  #     service: light.turn_off
+  #     entity_id: light.wc
+  # - alias: "Allume WC"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: timer.timerwc
+  #       to: active
+  #   action:
+  #     service: light.turn_on
+  #     entity_id: light.wc      
+#  - alias: "Mouvement WC"
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.mvtwc
+#        from: 'off'
+#        to: 'on'
+#    action:
+      # - service: timer.start
+      #   data:
+      #     entity_id: timer.timerwc
+      #     duration: '0:02:00'
+      # - service: light.turn_on
+      #   entity_id: light.wc             
+#      - service: light.turn_on
+#        entity_id: light.wc
+#        data:
+#          brightness: 255
+#          transition: 3
+#      - delay: '00:15:00'
+#      - delay: '00:00:02'
+#      - service: light.turn_off
+#        entity_id: light.wc
+#  - alias: "Allume Radiateur en fin d'apres midi"
+#    trigger:
+#      - platform: time
+#        hours: '22'
+#        minutes: '0'
+#        seconds: 0
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.automa
+#        state: 'on'
+#    action:
+#        service: switch.turn_on
+#        entity_id: switch.chambre
   - alias: "Positionne le flag pour l'annonce le matin"
     trigger:
       - platform: time
@@ -639,7 +665,7 @@ c'est bien l'après midi
     trigger:
      - platform: state
        entity_id: sensor.nutblanc
-       from: 'away'
+       from: 'not_home'
        to: 'home'
     condition:
       - condition: time
@@ -653,22 +679,49 @@ c'est bien l'après midi
         entity_id: group.salonlight
       - service: scene.turn_on
         entity_id: scene.Salon_normal
-  - alias: "Mouvement SDB"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.mvtsdb
-        from: 'off'
-        to: 'on'
-    action:
-      - service: light.turn_on
-        entity_id: light.sdb
-        data:
-          brightness: 255
-          transition: 3
-      - delay: '00:20:00'
-      - delay: '00:00:02'
-      - service: light.turn_off
-        entity_id: light.sdb
+  # - alias: "Eteint SDB"
+  #   trigger:
+  #     - platform: event
+  #       event_type: timer.finished
+  #       event_data:
+  #         entity_id: timer.timersdb
+  #   action:
+  #     service: light.turn_off
+  #     entity_id: light.sdb
+  # - alias: "Allume SDB"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: timer.timersdb
+  #       to: active
+  #   action:
+  #     service: light.turn_on
+  #     entity_id: light.sdb      
+  # - alias: "Mouvement SDB"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.mvtsdb
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     - service: timer.start
+  #       data:
+  #         entity_id: timer.timersdb
+#  - alias: "Mouvement SDB"
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.mvtsdb
+#        from: 'off'
+#        to: 'on'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.sdb
+#        data:
+#          brightness: 255
+#          transition: 3
+#      - delay: '00:20:00'
+#      - delay: '00:00:02'
+#      - service: light.turn_off
+#        entity_id: light.sdb
   - alias: "Annonce voix"
     trigger:
       - platform: state
@@ -723,7 +776,7 @@ c'est bien l'après midi
     trigger:
      - platform: state
        entity_id: sensor.nutblanc
-       from: 'away'
+       from: 'not_home'
        to: 'home'
     condition:
       - condition: time
@@ -742,7 +795,7 @@ c'est bien l'après midi
      - platform: state
        entity_id: sensor.nutblanc
        from: 'home'
-       to: 'away'
+       to: 'not_home'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.rainbow_light
@@ -1123,7 +1176,7 @@ c'est bien l'après midi
       - platform: state
         entity_id: sensor.nutblanc
         from: 'home'
-        to: 'away'
+        to: 'not_home'
     condition:
       - condition: state
         entity_id: input_boolean.trackme_arno
@@ -1137,7 +1190,7 @@ c'est bien l'après midi
     trigger:
       - platform: state
         entity_id: sensor.nutblanc
-        from: 'away'
+        from: 'not_home'
         to: 'home'
     condition:
       - condition: state
@@ -1148,4 +1201,40 @@ c'est bien l'après midi
         entity_id: alarm_control_panel.ha_alarm
         data:
           code: 0007
-
+  - alias: "Print 3D fini"
+    trigger:
+     - platform: numeric_state
+       entity_id: sensor.octoprint_job_percentage
+       above: 96
+    action:
+      - service: notify.teleha
+        data:
+          message: "Print presque fini !!!"
+  - alias: "Print 3D fini stop Anet A8"
+    trigger:
+     - platform: state
+       entity_id: sensor.octoprint_current_state
+       from: 'Printing'
+       to: 'Operational'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autoprint
+        state: 'on'
+    action:
+      - delay: '00:05:00'
+#          minutes: 5
+      - service: switch.turn_off
+        entity_id: switch.anet_a8
+  - alias: "Print 3D pas fini la nuit stop auto Anet A8"
+    trigger:
+     - platform: state
+       entity_id: input_boolean.bye
+       from: 'on'
+       to: 'off'
+    condition:
+      - condition: state
+        entity_id: sensor.octoprint_current_state
+        state: 'Printing'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.autoprint

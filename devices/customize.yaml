@@ -194,7 +194,7 @@ sensor.yweather_pressure:
 #sensor.battery_arno:
 #  entity_picture: /local/oppo.png
 #  friendly_name: Oppo R7s Batterie
-light.hue_lightstrip_1:
+light.hue_lightstrip_plus_1:
   friendly_name: light TV
   entity_picture: /local/strip.jpg
 light.bureau:
@@ -466,9 +466,10 @@ sensor.weather_pressure_2:
 sensor.weather_wind_speed_2:
   icon: mdi:weather-windy-variant
   friendly_name: Vitesse vent à venir
-switch.bureau:
-#  icon: mdi:desktop-tower
-  entity_picture: /local/pc.gif
+switch.ventilo:
+  icon: mdi:desktop-tower
+  entity_picture: /local/3D.gif
+  friendly_name: Anet A8
 switch.chambre:
   entity_picture: /local/radiateur.gif
   friendly_name: Radiateur

@@ -1,3 +1,10 @@
+  financeg:
+    name: Crypto Monnaies
+    entities:
+      - sensor.trade_volume
+      - sensor.exchange_rate_1_btc
+      - sensor.ethereum_balance
+      - sensor.bitcoin_balance
   radiog:
     name: Radio Maison
     entities:
@@ -82,13 +89,14 @@
   trackm:
     name: Automatisation On/Off
     entities:
+      - input_boolean.stopsoir
       - input_boolean.automa
       - input_boolean.trackme_arno
       - script.surftv
       - script.previsions
-      - script.news
+      # - script.news
       - script.annoncematin
-      - script.radar
+      # - script.radar
       - script.surf
       - script.meteo
       - script.trafic
@@ -116,7 +124,7 @@
     entities:
       - input_number.luminosite
       - light.hall
-      - light.hue_lightstrip_1
+      - light.hue_lightstrip_plus_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
@@ -180,14 +188,14 @@
   salonlight:
     name: lumieres salon
     entities:
-      - light.hue_lightstrip_1
+      - light.hue_lightstrip_plus_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
   salonlightcoul:
     name: salon couleur
     entities:
-      - light.hue_lightstrip_1
+      - light.hue_lightstrip_plus_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
@@ -270,6 +278,13 @@
   octo:
     name: Imprimante 3D
     entities:
+      #- switch.ventilo
+      - switch.raspberry
+      - switch.prise_hue
+      - switch.lampe_print
+      - switch.anet_a8
+      - light.hue_lightstrip_1
+      - input_boolean.autoprint
       - camera.octocam
       - sensor.octoprint_actual_bed_temp
       - sensor.octoprint_actual_tool0_temp

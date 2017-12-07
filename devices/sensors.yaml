@@ -1,3 +1,15 @@
+- platform: blockchain
+  addresses:
+    - '1PxT6YugA7b8KNjVEjQ3AjekaQoNAhU2MH'
+
+- platform: bitcoin
+  display_options:
+    - exchangerate
+    - trade_volume_btc
+
+- platform: etherscan
+  address: '0xc56f96b8c61b26b3c2999A4F3104AB4108B01f15'
+
 - platform: wunderground
   api_key: !secret wunder_api
   pws_id: IEYSINES2
@@ -135,13 +147,13 @@
 #   data: keolis_bus.zip
 #   name: ligne5
 
-- platform: command_line
-  name: radar
-  command: "cat /home/gano/.homeassistant/www/radars/radars_final.txt"
+# - platform: command_line
+#   name: radar
+#   command: "cat /home/gano/.homeassistant/www/radars/radars_final.txt"
 
-- platform: command_line
-  name: news
-  command: "cat /home/gano/.homeassistant/www/news/news.txt"
+# - platform: command_line
+#   name: news
+#   command: "cat /home/gano/.homeassistant/www/news/news.txt"
 
 - platform: command_line
   name: surf9h_h
