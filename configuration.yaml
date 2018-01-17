@@ -102,8 +102,8 @@ binary_sensor:
            command_off: 0x0
            device_class: motion
            fire_event: True
-           #off_delay:
-           #  seconds: 5
+           off_delay:
+             seconds: 5
          09130025ecad69019f80:
            name: mvtwc
            data_bits: 4
@@ -111,14 +111,14 @@ binary_sensor:
            command_off: 0x0           
            device_class: motion
            fire_event: True
-           #off_delay:
-           #  seconds: 5
+           off_delay:
+             seconds: 5
 
-# timer:
-#   timerwc:
-#     duration: '00:02:00'
-#   timersdb:
-#     duration: '00:02:00'
+timer:
+  timerwc:
+    duration: '00:02:00'
+  timersdb:
+    duration: '00:02:00'
 
 
 # apiai:

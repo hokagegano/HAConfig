@@ -514,36 +514,36 @@ c'est bien l'après midi
          #   photo:
          #   - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
          #   - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
-  # - alias: "Eteint WC"
-  #   trigger:
-  #     - platform: event
-  #       event_type: timer.finished
-  #       event_data:
-  #         entity_id: timer.timerwc
-  #   action:
-  #     service: light.turn_off
-  #     entity_id: light.wc
-  # - alias: "Allume WC"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: timer.timerwc
-  #       to: active
-  #   action:
-  #     service: light.turn_on
-  #     entity_id: light.wc      
-#  - alias: "Mouvement WC"
-#    trigger:
-#      - platform: state
-#        entity_id: binary_sensor.mvtwc
-#        from: 'off'
-#        to: 'on'
-#    action:
-      # - service: timer.start
-      #   data:
-      #     entity_id: timer.timerwc
-      #     duration: '0:02:00'
-      # - service: light.turn_on
-      #   entity_id: light.wc             
+  - alias: "Eteint WC"
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.timerwc
+    action:
+      service: light.turn_off
+      entity_id: light.wc
+#   - alias: "Allume WC"
+#     trigger:
+#       - platform: state
+#         entity_id: timer.timerwc
+#         to: active
+#     action:
+#       service: light.turn_on
+#       entity_id: light.wc      
+  - alias: "Mouvement WC"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.mvtwc
+        from: 'off'
+        to: 'on'
+    action:
+       - service: timer.start
+         data:
+           entity_id: timer.timerwc
+           duration: '0:02:00'
+       - service: light.turn_on
+         entity_id: light.wc             
 #      - service: light.turn_on
 #        entity_id: light.wc
 #        data:
@@ -679,15 +679,15 @@ c'est bien l'après midi
         entity_id: group.salonlight
       - service: scene.turn_on
         entity_id: scene.Salon_normal
-  # - alias: "Eteint SDB"
-  #   trigger:
-  #     - platform: event
-  #       event_type: timer.finished
-  #       event_data:
-  #         entity_id: timer.timersdb
-  #   action:
-  #     service: light.turn_off
-  #     entity_id: light.sdb
+  - alias: "Eteint SDB"
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.timersdb
+    action:
+      service: light.turn_off
+      entity_id: light.sdb
   # - alias: "Allume SDB"
   #   trigger:
   #     - platform: state
@@ -696,17 +696,17 @@ c'est bien l'après midi
   #   action:
   #     service: light.turn_on
   #     entity_id: light.sdb      
-  # - alias: "Mouvement SDB"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.mvtsdb
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: timer.start
-  #       data:
-  #         entity_id: timer.timersdb
-#  - alias: "Mouvement SDB"
+  - alias: "Mouvement SDB"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.mvtsdb
+        from: 'off'
+        to: 'on'
+    action:
+      - service: timer.start
+        data:
+          entity_id: timer.timersdb
+# - alias: "Mouvement SDB"
 #    trigger:
 #      - platform: state
 #        entity_id: binary_sensor.mvtsdb
