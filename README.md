@@ -13,6 +13,9 @@ Les composants de la configuration :
 - Devices 433mhz : 3 sondes Température/Humidité, 2 détecteurs de mouvement
 - Devices ZigBee : Hue motion detector (mouvement, temperature, humidité)
 - Mise en place de Telegram
+- Google HOME
+- Xiaomi Vacuum cleaner 2
+- Imprimantes 3D via Octoprint pour la Creality CR10 et MQTT Octoprint pour l'Anet A8
 
 Automations:
 - Le reveil matin avec allumage des lumières progressif
@@ -28,3 +31,5 @@ Automations:
 - Si le calendrier a un evenement RTT, la lumière ne s'allume pas le matin.
 - La modification de l'heure du réveil Android a pour incidence la mise à jour du reveil sous Home Assistant (via Tasker).
 - Mise en place d'un mode conversationnel avec telegram : envoi des conditions de surf en temps réel, et obtention des temperatures.
+- Extinction automatique des imprimantes 3D apres impression (avec une temporisatiopn de 5 minutes pour baisser la temperature de la buse et du plateau).
+- Positionnement automatique du flag d'extinction des imprimantes 3D quand je vais me coucher (si j'avais oublié de les activer)
