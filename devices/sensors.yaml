@@ -6,7 +6,7 @@
 
 - platform: blockchain
   addresses:
-    - '1PxT6YugA7b8KNjVEjQ3AjekaQoNAhU2MH'
+    - !secret blockchainwal
 
 - platform: bitcoin
   display_options:
@@ -14,11 +14,10 @@
     - trade_volume_btc
 
 - platform: etherscan
-  address: '0xc56f96b8c61b26b3c2999A4F3104AB4108B01f15'
+  address: !secret etherscanwal
 
 - platform: ripple
-  address: 'rBQcbCo1NGXSS1spPJpqaRiB3EQiNtgdGE'
-
+  address: !secret ripplewal
 
 - platform: wunderground
   api_key: !secret wunder_api
