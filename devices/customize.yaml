@@ -1,3 +1,25 @@
+sensor.ethereum_balance:
+  icon: mdi:currency-eth
+sensor.gainltc:
+  icon: mdi:currency-eur
+sensor.gaineth:
+  icon: mdi:currency-eur
+sensor.gainripple:
+  icon: mdi:currency-eur
+sensor.gaintotal:
+  icon: mdi:currency-eur
+sensor.vergeeur:
+  friendly_name: "Exchange rate (1 Verge)"
+  icon: mdi:coin
+sensor.xemeur:
+  friendly_name: 'Exchange rate (1 XEM)'
+  icon: mdi:coin
+sensor.etheur:
+  icon: mdi:currency-eth
+  friendly_name: "Exchange rate (1 ETH)"
+sensor.ripeur:
+  friendly_name: "Exchange rate (1 XPR)"
+  icon: mdi:currency-btc
 group.salonlightcoul:
   emulated_hue_name: "lumieres du salon" 
 sun.sun:
@@ -559,4 +581,16 @@ media_player.pine64:
 media_player.squeezelite:
  friendly_name: SqueezeLite PC
 sensor.ssl_certificate_expiry:
-  friendly_name: expiration SSL 
+  friendly_name: expiration SSL
+sensor.xiaomibat:
+ icon: mdi:battery-charging-40
+sensor.xiaomistat:
+  icon: mdi:information
+sensor.xiaomicleantime:
+  icon: mdi:timer
+sensor.xiaomicleantimet:
+  icon: mdi:timetable
+script.menageon:
+  icon: mdi:power-plug
+script.menageoff:
+  icon: mdi:power-plug-off

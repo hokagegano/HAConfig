@@ -10,6 +10,11 @@
             transition: 2
             brightness: 255
             xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
         light.salon_couleur:
             state: on
             transition: 2
@@ -28,6 +33,11 @@
             brightness: 10
             xy_color: [ 0.4448, 0.4066 ]
         light.hue_lightstrip_plus_1:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
             state: on
             transition: 2
             brightness: 10
@@ -54,6 +64,11 @@
             transition: 2
             brightness: 10
             xy_color: [ 0.1399, 0.0810 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 10
+            xy_color: [ 0.1399, 0.0810 ]
         light.salon_couleur:
             state: on
             transition: 2
@@ -76,6 +91,11 @@
             transition: 2
             brightness: 170
             xy_color: [ 0.6111, 0.3261 ]
+        light.hue_lightstrip_1:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.6111, 0.3261 ]        
         light.salon_couleur:
             state: on
             transition: 2
@@ -94,6 +114,11 @@
             brightness: 170
             xy_color: [ 0.2140, 0.7090 ]
         light.hue_lightstrip_plus_1:
+            state: on
+            transition: 2
+            brightness: 170
+            xy_color: [ 0.2140, 0.7090 ]
+        light.hue_lightstrip_1:
             state: on
             transition: 2
             brightness: 170
@@ -135,6 +160,9 @@
             transition: 2
             #brightness: 170
             #xy_color: [ 0.6111, 0.3261 ]
+        light.hue_lightstrip_1:
+            state: off
+            transition: 2
   - name: Allume
     entities:
         light.bureau:
@@ -143,6 +171,11 @@
             brightness: 255
             xy_color: [ 0.4448, 0.4066 ]
         light.hue_lightstrip_plus_1:
+            state: on
+            transition: 2
+            brightness: 255
+            xy_color: [ 0.4448, 0.4066 ]
+        light.hue_lightstrip_1:
             state: on
             transition: 2
             brightness: 255

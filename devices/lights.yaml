@@ -1,5 +1,7 @@
-- light:
-   platform: hue
+# - light:
+#    platform: hue
+- hue:
    host: 192.168.10.50
    scan_interval: 10
+   # allow_hue_groups: true
 

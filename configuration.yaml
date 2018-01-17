@@ -102,17 +102,17 @@ binary_sensor:
            command_off: 0x0
            device_class: motion
            fire_event: True
-           off_delay:
-             seconds: 5
+           #off_delay:
+           #  seconds: 5
          09130025ecad69019f80:
            name: mvtwc
            data_bits: 4
            command_on: 0x9
-           # command_off: 0x0           
+           command_off: 0x0           
            device_class: motion
            fire_event: True
-           off_delay:
-             seconds: 5
+           #off_delay:
+           #  seconds: 5
 
 # timer:
 #   timerwc:
@@ -144,10 +144,16 @@ binary_sensor:
 #       async_action: False
 
 octoprint:
-  host: 192.168.10.5
-  api_key: !secret octoapi
-  bed: true
-  number_of_tools: 1
+  # - name: aneta8
+  #   host: 192.168.10.5
+  #   api_key: !secret octoapi
+  #   bed: true
+  #   number_of_tools: 1
+    host: 192.168.10.18
+    api_key: !secret octoapi2
+    bed: true
+    number_of_tools: 1
+
 
 
 ######### DEFINITION DU PANNEAU D'ALARME ###########
@@ -165,19 +171,14 @@ rfxtrx:
 ################### HISTORY GRAPH ########
 history_graph:
   gr1:
-    name: Lights Graph
+    name: Crypto Graph
     entities:
-      - light.bibliocolor
-      - light.bureau
-      - light.chambre
-      - light.escalier
-      - light.hall
-      - light.hue_lightstrip_plus_1
-      - light.salon_couleur
-      - light.sdb
-      - light.wc
+#       - sensor.gaineth
+#       - sensor.gainripple
+#       - sensor.gainltc
+      - sensor.gaintotal
     hours_to_show: 240
-    refresh: 60
+    refresh: 120
 
 ######### DEFINITION DU PANEL ###########
 panel_custom: 
@@ -221,6 +222,22 @@ input_text:
 
 ######### DEFINITION DES INPUT_SLIDER ###########
 input_number:
+  vacuumhour:
+    name: Heure
+    icon: mdi:timer
+    initial: 9
+    min: 0
+    max: 23
+    step: 1
+    mode: slider
+  vacuuminutes:
+    name: Minutes
+    icon: mdi:timer
+    initial: 45
+    min: 0
+    max: 59
+    step: 5
+    mode: slider
   alarmhour:
     name: Heure
     icon: mdi:timer
@@ -258,11 +275,17 @@ input_number:
  
 ######### DEFINITION DES INPUT_BOOLEAN ###########
 input_boolean:
+  vacuumauto:
+    name: Mode Auto
+    initial: off
   stopsoir:
     name: Eteint la lumiere la nuit
     initial: on
-  autoprint:
+  autoprint2:
     name: Extinction auto A8
+    initial: off
+  autoprint:
+    name: Extinction auto CR10
     initial: off
   squeeze:
     name: Squeeze PI Etat
@@ -505,10 +528,16 @@ switch:
       slots:
       # friendly name of slots - optional
       # if not set, slot name will be switch's friendly_name + 'slot {slot_index}'. e.g 'MP1 slot 1'
-       slot_1: 'Prise Hue'
+       slot_1: 'Creality CR10'
        slot_2: 'Lampe Print'
        slot_3: 'Raspberry'
        slot_4: 'Anet A8'
+
+vacuum:
+    - platform: xiaomi_miio
+      host: 192.168.10.45
+      token: 72506f6c724975316453796254733453
+      name: Xiaomi vacuum
 
 # Enables support for tracking state changes over time.
 history:
@@ -599,7 +628,7 @@ camera:
     input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
     name: webcamsurf
   - platform: mjpeg
-    mjpeg_url: http://192.168.10.5:8080/?action=stream
+    mjpeg_url: http://192.168.10.18:8080/?action=stream
     name: octocam
 
 ######### DEFINITION DES GROUPES ###########
@@ -621,6 +650,20 @@ script:
        service: media_player.turn_off
        data:
         entity_id: media_player.tele_du_salon
+  vacuumon:
+    alias: Menage On
+    sequence:
+     - alias: menageon
+       service: vacuum.turn_on
+       data:
+        entity_id: vacuum.xiaomi_vacuum
+  vacuumoff:
+    alias: Menage Off
+    sequence:
+     - alias: menageoff
+       service: vacuum.turn_off
+       data:
+        entity_id: vacuum.xiaomi_vacuum              
   soireeoff:
     alias: soiree off
     sequence:
@@ -638,7 +681,21 @@ script:
      - alias: soiree
        service: input_boolean.turn_on
        data:
-        entity_id: input_boolean.rainbow_light 
+        entity_id: input_boolean.rainbow_light
+  eclairage:
+    alias: eclairage on
+    sequence:
+     - alias: eclairage
+       service: scene.turn_on
+       data:
+        entity_id: scene.salon_normal
+  eclairageoff:
+    alias: eclairage off
+    sequence:
+     - alias: eclairage
+       service: scene.turn_on
+       data:
+        entity_id: scene.eteint
   cinemaoff:
     alias: cinema off
     sequence:
@@ -871,36 +928,36 @@ script:
       - alias: Eteint la Chambre
         service: light.turn_off
         entity_id: light.chambre
-  allumesalon:
-    alias: Allume le rez de chaussée
-    sequence:
-      - alias: Allume les lumieres du rez de chaussée
-        service: light.turn_on
-        entity_id: group.salonlightcoul
-        data:
-          brightness: 255
-  baissesalon:
-    alias: Baisse le rez de chaussée
-    sequence:
-      - alias: Baisse les lumieres du rez de chaussée
-        service: light.turn_on
-        entity_id: group.salonlightcoul
-        data:
-          brightness: 150
-  augmentesalon:
-    alias: Augmente le rez de chaussée
-    sequence:
-      - alias: Augmente les lumieres du rez de chaussée
-        service: light.turn_on
-        entity_id: group.salonlightcoul
-        data:
-          brightness: 255      
-  eteintsalon:
-    alias: Eteint le rez de chaussée
-    sequence:
-      - alias: Eteint les lumieres du rez de chaussée
-        service: light.turn_off
-        entity_id: group.salonlightcoul
+  # allumesalon:
+  #   alias: Allume le rez de chaussée
+  #   sequence:
+  #     - alias: Allume les lumieres du rez de chaussée
+  #       service: light.turn_on
+  #       entity_id: group.salonlightcoul
+  #       data:
+  #         brightness: 255
+  # baissesalon:
+  #   alias: Baisse le rez de chaussée
+  #   sequence:
+  #     - alias: Baisse les lumieres du rez de chaussée
+  #       service: light.turn_on
+  #       entity_id: group.salonlightcoul
+  #       data:
+  #         brightness: 150
+  # augmentesalon:
+  #   alias: Augmente le rez de chaussée
+  #   sequence:
+  #     - alias: Augmente les lumieres du rez de chaussée
+  #       service: light.turn_on
+  #       entity_id: group.salonlightcoul
+  #       data:
+  #         brightness: 255      
+  # eteintsalon:
+  #   alias: Eteint le rez de chaussée
+  #   sequence:
+  #     - alias: Eteint les lumieres du rez de chaussée
+  #       service: light.turn_off
+  #       entity_id: group.salonlightcoul
   trafic:
     alias: Annonce le trafic
     sequence:

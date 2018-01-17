@@ -1,10 +1,34 @@
   financeg:
     name: Crypto Monnaies
     entities:
-      - sensor.trade_volume
+      # - sensor.trade_volume
       - sensor.exchange_rate_1_btc
       - sensor.ethereum_balance
-      - sensor.bitcoin_balance
+      # - sensor.bitcoin_balance
+      - sensor.ripple_balance
+      - sensor.vergeeur
+      - sensor.etheur
+      - sensor.ripeur
+      - sensor.xemeur
+      - sensor.gaineth
+      - sensor.gainverge
+      - sensor.gainripple
+      - sensor.gainxem
+      - sensor.gaintotal
+      # - history_graph.gr1
+  robot:
+    name: Xiaomi Vacuum
+    entities:
+      - input_boolean.vacuumauto
+      - sensor.vacuumalarm_time
+      - input_number.vacuumhour
+      - input_number.vacuuminutes
+      - script.vacuumon
+      - script.vacuumoff
+      - sensor.xiaomibat
+      - sensor.xiaomistatus
+      - sensor.xiaomicleantime
+      - sensor.xiaomicleantimet
   radiog:
     name: Radio Maison
     entities:
@@ -125,6 +149,7 @@
       - input_number.luminosite
       - light.hall
       - light.hue_lightstrip_plus_1
+      - light.hue_lightstrip_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
@@ -189,6 +214,7 @@
     name: lumieres salon
     entities:
       - light.hue_lightstrip_plus_1
+      - light.hue_lightstrip_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
@@ -196,6 +222,7 @@
     name: salon couleur
     entities:
       - light.hue_lightstrip_plus_1
+      - light.hue_lightstrip_1
       - light.salon_couleur
       - light.bibliocolor
       - light.bureau
@@ -276,19 +303,29 @@
       - binary_sensor.mvtsdb
       - binary_sensor.mvtwc
   octo:
-    name: Imprimante 3D
+    name: Creality CR10
     entities:
-      #- switch.ventilo
       - switch.raspberry
-      - switch.prise_hue
       - switch.lampe_print
-      - switch.anet_a8
-      - light.hue_lightstrip_1
+      - switch.creality_cr10
       - input_boolean.autoprint
-      - camera.octocam
       - sensor.octoprint_actual_bed_temp
-      - sensor.octoprint_actual_tool0_temp
       - sensor.octoprint_target_bed_temp
+      - sensor.octoprint_actual_tool0_temp
       - sensor.octoprint_target_tool0_temp
       - sensor.octoprint_current_state
       - sensor.octoprint_job_percentage
+  octo2:
+    name: Anet A8
+    entities:
+      - switch.raspberry
+      - switch.lampe_print
+      - switch.anet_a8
+      - input_boolean.autoprint2
+      - camera.octocam
+      - sensor.anet_a8_bed_temp
+      - sensor.anet_a8_bed_temp_target
+      - sensor.anet_a8_nozzle_temp
+      - sensor.anet_a8_nozzle_temp_target
+      - sensor.anet_a8_status
+      - sensor.anet_a8_percentage_done

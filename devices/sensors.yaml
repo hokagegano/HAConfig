@@ -1,3 +1,9 @@
+#- platform: coinmarketcap
+#  currency: 
+#    - ethereum
+#    - ripple
+#    - litecoin
+
 - platform: blockchain
   addresses:
     - '1PxT6YugA7b8KNjVEjQ3AjekaQoNAhU2MH'
@@ -9,6 +15,10 @@
 
 - platform: etherscan
   address: '0xc56f96b8c61b26b3c2999A4F3104AB4108B01f15'
+
+- platform: ripple
+  address: 'rBQcbCo1NGXSS1spPJpqaRiB3EQiNtgdGE'
+
 
 - platform: wunderground
   api_key: !secret wunder_api
@@ -92,6 +102,68 @@
 #    dnsqueries:
 #      friendly_name: 'DNS bloquees par jour'
 #      value_template: '{{ states.sensor.pihole.state }}'
+
+- platform: command_line
+  name: etheur
+  friendly_name: 'Cours ETH en Eur'
+  unit_of_measurement: 'EUR'
+  command: "cat /home/gano/.homeassistant/www/altcoins/cours_eth"
+
+- platform: command_line
+  name: vergeeur
+  icon: mdi:currency-btc
+  friendly_name: 'Cours Verge en Eur'
+  unit_of_measurement: 'EUR'
+  command: "cat /home/gano/.homeassistant/www/altcoins/cours_verge"
+
+- platform: command_line
+  name: ripeur
+  friendly_name: 'Cours XRP en Eur'
+  unit_of_measurement: 'EUR'
+  icon: mdi:coin
+  command: "cat /home/gano/.homeassistant/www/altcoins/cours_ripple"
+
+- platform: command_line
+  name: xemeur
+  friendly_name: 'Cours XEM en Eur'
+  unit_of_measurement: 'EUR'
+  command: "cat /home/gano/.homeassistant/www/altcoins/cours_xem"
+
+- platform: template
+  sensors:
+    gaineth:
+      friendly_name: 'Gain ETH'
+      unit_of_measurement: 'EUR'
+      value_template: '{{ float(states.sensor.etheur.state)* float(0.31340700)  - float(200.61) }}'
+
+- platform: template
+  sensors:
+    gainverge:
+      friendly_name: 'Gain Verge'
+      unit_of_measurement: 'EUR'
+      value_template: '{{ float(540.88677000) *  float(states.sensor.vergeeur.state)  - float(76.61) }}'
+
+
+- platform: template
+  sensors:
+    gainripple:
+      friendly_name: 'Gain Ripple'
+      unit_of_measurement: 'EUR'
+      value_template: '{{ float(states.sensor.ripeur.state) * float(states.sensor.ripple_balance.state)  - float(205.59) - float(100.61) }}'
+
+- platform: template
+  sensors:
+    gainxem:
+      friendly_name: 'Gain XEM'
+      unit_of_measurement: 'EUR'
+      value_template: '{{ float(114.27174) *  float(states.sensor.xemeur.state)  - float(100.61) }}'
+
+- platform: template
+  sensors:
+    gaintotal:
+      friendly_name: 'Gain Total'
+      unit_of_measurement: 'EUR'
+      value_template: '{{ float(states.sensor.gaineth.state) + float(states.sensor.gainripple.state) + float(states.sensor.gainxem.state) + float(states.sensor.gainverge.state) }}'
 
 
 - platform: command_line
@@ -347,14 +419,14 @@
   name: 'NutBlanc'
   state_topic: 'happy-bubbles/presence/ha'
   timeout: 5
-  away_timeout: 60
+  away_timeout: 80
   
 - platform: mqtt_room
   device_id: ceeb5d1bea5f
   name: 'NutOrange'
   state_topic: 'happy-bubbles/presence/ha'
   timeout: 5
-  away_timeout: 60
+  away_timeout: 80
 
 # - platform: mqtt_room
 #   device_id: c1f42791752e
@@ -622,6 +694,42 @@
     - Temperatures
     - Job Percentage
 
+- platform: mqtt
+  state_topic: 'octoprint/event/PrinterStateChanged'
+  name: 'Anet A8 Status'
+  value_template: '{{ value_json.state_string }}'
+
+- platform: mqtt
+  state_topic: "octoprint/temperature/bed"
+  unit_of_measurement: "°C"
+  name: "Anet A8 Bed Temp"
+  value_template: '{{ value_json.actual }}'
+
+- platform: mqtt
+  state_topic: "octoprint/temperature/bed"
+  unit_of_measurement: "°C"
+  name: "Anet A8 Bed Temp Target"
+  value_template: '{{ value_json.target }}'
+
+- platform: mqtt
+  state_topic: "octoprint/temperature/tool0"
+  unit_of_measurement: "°C"
+  name: "Anet A8 Nozzle Temp"
+  value_template: '{{ value_json.actual }}'
+
+- platform: mqtt
+  state_topic: "octoprint/temperature/tool0"
+  unit_of_measurement: "°C"
+  name: "Anet A8 Nozzle Temp Target"
+  value_template: '{{ value_json.target }}'
+
+- platform: mqtt
+  state_topic: "octoprint/progress/printing"
+  unit_of_measurement: "%"
+  name: "Anet A8 Percentage Done"
+  value_template: '{{ value_json.progress }}'
+
+
 #- platform: template
 #  sensors:
 #    temperaturesalon:
@@ -634,6 +742,12 @@
     alarm_time:
       friendly_name: 'Time'
       value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
+
+- platform: template
+  sensors:
+    vacuumalarm_time:
+      friendly_name: 'Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.vacuumhour") | int, states("input_number.vacuuminutes") | int) }}'
 
 - platform: template
   sensors:
@@ -690,6 +804,30 @@
     rdv_ferie_h:
       friendly_name: 'Date jour férié'
       value_template: '{{ states.calendar.jours_feries_en_france.attributes.start_time }}'
+
+- platform: template
+  sensors:
+    xiaomibat:
+      friendly_name: 'batterie en %'
+      value_template: '{{ states.vacuum.xiaomi_vacuum.attributes.battery_level }}'
+
+- platform: template
+  sensors:
+    xiaomistat:
+      friendly_name: 'status'
+      value_template: '{{ states.vacuum.xiaomi_vacuum.attributes.status }}'
+
+- platform: template
+  sensors:
+    xiaomicleantime:
+      friendly_name: 'temps passé'
+      value_template: '{{ states.vacuum.xiaomi_vacuum.attributes.cleaning_time }}'
+
+- platform: template
+  sensors:
+    xiaomicleantimet:
+      friendly_name: 'temps total passé'
+      value_template: '{{ states.vacuum.xiaomi_vacuum.attributes.total_cleaning_time }}'
 
 #- platform: rest
 #  resource: https://ml.internalpositioning.com/location?group=STALESPONGE&user=HOKAGEGANO

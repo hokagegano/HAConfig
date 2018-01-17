@@ -1201,7 +1201,7 @@ c'est bien l'après midi
         entity_id: alarm_control_panel.ha_alarm
         data:
           code: 0007
-  - alias: "Print 3D fini"
+  - alias: "Print 3D fini sur la CR10"
     trigger:
      - platform: numeric_state
        entity_id: sensor.octoprint_job_percentage
@@ -1210,7 +1210,16 @@ c'est bien l'après midi
       - service: notify.teleha
         data:
           message: "Print presque fini !!!"
-  - alias: "Print 3D fini stop Anet A8"
+  - alias: "Print 3D fini sur la Anet A8"
+    trigger:
+     - platform: numeric_state
+       entity_id: sensor.anet_a8_percentage
+       above: 96
+    action:
+      - service: notify.teleha
+        data:
+          message: "Print presque fini !!!"
+  - alias: "Print 3D fini stop Creality CR10"
     trigger:
      - platform: state
        entity_id: sensor.octoprint_current_state
@@ -1222,10 +1231,38 @@ c'est bien l'après midi
         state: 'on'
     action:
       - delay: '00:05:00'
-#          minutes: 5
+      - service: switch.turn_off
+        entity_id: switch.creality_cr10
+  - alias: "Print 3D fini stop Creality Anet A8"
+    trigger:
+     - platform: state
+       entity_id: sensor.anet_a8_status
+       from: 'Printing'
+       to: 'Operational'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autoprint2
+        state: 'on'
+    action:
+      - delay: '00:05:00'
       - service: switch.turn_off
         entity_id: switch.anet_a8
-  - alias: "Print 3D pas fini la nuit stop auto Anet A8"
+#   - alias: "Print 3D fini stop Anet A8"
+#     trigger:
+#      - platform: state
+#        entity_id: sensor.octoprint_current_state
+#        from: 'Printing'
+#        to: 'Operational'
+#     condition:
+#       - condition: state
+#         entity_id: input_boolean.autoprint
+#         state: 'on'
+#     action:
+#       - delay: '00:05:00'
+# #          minutes: 5
+#       - service: switch.turn_off
+#         entity_id: switch.anet_a8
+  - alias: "Print 3D pas fini la nuit stop auto CR10"
     trigger:
      - platform: state
        entity_id: input_boolean.bye
@@ -1238,3 +1275,30 @@ c'est bien l'après midi
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.autoprint
+  - alias: "Print 3D pas fini la nuit stop auto Anet A8"
+    trigger:
+     - platform: state
+       entity_id: input_boolean.bye
+       from: 'on'
+       to: 'off'
+    condition:
+      - condition: state
+        entity_id: sensor.anet_a8_status
+        state: 'Printing'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.autoprint2
+  - alias: "Passe l'aspirateur la journée"
+    trigger:
+     - platform: time
+       minutes: '/1'
+       seconds: 0
+    condition:
+      - condition: template
+        value_template: '{{ ((now().strftime("%s") | int ) | timestamp_custom("%H:%M") == states.sensor.vacuumalarm_time.state) }}'    
+      - condition: state
+        entity_id: input_boolean.vacuumauto
+        state: 'on'
+    action:
+        service: script.turn_on
+        entity_id: script.vacuumon
