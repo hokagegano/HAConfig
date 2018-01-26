@@ -329,3 +329,8 @@
       - sensor.anet_a8_nozzle_temp_target
       - sensor.anet_a8_status
       - sensor.anet_a8_percentage_done
+  chambreg:
+    name: lumiere de la chambre
+    entities:
+      - light.chambre
+      

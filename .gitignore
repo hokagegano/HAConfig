@@ -10,7 +10,6 @@ known_devices.yaml
 *.conf
 plex.conf
 phue.conf
-devices/sensors.yaml
 .*
 !/.gitignore
 *.jpg

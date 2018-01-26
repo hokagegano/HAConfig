@@ -20,8 +20,6 @@ sensor.etheur:
 sensor.ripeur:
   friendly_name: "Exchange rate (1 XPR)"
   icon: mdi:currency-btc
-group.salonlightcoul:
-  emulated_hue_name: "lumieres du salon" 
 sun.sun:
   entity_picture: /local/day.svg
 sensor.battery:
@@ -594,3 +592,7 @@ script.menageon:
   icon: mdi:power-plug
 script.menageoff:
   icon: mdi:power-plug-off
+group.salonlight:
+  emulated_hue_name: "lumieres du salon"
+group.chambreg:
+  emulated_hue_name: "lumieres de la chambre"

@@ -441,11 +441,11 @@ c'est bien l'après midi
       - condition: state
         entity_id: input_boolean.stopsoir
         state: 'on' 
-      # - condition: state
-      #   entity_id: sensor.nutblanc
-      #   state: home
-      #   for:
-      #     minutes: 5        
+      - condition: state
+        entity_id: sensor.nutblanc
+        state: home
+        for:
+          minutes: 5        
     action:
       - service: media_player.volume_set
         data_template:
@@ -521,8 +521,9 @@ c'est bien l'après midi
         event_data:
           entity_id: timer.timerwc
     action:
-      service: light.turn_off
-      entity_id: light.wc
+      - service: light.turn_off
+        data:
+          entity_id: light.wc
 #   - alias: "Allume WC"
 #     trigger:
 #       - platform: state
@@ -538,21 +539,19 @@ c'est bien l'après midi
         from: 'off'
         to: 'on'
     action:
-       - service: timer.start
-         data:
-           entity_id: timer.timerwc
-           duration: '0:02:00'
-       - service: light.turn_on
-         entity_id: light.wc             
+      - service: light.turn_on
+        entity_id: light.wc       
+      - service: timer.start
+        entity_id: timer.timerwc
 #      - service: light.turn_on
 #        entity_id: light.wc
 #        data:
 #          brightness: 255
 #          transition: 3
-#      - delay: '00:15:00'
-#      - delay: '00:00:02'
-#      - service: light.turn_off
-#        entity_id: light.wc
+      # - delay: '00:15:00'
+      # - delay: '00:00:02'
+      # - service: light.turn_off
+      #   entity_id: light.wc
 #  - alias: "Allume Radiateur en fin d'apres midi"
 #    trigger:
 #      - platform: time
@@ -685,9 +684,23 @@ c'est bien l'après midi
         event_type: timer.finished
         event_data:
           entity_id: timer.timersdb
+    condition:
+      - condition: numeric_state
+        entity_id: sensor.tempsdb_humidity
+        above: 65          
     action:
-      service: light.turn_off
-      entity_id: light.sdb
+      - service: light.turn_off
+        data:
+          entity_id: light.sdb
+  - alias: "Eteint SDB quand on est en humidité normale"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.tempsdb_humidity
+        below: 72  
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.sdb          
   # - alias: "Allume SDB"
   #   trigger:
   #     - platform: state
@@ -704,8 +717,9 @@ c'est bien l'après midi
         to: 'on'
     action:
       - service: timer.start
-        data:
-          entity_id: timer.timersdb
+        entity_id: timer.timersdb
+      - service: light.turn_on
+        entity_id: light.sdb
 # - alias: "Mouvement SDB"
 #    trigger:
 #      - platform: state

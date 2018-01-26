@@ -71,6 +71,7 @@ emulated_hue:
     - light
     - script
     - media_player
+    - group
 
 ######## #DEFINITION DES SENSORS ###########
 sensor: !include devices/sensors.yaml
@@ -92,10 +93,9 @@ tts:
 binary_sensor:
    - platform: rfxtrx
      automatic_add: False
-     #automatic_add: True
+     # automatic_add: True
      devices:
          091300479308f9019a70:
-        # 09130010ecad69019f70:
            name: mvtsdb
            data_bits: 4
            command_on: 0x9
@@ -166,6 +166,7 @@ map:
 ######### DEFINITION DU RFXCOM ###########
 rfxtrx:
   device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0
+  # debug:
 
 
 ################### HISTORY GRAPH ########
@@ -599,6 +600,7 @@ light:
   platform: hue
   host: 192.168.10.50
   scan_interval: 4
+  allow_hue_groups: true
 
 
 ######### DEFINITION DES CAMERAS / IMAGES ###########
@@ -888,7 +890,7 @@ script:
           effect: colorloop
       - alias: colorloop table
         service: light.turn_on
-        entity_id: light.salon_couleur
+        entity_id: light.couleur
         data:
           brightness: 255
           effect: colorloop
