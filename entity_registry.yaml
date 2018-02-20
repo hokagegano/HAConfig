@@ -1,0 +1,33 @@
+media_player.shield_android_tv:
+  platform: plex
+  unique_id: b1d45f292c69c302-com-plexapp-android
+light.hue_lightstrip_1:
+  platform: hue
+  unique_id: 00:17:88:01:00:cd:ab:5c-0b
+light.wc:
+  platform: hue
+  unique_id: 00:17:88:01:10:4d:98:1e-0b
+light.bibliocolor:
+  platform: hue
+  unique_id: 00:17:88:01:02:06:6d:b6-0b
+light.salon_couleur:
+  platform: hue
+  unique_id: 00:17:88:01:10:4d:35:b8-0b
+light.hall_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:06:80:8b-0b
+light.hue_lightstrip_plus_1:
+  platform: hue
+  unique_id: 00:17:88:01:03:a0:21:16-0b
+light.chambre_2:
+  platform: hue
+  unique_id: 00:17:88:01:10:34:a8:4d-0b
+light.sdb_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:6c:e7:36-0b
+light.escalier:
+  platform: hue
+  unique_id: 00:17:88:01:10:34:a2:4f-0b
+light.bureau:
+  platform: hue
+  unique_id: 00:17:88:01:01:1e:b5:71-0b

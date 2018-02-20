@@ -55,7 +55,7 @@
       - calendar.contacts
       - calendar.dalliesagmailcom
       - group.mesrdv
-      - group.googlemaps
+      # - group.googlemaps
     view: yes
   # tempsparcours:
   #   name: Temps de Route
@@ -120,12 +120,13 @@
     name: themes
     entities:
       - group.themesg
-  # surfg:
-  #   name: Surf
-  #   icon: mdi:waves
-  #   view: yes
-  #   entities:
-  #     - group.surf
+  webg:
+    name: Liens
+    icon: mdi:waves
+    view: yes
+    entities:
+      - weblink.pihole
+      - weblink.elkpfsense
   # webcam:
   #   name: Webcam
   #   icon: mdi:webcam

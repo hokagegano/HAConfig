@@ -44,9 +44,14 @@
   systemg:
     name: Systeme GanoVM Ubuntu 64bits
     entities:
-      - sensor.cpu_use
-      - sensor.ram_free
-      - sensor.disk_use_home
+      - sensor.cpu_used
+      - sensor.ram_available
+      - sensor.ram_used
+      - sensor.disk_used_home
+      - sensor.pihole_ads_blocked_today
+      - sensor.pihole_ads_percentage_blocked_today
+      - sensor.pihole_dns_queries_today
+      - sensor.pihole_domains_blocked
   themesg:
     name: Les themes
     entities:
@@ -64,6 +69,7 @@
       - sensor.tempetage_humidity
       - sensor.tempsdb_temperature
       - sensor.tempsdb_humidity
+      - sensor.doucheon
       - sensor.salon_lux
       - sensor.salon_motion
       - sensor.salon_temperature
@@ -99,11 +105,11 @@
       - media_player.pine64
       - media_player.mpd
       - group.free
-  googlemaps:
-    name: googlemaps
-    entities:
-      - sensor.plage
-      - sensor.travail
+  # googlemaps:
+  #   name: googlemaps
+  #   entities:
+  #     - sensor.plage
+  #     - sensor.travail
   stats_sensor:
     name: Statistics sensor
     entities:

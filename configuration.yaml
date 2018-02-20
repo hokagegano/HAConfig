@@ -18,6 +18,20 @@ recorder:
   purge_keep_days: 31
   db_url: sqlite:///home/gano/.homeassistant/home-assistant_v2.db
 
+#weblink:
+#    - name: ElasticSearchKibana
+#      url: http://192.168.2.23:5601/
+
+weblink:
+ entities:
+   - name: Pi-Hole
+     url: http://192.168.2.24/admin
+     icon: mdi:router-wireless
+   - name: elkpfsense
+     url: http://192.168.2.23:5601
+     icon: mdi:router-wireless
+
+
 ######### DEFINITION DES ZONES ###########
 zone:
   name: Travail
@@ -40,7 +54,7 @@ zone 3:
   radius: 100
 
 frontend:
-  # javascript_version: latest
+  javascript_version: latest
   themes:
     noir:
       primary-color: black
@@ -61,7 +75,7 @@ frontend:
 
 emulated_hue:
   type: google_home
-  host_ip: 192.168.10.8
+  host_ip: 192.168.3.8
   listen_port: 80
 #  off_maps_to_on_domains:
 #    - script
@@ -118,7 +132,7 @@ timer:
   timerwc:
     duration: '00:02:00'
   timersdb:
-    duration: '00:02:00'
+    duration: '00:04:00'
 
 
 # apiai:
@@ -209,7 +223,7 @@ google:
 ######### DEFINITION DU BROKER MQTT LOCAL ###########
 mqtt:
   #broker: 192.168.10.21
-  broker: 192.168.10.8
+  broker: 192.168.3.8
   port: 1883
   client_id: hadash
   keepalive: 60
@@ -536,8 +550,9 @@ switch:
 
 vacuum:
     - platform: xiaomi_miio
-      host: 192.168.10.45
-      token: 72506f6c724975316453796254733453
+      host: 192.168.3.45
+      #token: 72506f6c724975316453796254733453
+      token: 3046316142784d725568526f58356139
       name: Xiaomi vacuum
 
 # Enables support for tracking state changes over time.
@@ -584,10 +599,9 @@ telegram_bot:
 
 ######### DEFINITION DES SYSTEMES DE NOTIFICATION ###########
 notify:
-  - platform: pushbullet
-    api_key: !secret pushapi_key
-    name: pushgano
-
+  # - platform: pushbullet
+  #   api_key: !secret pushapi_key
+  #   name: pushgano
   - platform: telegram
     name: teleha
     api_key: !secret teleapi_key
@@ -598,7 +612,7 @@ media_player: !include devices/media_players.yaml
 ######### DEFINITION DES LUMIERES ###########
 light:
   platform: hue
-  host: 192.168.10.50
+  host: 192.168.3.50
   scan_interval: 4
   allow_hue_groups: true
 
@@ -966,12 +980,12 @@ script:
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40
+        entity_id: media_player.maison 
+        volume_level: 0.30
      - alias: Annonce trafic
        #service: tts.google_say
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75
          message: "{{ ['Yo','Bonjour','Salut'] | random }} Il vous faudra {{ states.sensor.travail.state }} minutes pour aller au travail"
@@ -982,11 +996,11 @@ script:
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40
+        entity_id: media_player.maison 
+        volume_level: 0.30
      - alias: Annonce maeva
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75
          message: "Bonjour Maeva, je te connais tu es la niéce de mon propriétaire. Vas-tu allé au zoo aujourd'hui ? je sais que les animaux ont envie de te voir ! je te souhaite une belle journée !"
@@ -997,11 +1011,11 @@ script:
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40
+        entity_id: media_player.maison 
+        volume_level: 0.30
      - alias: Annonce meteo
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75
          message: "Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température extérieure est de {{ states.sensor.tempext_temperature.state }} degrés"
@@ -1012,11 +1026,11 @@ script:
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40      
+        entity_id: media_player.maison 
+        volume_level: 0.30      
      - alias: Annonce surf
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75 
          message: "Les conditions de surf sont les suivantes, La température de l'océan est de {{ states.sensor.tempocean.state }} degrés, à 9h ce matin, {{ states.sensor.surf9h.state }} avec {{ states.sensor.surf9h_h.state }}, à 13h, {{ states.sensor.surf13h.state }}, avec {{ states.sensor.surf13h_h.state }}, et à 17h, {{ states.sensor.surf17h.state }}, avec {{ states.sensor.surf17h_h.state }}"
@@ -1028,17 +1042,15 @@ script:
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40       
+        entity_id: media_player.maison 
+        volume_level: 0.30       
      - alias: Annonce Matin
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75 
-         message: "Bonjour Arnaud. Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
- il n'y a pas de monde sur la route
-{%- else -%}
- attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}, concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+         message: "Bonjour Arnaud. Il semble que la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés.
+Concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
 c'est bien toute la journée
 {%- endif %}
 {%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
@@ -1064,11 +1076,11 @@ c'est bien l'après midi
   #    - alias: Set Volume
   #      service: media_player.volume_set
   #      data_template:
-  #       entity_id: media_player.google_home 
+  #       entity_id: media_player.maison 
   #       volume_level: 0.40       
   #    - alias: Annonce radar
   #      service: tts.google_say
-  #      entity_id: media_player.google_home 
+  #      entity_id: media_player.maison 
   #      data_template:
   #        # volume_level: 0,75 
   #        message: "Les radars sont positionnés aux endroits suivants, {{ states.sensor.radar.state }}"
@@ -1079,11 +1091,11 @@ c'est bien l'après midi
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home
-        volume_level: 0.40       
+        entity_id: media_player.maison
+        volume_level: 0.30       
      - alias: Annonce previsions
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75
          message: "Voici le temps pour demain. Il semble que la météo prévoit, {{ states.sensor.forecast.state }}, avec des températures qui oscillent entre {{ states.sensor.yweather_temperature_min.state | round }} degrés, et {{ states.sensor.yweather_temperature_max.state | round }} degrés"
@@ -1094,11 +1106,11 @@ c'est bien l'après midi
   #    - alias: Set Volume
   #      service: media_player.volume_set
   #      data_template:
-  #       entity_id: media_player.google_home 
+  #       entity_id: media_player.maison 
   #       volume_level: 0.40       
   #    - alias: Annonce news
   #      service: tts.google_say
-  #      entity_id: media_player.google_home 
+  #      entity_id: media_player.maison 
   #      data_template:
   #        # volume_level: 0,75 
   #        message: "Voici les nouvelles de la journée, {{ states.sensor.news.state }}"
@@ -1109,11 +1121,11 @@ c'est bien l'après midi
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40       
+        entity_id: media_player.maison 
+        volume_level: 0.30       
      - alias: Annonce rdv
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75
          message: "Arnaud, votre prochain rendez-vous est le {{ states.sensor.rdv_arno_h.state }} le sujet du rendez-vous est {{ states.sensor.rdv_arno.state }}"
@@ -1124,11 +1136,11 @@ c'est bien l'après midi
      - alias: Set Volume
        service: media_player.volume_set
        data_template:
-        entity_id: media_player.google_home 
-        volume_level: 0.40       
+        entity_id: media_player.maison 
+        volume_level: 0.30       
      - alias: Annonce temp
        service: tts.google_say
-       entity_id: media_player.google_home 
+       entity_id: media_player.maison 
        data_template:
          # volume_level: 0,75 
          message: "La température à l'étage est de {{ states.sensor.tempetage_temperature.state | round }} degrés, la température du salon est de {{ states.sensor.salon_temperature.state | round }} degrés et la température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés"
@@ -1155,7 +1167,7 @@ c'est bien l'après midi
       -  service: media_player.play_media
          data_template:
            entity_id: >
-            {% if is_state("input_select.chromecast_radio", "Google Home") %} media_player.google_home
+            {% if is_state("input_select.chromecast_radio", "Google Home") %} media_player.maison
             {% elif is_state("input_select.chromecast_radio", "Raspberry PI2") %} media_player.mpd
             {% elif is_state("input_select.chromecast_radio", "Shield") %} media_player.shield
             {% endif %}
@@ -1180,3 +1192,14 @@ c'est bien l'après midi
     sequence:
      - alias: TV on
        service: shell_command.allumefreebox
+  pubon:
+    alias: Pub On
+    sequence:
+     - alias: Pub on
+       service: shell_command.adon
+  puboff:
+    alias: Pub Off
+    sequence:
+     - alias: Pub off
+       service: shell_command.adoff
+

@@ -25,10 +25,8 @@
     action:
       - service: notify.teleha
         data:
-          message: "Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
- il n'y a pas de monde sur la route
-{%- else -%}
- attention la route est chargée il vous faudra {{ states.sensor.google_travel_time__driving.state }} minutes pour aller au travail{%- endif %}, concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
+          message: "Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés.
+Concernant les conditions de surf, {%- if (states.sensor.surf9h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state != \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state != \"mauvais surf, session médiocre\") -%}
 c'est bien toute la journée
 {%- endif %}
 {%- if (states.sensor.surf9h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf13h.state == \"mauvais surf, session médiocre\") and (states.sensor.surf17h.state == \"mauvais surf, session médiocre\") -%}
@@ -325,10 +323,10 @@ c'est bien l'après midi
     action:
       - service: media_player.volume_set
         data_template:
-         entity_id: media_player.mpd
-         volume_level: 0.72      
+         entity_id: media_player.maison
+         volume_level: 0.40      
       - service: tts.google_say
-        entity_id: media_player.mpd
+        entity_id: media_player.maison
         data_template: 
           # volume_level: 0,75
           message: "{{ ['Heureux de vous voir Arnaud','Bon retour à la maison Arnaud','Salut Arnaud'] | random }},  {%- if states.sensor.salon_temperature.state | int < 17 -%} pour information il fait un peu froid dans le salon {%- endif %}"
@@ -449,10 +447,10 @@ c'est bien l'après midi
     action:
       - service: media_player.volume_set
         data_template:
-         entity_id: media_player.google_home
-         volume_level: 0.40      
+         entity_id: media_player.maison
+         volume_level: 0.30      
       - service: tts.google_say
-        entity_id: media_player.google_home
+        entity_id: media_player.maison
         data_template:
           # volume_level: 0,75 
           message: "Vous allez vous coucher, bonne nuit Arnaud"
@@ -685,9 +683,9 @@ c'est bien l'après midi
         event_data:
           entity_id: timer.timersdb
     condition:
-      - condition: numeric_state
-        entity_id: sensor.tempsdb_humidity
-        above: 65          
+      - condition: state
+        entity_id: sensor.doucheon
+        state: 'off'
     action:
       - service: light.turn_off
         data:
@@ -696,7 +694,7 @@ c'est bien l'après midi
     trigger:
       - platform: numeric_state
         entity_id: sensor.tempsdb_humidity
-        below: 72  
+        below: 70
     action:
       - service: light.turn_off
         data:
@@ -719,7 +717,7 @@ c'est bien l'après midi
       - service: timer.start
         entity_id: timer.timersdb
       - service: light.turn_on
-        entity_id: light.sdb
+        entity_id: light.sdb      
 # - alias: "Mouvement SDB"
 #    trigger:
 #      - platform: state
@@ -752,12 +750,12 @@ c'est bien l'après midi
     action:
       - service: media_player.volume_set
         data_template:
-         entity_id: media_player.google_home
+         entity_id: media_player.maison
          volume_level: 0.40      
       # - service: script.turn_on
       #   entity_id: script.meteo
       - service: tts.google_say
-        entity_id: media_player.google_home
+        entity_id: media_player.maison
         data_template:
           # volume_level: 0,75
           message: "Arnaud, la météo prévoit, {{ states.sensor.meteotoday.state }} pour aujourd'hui. La température exterieure est de {{ states.sensor.tempext_temperature.state | round }} degrés. {%- if states.sensor.travail.state | int < 14 -%}
@@ -1224,6 +1222,23 @@ c'est bien l'après midi
       - service: notify.teleha
         data:
           message: "Print presque fini !!!"
+  - alias: "Print 3D fini sur la Anet A8"
+    trigger:
+     - platform: numeric_state
+       entity_id: sensor.anet_a8_percentage
+       above: 96
+    action:
+      - service: notify.teleha
+        data:
+          message: "Print presque fini !!!"
+  - alias: "Connect Octopi CR10"
+    trigger:
+     - platform: state
+       entity_id: switch.creality_cr10
+       to: 'on'
+    action:
+      - delay: '00:00:03'
+      - service: shell_command.octocr10
   - alias: "Print 3D fini sur la Anet A8"
     trigger:
      - platform: numeric_state

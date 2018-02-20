@@ -96,16 +96,16 @@ sensor.distasurf:
   friendly_name: Distance en km
 sensor.ddepsurf:
   friendly_name: Durée en mvt
-sensor.queries:
+sensor.pihole_ads_blocked_today:
   unit_of_measurement: ''
   entity_picture: /local/pi_hole.png
-sensor.domainblocked:
+sensor.pihole_domains_blocked:
   unit_of_measurement: ''
   entity_picture: /local/pi_hole.png
-sensor.percentagetoday:
+sensor.pihole_ads_percentage_blocked_today:
   unit_of_measurement: '%'
   entity_picture: /local/pi_hole.png
-sensor.dnsqueries:
+sensor.pihole_dns_queries_today:
   unit_of_measurement: ''
   entity_picture: /local/pi_hole.png
 sensor.cpupi:

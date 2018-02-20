@@ -64,43 +64,43 @@
     - wind_bearing
     - apparent_temperature
 
-- platform: google_travel_time
-  api_key: !secret google_api
-  origin: Eysines, France
-  destination: Carcans plage, France
-  entity_picture: /local/plage.jpg 
-  friendly_name: Plage
+# - platform: google_travel_time
+#   api_key: !secret google_api
+#   origin: Eysines, France
+#   destination: Carcans plage, France
+#   entity_picture: /local/plage.jpg 
+#   friendly_name: Plage
 #  travel_mode: driving
 #  options:
 #    mode: driving
 
-# - platform: pi_hole
-#   host: 192.168.10.21:8000
+- platform: pi_hole
+  host: 192.168.2.24
 
-#- platform: template
-#  sensors:
-#    queries:
-#      friendly_name: 'Requetes par jour'
-#      value_template: '{{ states.sensor.pihole.attributes.queries_today }}'
+# - platform: template
+#   sensors:
+#     queries:
+#       friendly_name: 'Requetes par jour'
+#       value_template: '{{ states.sensor.pihole.attributes.queries_today }}'
 
-#- platform: template
-#  sensors:
-#    domainblocked:
-#      friendly_name: 'Domaines Bloques'
-#      value_template: '{{ states.sensor.pihole.attributes.domains_blocked }}'
+# - platform: template
+#   sensors:
+#     domainblocked:
+#       friendly_name: 'Domaines Bloques'
+#       value_template: '{{ states.sensor.pihole.attributes.domains_blocked }}'
 
-#- platform: template
-#  sensors:
-#    percentagetoday:
-#      friendly_name: 'Part des Requetes bloquees par jour'
-#      value_template: '{{ states.sensor.pihole.attributes.percentage_today }}'
+# - platform: template
+#   sensors:
+#     percentagetoday:
+#       friendly_name: 'Part des Requetes bloquees par jour'
+#       value_template: '{{ states.sensor.pihole.attributes.percentage_today }}'
 
 
-#- platform: template
-#  sensors:
-#    dnsqueries:
-#      friendly_name: 'DNS bloquees par jour'
-#      value_template: '{{ states.sensor.pihole.state }}'
+# - platform: template
+#   sensors:
+#     dnsqueries:
+#       friendly_name: 'DNS bloquees par jour'
+#       value_template: '{{ states.sensor.pihole.state }}'
 
 - platform: command_line
   name: etheur
@@ -179,6 +179,7 @@
   name: tempocean
   entity_picture: /local/9h.jpg
   command: "cat /home/gano/.homeassistant/www/surf/temp_eau.txt"
+
 
 #- platform: mold_indicator
 #  indoor_temp_sensor: sensor.salon_temperature
@@ -570,19 +571,19 @@
 #       - Humidity
 #       - Temperature
 - platform: rest
-  resource: http://192.168.10.50/api/newdeveloper/sensors/7
+  resource: http://192.168.3.50/api/newdeveloper/sensors/7
   value_template: '{{ value_json.state.lightlevel }}'
   unit_of_measurement: Lux
   name: 'Salon Lux'
   
 - platform: rest
-  resource: http://192.168.10.50/api/newdeveloper/sensors/5
+  resource: http://192.168.3.50/api/newdeveloper/sensors/5
   value_template: '{{ value_json.state.temperature | float / 100 }}'
   unit_of_measurement: °C
   name: 'Salon Temperature'
 
 - platform: rest
-  resource: http://192.168.10.50/api/newdeveloper/sensors/8
+  resource: http://192.168.3.50/api/newdeveloper/sensors/8
   value_template: '{{ value_json.state.status }}'
   name: 'Salon Motion'
 
@@ -624,6 +625,10 @@
 #      value_template: '{{ states.sensor.pws_precip_today_metric.state }}'
 #      unit_of_measurement: 'km/h'
 
+- platform: statistics
+  entity_id: sensor.tempsdb_humidity
+  max_age:
+    minutes: 15
 
 #- platform: template
 #  sensors:
@@ -635,34 +640,49 @@
 #        {%- else -%}
 #        0
 #        {%- endif %}
-
-
 - platform: template
   sensors:
-    plage:
-      friendly_name: 'Plage'
+    doucheon:
+      friendly_name: 'Douche ON'
       value_template: >
-        {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
-        {{ states.sensor.google_travel_time__driving.state }}
+        {%- if (( float (states.sensor.stats_mean.state) + float(1))|float < float(states.sensor.tempsdb_humidity.state)) -%}
+        on
         {%- else -%}
-        {{ states.sensor.google_travel_time__driving_2.state }}
+        off
         {%- endif %}
 
-- platform: template
-  sensors:
-    travail:
-      friendly_name: 'Travail'
-      value_template: >
-        {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
-        {{ states.sensor.google_travel_time__driving_2.state }}
-        {%- else -%}
-        {{ states.sensor.google_travel_time__driving.state }}
-        {%- endif %}
+# - platform: template
+#   sensors:
+#     plage:
+#       friendly_name: 'Plage'
+#       value_template: >
+#         {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
+#         {{ states.sensor.google_travel_time__driving.state }}
+#         {%- else -%}
+#         {{ states.sensor.google_travel_time__driving_2.state }}
+#         {%- endif %}
+
+# - platform: template
+#   sensors:
+#     travail:
+#       friendly_name: 'Travail'
+#       value_template: >
+#         {%- if (states.sensor.google_travel_time__driving.state > states.sensor.google_travel_time__driving_2.state) -%}
+#         {{ states.sensor.google_travel_time__driving_2.state }}
+#         {%- else -%}
+#         {{ states.sensor.google_travel_time__driving.state }}
+#         {%- endif %}
 
 - platform: template
   sensors:
     bonjour:
       friendly_name: 'Jour'
+      value_template: '0' 
+
+- platform: template
+  sensors:
+    douche:
+      friendly_name: 'douche'
       value_template: '0' 
 
 #- platform: mqtt
@@ -873,12 +893,12 @@
 #    - 30
 
 
-- platform: google_travel_time
-  api_key: AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho
-  origin: Eysines, France
-  destination: Saint Medard en Jalles, France
-  entity_picture: /local/cete.jpg 
-  friendly_name: Travail
+# - platform: google_travel_time
+#   api_key: AIzaSyBFYpVffV-hkFtLBVynk8GLoeQAcq-8xho
+#   origin: Eysines, France
+#   destination: Saint Medard en Jalles, France
+#   entity_picture: /local/cete.jpg 
+#   friendly_name: Travail
 #  options:
 #    mode: driving
 
