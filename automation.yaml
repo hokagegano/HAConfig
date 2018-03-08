@@ -676,6 +676,20 @@ c'est bien l'après midi
         entity_id: group.salonlight
       - service: scene.turn_on
         entity_id: scene.Salon_normal
+  - alias: "Eteint SDB la nuit"
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.timersdbnight
+    condition:
+      - condition: time
+        after: '19:00'
+        before: '04:59'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.sdb
   - alias: "Eteint SDB"
     trigger:
       - platform: event
@@ -713,11 +727,30 @@ c'est bien l'après midi
         entity_id: binary_sensor.mvtsdb
         from: 'off'
         to: 'on'
+    condition:
+      - condition: time
+        after: '05:00'
+        before: '18:59'
     action:
       - service: timer.start
         entity_id: timer.timersdb
       - service: light.turn_on
         entity_id: light.sdb      
+  - alias: "Mouvement SDB night"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.mvtsdb
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: time
+        after: '19:00'
+        before: '04:59'
+    action:
+      - service: timer.start
+        entity_id: timer.timersdbnight
+      - service: light.turn_on
+        entity_id: light.sdb
 # - alias: "Mouvement SDB"
 #    trigger:
 #      - platform: state
@@ -1138,9 +1171,9 @@ c'est bien l'après midi
       - condition: state
         entity_id: calendar.jours_feries_en_france
         state: 'off'
-      - condition: state
-        entity_id: calendar.rtt
-        state: 'off'
+      # - condition: state
+      #   entity_id: calendar.rtt
+      #   state: 'off'
       - condition: time
         weekday:
           - mon

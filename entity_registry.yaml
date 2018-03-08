@@ -31,3 +31,12 @@ light.escalier:
 light.bureau:
   platform: hue
   unique_id: 00:17:88:01:01:1e:b5:71-0b
+media_player.entree:
+  platform: cast
+  unique_id: be2c7af2-be6c-8037-19d5-dae71a8e159b
+media_player.shield:
+  platform: cast
+  unique_id: 51016bef-5d20-96ba-6f65-7f84d435fa30
+media_player.maison:
+  platform: cast
+  unique_id: 109ef702-0a93-448e-9df9-8051e8924e2c

@@ -419,14 +419,14 @@
   name: 'NutBlanc'
   state_topic: 'happy-bubbles/presence/ha'
   timeout: 5
-  away_timeout: 80
+  away_timeout: 300
   
 - platform: mqtt_room
   device_id: ceeb5d1bea5f
   name: 'NutOrange'
   state_topic: 'happy-bubbles/presence/ha'
   timeout: 5
-  away_timeout: 80
+  away_timeout: 300
 
 # - platform: mqtt_room
 #   device_id: c1f42791752e
