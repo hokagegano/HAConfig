@@ -1,0 +1,14 @@
+  version: '3'
+  services:
+    homeassistant:
+      container_name: home-assistant
+      image: homeassistant/home-assistant
+      volumes:
+        - /home/gano/.homeassistant:/config:rw
+        - /etc/localtime:/etc/localtime:ro
+      restart: always
+      #privileged: true
+      network_mode: host
+      devices: 
+        - /dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0:/dev/serial/by-id/usb-RFXCOM_RFXtrx433_A1RTHG3-if00-port0
+
