@@ -106,27 +106,27 @@
   name: etheur
   friendly_name: 'Cours ETH en Eur'
   unit_of_measurement: 'EUR'
-  command: "cat /home/gano/.homeassistant/www/altcoins/cours_eth"
+  command: "cat /config/www/altcoins/cours_eth"
 
 - platform: command_line
   name: vergeeur
   icon: mdi:currency-btc
   friendly_name: 'Cours Verge en Eur'
   unit_of_measurement: 'EUR'
-  command: "cat /home/gano/.homeassistant/www/altcoins/cours_verge"
+  command: "cat /config/www/altcoins/cours_verge"
 
 - platform: command_line
   name: ripeur
   friendly_name: 'Cours XRP en Eur'
   unit_of_measurement: 'EUR'
   icon: mdi:coin
-  command: "cat /home/gano/.homeassistant/www/altcoins/cours_ripple"
+  command: "cat /config/www/altcoins/cours_ripple"
 
 - platform: command_line
   name: xemeur
   friendly_name: 'Cours XEM en Eur'
   unit_of_measurement: 'EUR'
-  command: "cat /home/gano/.homeassistant/www/altcoins/cours_xem"
+  command: "cat /config/www/altcoins/cours_xem"
 
 - platform: template
   sensors:
@@ -168,17 +168,17 @@
 - platform: command_line
   name: surf9h
   entity_picture: /local/9h.jpg
-  command: "cat /home/gano/.homeassistant/www/surf/today_9h"
+  command: "cat /config/www/surf/today_9h"
 
 - platform: command_line
   name: webcamurl
   #entity_picture: /local/9h.jpg
-  command: "cat /home/gano/.homeassistant/www/surf/webcam"
+  command: "cat /config/www/surf/webcam"
 
 - platform: command_line
   name: tempocean
   entity_picture: /local/9h.jpg
-  command: "cat /home/gano/.homeassistant/www/surf/temp_eau.txt"
+  command: "cat /config/www/surf/temp_eau.txt"
 
 
 #- platform: mold_indicator
@@ -229,57 +229,57 @@
 
 - platform: command_line
   name: surf9h_h
-  command: "cat /home/gano/.homeassistant/www/surf/today_9h_hauteur"
+  command: "cat /config/www/surf/today_9h_hauteur"
 
 - platform: command_line
   name: surf13h
-  command: "cat /home/gano/.homeassistant/www/surf/today_9h"
+  command: "cat /config/www/surf/today_9h"
 
 - platform: command_line
   name: surf13h_h
-  command: "cat /home/gano/.homeassistant/www/surf/today_13h_hauteur"
+  command: "cat /config/www/surf/today_13h_hauteur"
 
 - platform: command_line
   name: surf17h
-  command: "cat /home/gano/.homeassistant/www/surf/today_17h"
+  command: "cat /config/www/surf/today_17h"
 
 - platform: command_line
   name: surf17h_h
-  command: "cat /home/gano/.homeassistant/www/surf/today_17h_hauteur"
+  command: "cat /config/www/surf/today_17h_hauteur"
 
 - platform: command_line
   name: datesurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Date"
+  command: "cat /config/garmin-connect-export-master/Date"
   friendly_name: Date
 
 - platform: command_line
   name: lieusurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Lieu"
+  command: "cat /config/garmin-connect-export-master/Lieu"
   friendly_name: Lieu
 
 - platform: command_line
   name: dureesurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Duree"
+  command: "cat /config/garmin-connect-export-master/Duree"
   friendly_name: Durée
 
 - platform: command_line
   name: vmaxsurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/VitesseMax"
+  command: "cat /config/garmin-connect-export-master/VitesseMax"
   friendly_name: Vitesse Max en km/h
 
 - platform: command_line
   name: vmoysurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/VitesseMoy"
+  command: "cat /config/garmin-connect-export-master/VitesseMoy"
   friendly_name: Vitesse Moy en km/h
 
 - platform: command_line
   name: distasurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/Distance"
+  command: "cat /config/garmin-connect-export-master/Distance"
   friendly_name: Distance en km
 
 - platform: command_line
   name: ddepsurf
-  command: "cat /home/gano/.homeassistant/garmin-connect-export-master/DureeDeplacement"
+  command: "cat /config/garmin-connect-export-master/DureeDeplacement"
   friendly_name: Durée en mvt
 
 # - platform: command_line
@@ -696,7 +696,7 @@
   platform: command_line
   scan_interval: 30
   name: FreePlayer
-  command: "/home/gano/.homeassistant/scripts/freeplayer.sh"
+  command: "/config/scripts/freeplayer.sh"
   payload_on: "Success"
   payload_off: "Fail"
 

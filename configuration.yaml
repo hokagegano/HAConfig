@@ -16,7 +16,8 @@ config:
 recorder:
   purge_interval: 2
   purge_keep_days: 31
-  db_url: sqlite:///home/gano/.homeassistant/home-assistant_v2.db
+  #db_url: sqlite:///home/gano/.homeassistant/home-assistant_v2.db
+  #db_url: sqlite:///config/home-assistant_v2.db
 
 #weblink:
 #    - name: ElasticSearchKibana
@@ -674,10 +675,12 @@ camera:
     still_image_url: http://api.sat24.com/animated/EU/visual/2/Romance%20Standard%20Time/555674
     name: france
   - platform: local_file
-    file_path: /home/gano/.homeassistant/www/surf/surf.png
+    file_path: /config/www/surf/surf.png
+    #file_path: /home/gano/.homeassistant/www/surf/surf.png
     name: surf
   - platform: local_file
-    file_path: /home/gano/.homeassistant/www/QR_CODE.png
+    #file_path: /home/gano/.homeassistant/www/QR_CODE.png
+    file_path: /config/www/QR_CODE.png
     name: qrcode
 #  - platform: zoneminder
   # - platform: mjpeg
@@ -688,7 +691,8 @@ camera:
   #   mjpeg_url: http://192.168.10.15:9902
   #   name: salon2
   - platform: ffmpeg
-    input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
+    input: /config/www/surf/webcamsurf.mp4
+    #input: /home/gano/.homeassistant/www/surf/webcamsurf.mp4
     name: webcamsurf
   - platform: mjpeg
     mjpeg_url: http://192.168.10.18:8080/?action=stream
@@ -1202,8 +1206,8 @@ c'est bien l'après midi
          message: INTRUSION
          data:
            photo:
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam1.jpg
-           - file: /home/gano/.homeassistant/www/webcam/detection_cam2.jpg
+           - file: /config/www/webcam/detection_cam1.jpg
+           - file: /config/www/webcam/detection_cam2.jpg
   radiolance:
     alias: Radio sur Chromecast
     sequence:

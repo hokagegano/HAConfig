@@ -1,6 +1,6 @@
 adon: /usr/bin/curl --request GET 'http://192.168.2.24/admin/api.php?enable&auth=d33b3755ad7feca3dfadaeeff34944558c9bed8ca3bc9a44d286c855b2ef31fb'
 adoff: /usr/bin/curl --request GET 'http://192.168.2.24/admin/api.php?disable&auth=d33b3755ad7feca3dfadaeeff34944558c9bed8ca3bc9a44d286c855b2ef31fb'
-octocr10: /home/gano/.homeassistant/scripts/octopiconnect.sh
+octocr10: /config/scripts/octopiconnect.sh
 eteintfreebox: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=power'
 allumefreebox: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=power'; sleep 5; /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=ok'; sleep 2; /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1&key=6'
 tf1: /usr/bin/curl --request GET 'http://hd1.freebox.fr/pub/remote_control?code=88907591&key=1'
@@ -71,9 +71,9 @@ sopalin: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes 
 huileolive: /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=Notes --data-urlencode "item=Huile d'Olive"
 #todoadd: bash /home/gano/.homeassistant/todoadd.sh {{text}}
 todoadd: /usr/bin/curl -G -v http://192.168.2.21:18081/AddMemo?memoTitle=ToDo --data-urlencode "item={{states.input_text.text1.state}}"
-tododel: bash /home/gano/.homeassistant/tododel.sh {{text}}
+tododel: bash /config/tododel.sh {{text}}
 # /usr/bin/curl -G -v http://192.168.10.21:18081/AddMemo?memoTitle=ToDo --data-urlencode "item={{ text }}"" > /tmp/test'
-todoclear: /usr/bin/curl -G -v http://192.168.2.21:18081/RemoveMemo?memoTitle=ToDo --data-urlencode "item=ALL"; rm /home/gano/.homeassistant/todo_list
+todoclear: /usr/bin/curl -G -v http://192.168.2.21:18081/RemoveMemo?memoTitle=ToDo --data-urlencode "item=ALL"; rm /config/todo_list
 todoclearid: /usr/bin/curl -G -v http://192.168.2.21:18081/RemoveMemo?memoTitle=ToDo --data-urlencode "item={{states.input_text.text1.state}}"
 #detectionabs: sudo killall motion; streamer -t 0:30 -s 640x480 -r 24 -o /tmp/WEBCAM_Salon1/detection.avi -f jpeg -a mute; sudo mv /tmp/WEBCAM_Salon1/detection.avi /tmp/WEBCAM_Salon1/detection`date +"%d-%m-%y-%T"`.avi; sudo motion
 #alarmsemaine: sudo crontab /home/pi/.homeassistant/scripts/crontab_semaine
